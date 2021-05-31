@@ -20,7 +20,7 @@ module.exports = {
             skipDryRun: true, // Skip dry run before migrations? (default: false for public nets)
         },
         kovan: {
-            networkCheckTimeout: 100000,
+            networkCheckTimeout: 1000000,
             provider: () =>
                 new HDWalletProvider(
                     mnemonic,

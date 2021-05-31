@@ -18,6 +18,7 @@ const getWeb3 = () =>
                     await window.ethereum.enable();
                     // Acccounts now exposed
                     resolve(web3);
+                    console.log("getweb3" + web3);
                 } catch (error) {
                     reject(error);
                 }
@@ -54,7 +55,7 @@ const getGanacheWeb3 = () => {
         "https://kovan.infura.io/v3/6bc50fd3870c44a2bdfb420ab1ca3c5b" // Ganache-CLI
     );
     const web3 = new Web3(provider);
-    console.log("No local ganache found.");
+    console.log(web3);
     return web3;
 };
 
