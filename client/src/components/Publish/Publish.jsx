@@ -1,24 +1,15 @@
-import React, { Component } from "react";
-import getWeb3, { getGanacheWeb3, Web3 } from "../../utils/getWeb3";
+import React from "react";
+import { getGanacheWeb3, Web3 } from "../../utils/getWeb3";
 import ipfs from "../ipfs/ipfsApi.js";
 import photoNft from "../../../../build/contracts/PhotoNFT.json";
 import PhotoNFTfactory from "../../../../build/contracts/PhotoNFTFactory.json";
 import photoNFTmarketplace from "../../../../build/contracts/PhotoNFTMarketplace.json";
 import { Grid } from "@material-ui/core";
-import {
-    Loader,
-    Button,
-    Card,
-    Input,
-    Heading,
-    Table,
-    Form,
-    Field,
-} from "rimble-ui";
+import { Button, Card, Input, Form, Field } from "rimble-ui";
 
 import styles from "../../App.module.scss";
 
-export default class Publish extends Component {
+export default class Publish extends React.Component {
     constructor(props) {
         super(props);
 
@@ -89,7 +80,7 @@ export default class Publish extends Component {
             photoNFTMarketplace,
             PHOTO_NFT_MARKETPLACE,
             valueNFTName,
-            valueNFTSymbol,
+
             valuePhotoPrice,
         } = this.state;
 
@@ -186,22 +177,25 @@ export default class Publish extends Component {
         }
         return [];
     };
+    componentDidMount() {}
 
     componentDidMount = async () => {
-        let PhotoNFTFactory = {};
-        let PhotoNFTMarketplace = {};
-        try {
-            PhotoNFTFactory = PhotoNFTfactory; // Load ABI of contract of PhotoNFTFactory
-            PhotoNFTMarketplace = photoNFTmarketplace;
-        } catch (e) {
-            console.log(e);
-        }
+        let web3 = new Web3(window.ethereum);
 
-        try {
-            const isProd = process.env.NODE_ENV === "production";
-            if (!isProd) {
+        if (web3 !== null) {
+            let PhotoNFTFactory = {};
+            let PhotoNFTMarketplace = {};
+            try {
+                PhotoNFTFactory = PhotoNFTfactory; // Load ABI of contract of PhotoNFTFactory
+                PhotoNFTMarketplace = photoNFTmarketplace;
+            } catch (e) {
+                console.log(e);
+            }
+            console.log(PhotoNFTFactory + PhotoNFTMarketplace);
+            try {
                 // Get network provider and web3 instance.
-                const web3 = await getWeb3();
+                // const web3 = await getWeb3();
+                console.log("web3" + web3);
                 let ganacheAccounts = [];
 
                 try {
@@ -211,6 +205,7 @@ export default class Publish extends Component {
                 }
 
                 // Use web3 to get the user's accounts.
+
                 const accounts = await web3.eth.getAccounts();
                 // Get the contract instance.
                 const networkId = await web3.eth.net.getId();
@@ -268,7 +263,7 @@ export default class Publish extends Component {
                     // example of interacting with the contract's methods.
                     this.setState(
                         {
-                            web3,
+                            web3: web3,
                             ganacheAccounts,
                             accounts,
                             balance,
@@ -288,24 +283,29 @@ export default class Publish extends Component {
                         }
                     );
                 } else {
-                    this.setState({
-                        web3,
-                        ganacheAccounts,
-                        accounts,
-                        balance,
-                        networkId,
-                        networkType,
+                    this.setState(
+                        {
+                            web3: web3,
+                            ganacheAccounts,
+                            accounts,
+                            balance,
+                            networkId,
+                            networkType,
 
-                        isMetaMask,
-                    });
+                            isMetaMask,
+                        },
+                        () => {
+                            web3 = null;
+                        }
+                    );
                 }
+            } catch (error) {
+                // Catch any errors for any of the above operations.
+                alert(
+                    `Failed to load web3, accounts, or contract. Check console for details.`
+                );
+                console.error(error);
             }
-        } catch (error) {
-            // Catch any errors for any of the above operations.
-            alert(
-                `Failed to load web3, accounts, or contract. Check console for details.`
-            );
-            console.error(error);
         }
     };
 
@@ -322,6 +322,7 @@ export default class Publish extends Component {
     };
 
     render() {
+        // this.connection();
         return (
             <div className={styles.left}>
                 <Grid container style={{ marginTop: 20 }}>

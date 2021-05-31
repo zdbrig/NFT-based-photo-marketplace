@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import styles from "./header.module.scss";
-import getWeb3, { getGanacheWeb3, Web3 } from "../../utils/getWeb3";
 
 export default class Header extends Component {
     goToMyHome = () => {
@@ -13,17 +12,15 @@ export default class Header extends Component {
     goToMyphoto = () => {
         window.location.assign("#/my-photos");
     };
+    goToMyphotoMarketPlace = () => {
+        window.location.assign("#/photo-marketplace");
+    };
+
     render() {
         return (
             <div className={styles.header}>
                 <nav id="menu" className="menu">
                     <ul>
-                        <li onClick={this.goToMyHome}>
-                            {/* <a href="#/" className={styles.link}>
-                        <span style={{ padding: "60px" }}></span>
-                    </a> */}
-                        </li>
-
                         <li onClick={this.goToPublish}>
                             {/* <a href="#/publish" className={styles.link}>
                                 {" "}
@@ -45,17 +42,14 @@ export default class Header extends Component {
                                 My Photos
                             </a> */}
 
-                        {process.env.NODE_ENV !== "photo_marketplace" && (
-                            <li>
-                                <a
-                                    href="#/photo-marketplace"
-                                    className={styles.link}
-                                >
-                                    {" "}
-                                    PhotoMarketPlace
-                                </a>
-                            </li>
-                        )}
+                        {/* {process.env.NODE_ENV !== "photo_marketplace" && ( */}
+                        <li onClick={this.goToMyphotoMarketPlace}>
+                            {/* <a href="#/publish" className={styles.link}>
+                                {" "}
+                              
+                            </a> */}
+                            Photo Marketplace
+                        </li>
                     </ul>
                 </nav>
             </div>

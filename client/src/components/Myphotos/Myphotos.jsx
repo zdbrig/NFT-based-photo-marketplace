@@ -1,16 +1,7 @@
 import React, { Component } from "react";
-import getWeb3, { getGanacheWeb3, Web3 } from "../../utils/getWeb3";
-import ipfs from "../ipfs/ipfsApi";
-import {
-    Loader,
-    Button,
-    Card,
-    Input,
-    Table,
-    Form,
-    Field,
-    Image,
-} from "rimble-ui";
+import { getGanacheWeb3, Web3 } from "../../utils/getWeb3";
+
+import { Button, Card, Image } from "rimble-ui";
 
 import styles from "../../App.module.scss";
 
@@ -51,7 +42,7 @@ export default class Myphotos extends Component {
             web3,
             accounts,
             photoNFTMarketplace,
-            photoNFTData,
+            // photoNFTData,
             PHOTO_NFT_MARKETPLACE,
         } = this.state;
 
@@ -74,6 +65,7 @@ export default class Myphotos extends Component {
         const txReceipt1 = await photoNFT.methods
             .approve(PHOTO_NFT_MARKETPLACE, photoId)
             .send({ from: accounts[0] });
+        console.log("=== response of openTrade ===", txReceipt1);
         const txReceipt2 = await photoNFTMarketplace.methods
             .openTrade(PHOTO_NFT, photoId)
             .send({ from: accounts[0] });
@@ -85,8 +77,8 @@ export default class Myphotos extends Component {
             web3,
             accounts,
             photoNFTMarketplace,
-            photoNFTData,
-            PHOTO_NFT_MARKETPLACE,
+            // photoNFTData,
+            // PHOTO_NFT_MARKETPLACE,
         } = this.state;
 
         console.log("=== value of cancelOnSale ===", e.target.value);
@@ -139,7 +131,7 @@ export default class Myphotos extends Component {
 
     componentDidMount = async () => {
         // const web3 = await getWeb3();
-        const web3 = this.props.web3;
+        let web3 = new Web3(window.ethereum);
 
         let PhotoNFTMarketplace = {};
         let PhotoNFTData = {};
@@ -151,7 +143,7 @@ export default class Myphotos extends Component {
         }
 
         try {
-            const isProd = process.env.NODE_ENV === "production";
+            // const isProd = process.env.NODE_ENV === "production";
 
             // Get network provider and web3 instance.
 
@@ -286,7 +278,7 @@ export default class Myphotos extends Component {
                     return (
                         <div key={key} className="">
                             <div className={styles.widgets}>
-                                {currentAccount == photo.ownerAddress ? (
+                                {currentAccount === photo.ownerAddress ? (
                                     <Card
                                         width={"360px"}
                                         maxWidth={"360px"}
@@ -322,7 +314,7 @@ export default class Myphotos extends Component {
 
                                         <br />
 
-                                        {photo.status == "Cancelled" ? (
+                                        {photo.status === "Cancelled" ? (
                                             <Button
                                                 size={"medium"}
                                                 width={1}

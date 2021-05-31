@@ -12,7 +12,7 @@ const getWeb3 = () =>
         window.addEventListener("load", async () => {
             // Modern dapp browsers...
             if (window.ethereum) {
-                const web3 = new Web3(window.ethereum);
+                let web3 = new Web3(window.ethereum);
                 try {
                     // Request account access if needed
                     await window.ethereum.enable();
@@ -22,6 +22,7 @@ const getWeb3 = () =>
                 } catch (error) {
                     reject(error);
                 }
+                return web3;
             }
             // Legacy dapp browsers...
             else if (window.web3) {
