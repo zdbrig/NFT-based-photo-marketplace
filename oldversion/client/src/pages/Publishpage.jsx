@@ -5,9 +5,7 @@ export default class Publishpage extends React.Component {
     render() {
         return (
             <div>
-                <div>
-                    <Header />
-                </div>
+                <Header />
 
                 <Publish />
             </div>

@@ -211,10 +211,10 @@ export default class Photomarketplace extends Component {
                             photoNFTData: instancePhotoNFTData,
                         },
                         () => {
-                            this.refreshValues(instancePhotoNFTMarketplace);
-                            setInterval(() => {
-                                this.refreshValues(instancePhotoNFTMarketplace);
-                            }, 5000);
+                            // this.refreshValues(instancePhotoNFTMarketplace);
+                            // setInterval(() => {
+                            //     this.refreshValues(instancePhotoNFTMarketplace);
+                            // }, 5000);
                         }
                     );
                 } else {

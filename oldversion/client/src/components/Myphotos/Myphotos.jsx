@@ -224,10 +224,10 @@ export default class Myphotos extends Component {
                         PHOTO_NFT_MARKETPLACE: PHOTO_NFT_MARKETPLACE,
                     },
                     () => {
-                        this.refreshValues(instancePhotoNFTMarketplace);
-                        setInterval(() => {
-                            this.refreshValues(instancePhotoNFTMarketplace);
-                        }, 5000);
+                        // this.refreshValues(instancePhotoNFTMarketplace);
+                        // setInterval(() => {
+                        //     this.refreshValues(instancePhotoNFTMarketplace);
+                        // }, 5000);
                     }
                 );
             } else {
@@ -255,17 +255,17 @@ export default class Myphotos extends Component {
         }
     };
 
-    componentWillUnmount() {
-        if (this.interval) {
-            clearInterval(this.interval);
-        }
-    }
+    // componentWillUnmount() {
+    //     if (this.interval) {
+    //         clearInterval(this.interval);
+    //     }
+    // }
 
-    refreshValues = (instancePhotoNFTMarketplace) => {
-        if (instancePhotoNFTMarketplace) {
-            console.log("refreshValues of instancePhotoNFTMarketplace");
-        }
-    };
+    // refreshValues = (instancePhotoNFTMarketplace) => {
+    //     if (instancePhotoNFTMarketplace) {
+    //         console.log("refreshValues of instancePhotoNFTMarketplace");
+    //     }
+    // };
 
     render() {
         const { web3, allPhotos, currentAccount } = this.state;

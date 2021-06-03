@@ -276,10 +276,10 @@ export default class Publish extends React.Component {
                             PHOTO_NFT_MARKETPLACE: PHOTO_NFT_MARKETPLACE,
                         },
                         () => {
-                            this.refreshValues(instancePhotoNFTFactory);
-                            setInterval(() => {
-                                this.refreshValues(instancePhotoNFTFactory);
-                            }, 5000);
+                            // this.refreshValues(instancePhotoNFTFactory);
+                            // setInterval(() => {
+                            //     this.refreshValues(instancePhotoNFTFactory);
+                            // }, 5000);
                         }
                     );
                 } else {
@@ -315,11 +315,11 @@ export default class Publish extends React.Component {
         }
     }
 
-    refreshValues = (instancePhotoNFTFactory) => {
-        if (instancePhotoNFTFactory) {
-            console.log("refreshValues of instancePhotoNFTFactory");
-        }
-    };
+    // refreshValues = (instancePhotoNFTFactory) => {
+    //     if (instancePhotoNFTFactory) {
+    //         console.log("refreshValues of instancePhotoNFTFactory");
+    //     }
+    // };
 
     render() {
         // this.connection();
