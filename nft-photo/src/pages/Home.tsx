@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../component/Header/Header";
 import Homeheader from "../component/Home/Homeheader";
 import Homelive from "../component/Home/Homelive";
@@ -8,9 +8,11 @@ import Hotcollection from "../component/Collection/Hotcollection";
 
 import Footer from "../component/Footer/Footer";
 function Home() {
+  const [web3, setWeb3] = useState<any>();
+
   return (
     <div>
-      <Header></Header>
+      <Header />
       <main className="main">
         <Homeheader></Homeheader>
         <div className="container">

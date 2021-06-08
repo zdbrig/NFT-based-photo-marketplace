@@ -24,7 +24,8 @@ import Forgot from "./pages/Forgot";
 import Privacy from "./pages/Privacy";
 import PageNotFound from "./pages/Pagenotfound";
 import "bootstrap/dist/css/bootstrap.min.css";
-
+import { createBrowserHistory } from "history";
+export const history = createBrowserHistory();
 function App() {
   return (
     <HashRouter>
