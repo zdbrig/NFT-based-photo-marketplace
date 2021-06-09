@@ -257,6 +257,7 @@ function Create() {
                                             <label
                                                 id="file1"
                                                 htmlFor="sign__file-upload"
+                                                className="uploadFile"
                                             ></label>
                                             <input
                                                 data-name="#file1"
