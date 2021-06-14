@@ -7,21 +7,24 @@ import Footer from "../component/Footer/Footer";
 import Exploresecond from "../component/Exploresecondstyle/Exploresecond";
 import "./Explore.css";
 function Explore() {
-  const [activeExplore, setActiveexplore] = useState(false);
-
-  return (
-    <div className="Explore">
-      <Header></Header>
-      <main className="main">
-        <div className="container">
-          <Explorehead></Explorehead>
-          <Explorefiltre />
-          <Explorecollection activeButton={activeExplore} />
-          <> </>
+    const [activeExplore, setActiveexplore] = useState(false);
+    const [activeItem, setActiveItem] = useState(false);
+    const handleClick = (active: any) => {
+        setActiveItem(active);
+    };
+    return (
+        <div className="Explore">
+            <Header onClickActive={handleClick}></Header>
+            <main className="main">
+                <div className="container">
+                    <Explorehead></Explorehead>
+                    <Explorefiltre />
+                    <Explorecollection activeButton={activeExplore} />
+                    <> </>
+                </div>
+            </main>
+            <Footer></Footer>
         </div>
-      </main>
-      <Footer></Footer>
-    </div>
-  );
+    );
 }
 export default Explore;

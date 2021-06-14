@@ -10,7 +10,7 @@ import { Modal } from "reactstrap";
 import "./Create.css";
 import ReactModal from "react-modal";
 function Create() {
-    const [photo, setPhoto] = useState();
+    const [photo, setPhoto] = useState<any>();
     const [namePhoto, setNamePhoto] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
@@ -26,12 +26,18 @@ function Create() {
     const [ipfsHash, setIpfsHash] = useState<any>();
     const [buttonActive, setButtonActive] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [activeItem, setActiveItem] = useState(false);
+    const handleClick = (active: any) => {
+        setActiveItem(active);
+    };
     const toggle = () => setLoading(!loading);
     function OnchangPhoto(event: any) {
         event.preventDefault();
+
         const file = event.target.files[0];
 
         const reader = new window.FileReader();
+
         reader.readAsArrayBuffer(file); // Read bufffered file
 
         // Callback
@@ -42,6 +48,15 @@ function Create() {
             setBuffer(buffer);
             console.log("=== buffer ===", buffer);
         };
+        // let extension = file.name.match(/(?<=\.)\w+$/g)[0].toLowerCase(); // assuming that this file has any extension
+
+        // if (extension === "mp4") {
+        //     setPhoto("video");
+        // } else {
+        //     setPhoto("image");
+        //     // event.target.value = "";
+        //     // alert("Wrong file extension! File input is cleared.");
+        // }
         // setPhoto(e.target.value);
         // console.log(photo);
     }
@@ -63,15 +78,16 @@ function Create() {
                 console.error(error);
                 return;
             }
-
+            const photoPrice = web3.utils.toWei(price, "ether");
             // In case of successful to upload to IPFS
+
             setIpfsHash(result[0].hash);
             setLoading(true);
             photoNFTFactory.methods
                 .createNewPhotoNFT(
                     namePhoto,
                     description,
-                    price,
+                    photoPrice,
                     result[0].hash
                 )
                 .send({ from: accounts[0] })
@@ -107,6 +123,10 @@ function Create() {
                                 .send({ from: accounts[0] })
                                 .once("receipt", (receipt: any) => {
                                     setLoading(false);
+                                })
+                                .then((rest: any) => {
+                                    localStorage.setItem("typefile", photo);
+                                    window.location.assign("#/Activity");
                                 });
                         });
                 });
@@ -205,7 +225,7 @@ function Create() {
 
     return (
         <div>
-            <Header />
+            <Header onClickActive={handleClick} />
             <>
                 <Modal
                     isOpen={loading}
@@ -226,7 +246,7 @@ function Create() {
                 </Modal>
             </>
             <main className="main">
-                <div className="main__author" data-bg="img/bg/bg.png"></div>
+                <div className="main__author" data-bg="img/bg/bg11.jpg"></div>
                 <div className="container">
                     <div className="row row--grid">
                         {/* <!-- author --> */}
@@ -253,7 +273,7 @@ function Create() {
                                     </div>
 
                                     <div className="col-12">
-                                        <div className="sign__file">
+                                        <div className="sign__group">
                                             <label
                                                 id="file1"
                                                 htmlFor="sign__file-upload"
@@ -263,12 +283,13 @@ function Create() {
                                                 data-name="#file1"
                                                 id="sign__file-upload"
                                                 name="file"
-                                                className="sign__file-upload"
+                                                className="sign__file-upload filePhoto"
                                                 type="file"
                                                 accept="video/mp4,video/x-m4v,video/*,.png,.jpg,.jpeg"
                                                 onChange={OnchangPhoto}
                                                 required
                                                 placeholder="e. g. Image, Audio, Video"
+                                                value={photo}
                                             />
                                         </div>
                                     </div>
@@ -309,10 +330,12 @@ function Create() {
                                             </label>
                                             <input
                                                 id="itemphoto"
-                                                type="text"
                                                 className="sign__input"
                                                 onChange={onChangePrix}
-                                                required
+                                                required={true}
+                                                type="text"
+                                                width={1}
+                                                placeholder="e.g) 10"
                                             />
                                         </div>
                                     </div>
