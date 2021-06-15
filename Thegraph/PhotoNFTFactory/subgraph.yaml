@@ -25,3 +25,28 @@ dataSources:
         - event: PhotoNFTCreated(address,address,string,string,uint256,string)
           handler: handlePhotoNFTCreated
       file: ./src/mapping.ts
+templates:
+  - kind: ethereum/contract
+    name: PhotoNFT
+    network: kovan
+    source:
+      abi: PhotoNFT
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/core.ts
+      entities:
+        - Photo
+      abis:
+        - name: PhotoNFT
+          file: ./abis/PhotoNFT.json
+        - name: PhotoNFTFactory
+          file: ./abis/PhotoNFTFactory.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer

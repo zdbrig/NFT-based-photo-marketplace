@@ -1,3 +1,19 @@
+type NFTFactory @entity {
+  # factory address
+  id: ID!
+
+  # PhotoNFT info
+  photoNFTCount: Int!
+
+  # transactions
+  txCount: BigInt!
+}
+type Transaction @entity {
+  id: ID! # txn hash
+  blockNumber: BigInt!
+  timestamp: BigInt!
+  
+}
 type AddedReputation  @entity {
   id: ID!
   count: BigInt!
@@ -14,6 +30,14 @@ type AllPhotoNFT @entity{
   nftSymbol:String!
   photoPrice:BigInt!
   ipfsHashOfPhoto:String!
+  timesTmp:BigInt!
+  blockNumber:BigInt!
+}
+type PhotoNFT @entity {
+  id:ID!
+  nftName:String!
+  nftSymbol:String!
+  photoPrice:BigInt!
   timesTmp:BigInt!
   blockNumber:BigInt!
 }
