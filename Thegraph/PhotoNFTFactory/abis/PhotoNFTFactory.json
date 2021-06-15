@@ -1,0 +1,150 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "contract PhotoNFTMarketplace",
+        "name": "_photoNFTMarketplace",
+        "type": "address"
+      },
+      {
+        "internalType": "contract PhotoNFTData",
+        "name": "_photoNFTData",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "reputationCount",
+        "type": "uint256"
+      }
+    ],
+    "name": "AddReputation",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "contract PhotoNFT",
+        "name": "photoNFT",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "nftName",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "nftSymbol",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "photoPrice",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "ipfsHashOfPhoto",
+        "type": "string"
+      }
+    ],
+    "name": "PhotoNFTCreated",
+    "type": "event"
+  },
+  {
+    "constant": true,
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "photoAddresses",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "photoNFTData",
+    "outputs": [
+      { "internalType": "contract PhotoNFTData", "name": "", "type": "address" }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "photoNFTMarketplace",
+    "outputs": [
+      {
+        "internalType": "contract PhotoNFTMarketplace",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      { "internalType": "string", "name": "nftName", "type": "string" },
+      { "internalType": "string", "name": "nftSymbol", "type": "string" },
+      { "internalType": "uint256", "name": "photoPrice", "type": "uint256" },
+      { "internalType": "string", "name": "ipfsHashOfPhoto", "type": "string" }
+    ],
+    "name": "createNewPhotoNFT",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "baseTokenURI",
+    "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
+    "payable": false,
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      { "internalType": "string", "name": "_ipfsHashOfPhoto", "type": "string" }
+    ],
+    "name": "getTokenURI",
+    "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

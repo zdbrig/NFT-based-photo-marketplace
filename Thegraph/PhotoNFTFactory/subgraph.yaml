@@ -1,0 +1,27 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: PhotoNFTFactory
+    network: kovan
+    source:
+      address: "0xE9f17480c23A39952bBE12cb966311fb3dd94899"
+      abi: PhotoNFTFactory
+      startBlock: 20000000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - AddReputation
+        - PhotoNFTCreated
+      abis:
+        - name: PhotoNFTFactory
+          file: ./abis/PhotoNFTFactory.json
+      eventHandlers:
+        - event: AddReputation(uint256,uint256)
+          handler: handleAddReputation
+        - event: PhotoNFTCreated(address,address,string,string,uint256,string)
+          handler: handlePhotoNFTCreated
+      file: ./src/mapping.ts
