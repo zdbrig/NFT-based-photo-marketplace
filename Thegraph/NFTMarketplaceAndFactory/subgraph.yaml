@@ -1,0 +1,50 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: PhotoNFTMarketplace
+    network: kovan
+    source:
+      address: "0x07100CDc84cB06A7eC3DFd7e7BD1DeA9a7fca1A2"
+      abi: PhotoNFTMarketplace
+      startBlock: 20000000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - PhotoNFTOwnershipChanged
+        - TradeStatusChange
+      abis:
+        - name: PhotoNFTMarketplace
+          file: ./abis/PhotoNFTMarketplace.json
+      eventHandlers:
+        - event: PhotoNFTOwnershipChanged(address,uint256,address,address)
+          handler: handlePhotoNFTOwnershipChanged
+        - event: TradeStatusChange(uint256,bytes32)
+          handler: handleTradeStatusChange
+      file: ./src/Marketplace.ts
+  - kind: ethereum/contract
+    name: PhotoNFTFactory
+    network: kovan
+    source:
+      address: "0x7DA2B85f9F779A94c2FCDE1E8822c0786b8fcaac"
+      abi: PhotoNFTFactory
+      startBlock: 20000000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - AddReputation
+        - PhotoNFTCreated
+      abis:
+        - name: PhotoNFTFactory
+          file: ./abis/PhotoNFTFactory.json
+      eventHandlers:
+        - event: AddReputation(uint256,uint256)
+          handler: handleAddReputation
+        - event: PhotoNFTCreated(address,address,string,string,uint256,string)
+          handler: handlePhotoNFTCreated
+      file: ./src/factory.ts

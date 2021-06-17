@@ -1,23 +1,18 @@
 import { BigInt } from "@graphprotocol/graph-ts"
 import {
-  PhotoNFTFactory,
-  AddReputation,
-  PhotoNFTCreated
+    AddReputation,
+    PhotoNFTFactory,
+    PhotoNFTCreated
 } from "../generated/PhotoNFTFactory/PhotoNFTFactory"
-import { AddedReputation,AllPhotoNFT } from "../generated/schema"
+import { addReputation,photoNFTCreated} from "../generated/schema"
 
 export function handleAddReputation(event: AddReputation): void {
-  let entity = AddedReputation.load(event.transaction.hash.toHex())
-
-  if (entity == null) {
-    entity = new AddedReputation(event.transaction.hash.toHex())
-    entity.count = BigInt.fromI32(0)
-  }
-
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
-
-  // Entity fields can be set based on event parameters
+   
+   let entity=addReputation.load(event.transaction.hash.toHex())
+   if(entity ==null){
+       entity=new addReputation(event.transaction.hash.toHex())
+   }
+     // Entity fields can be set based on event parameters
   entity.tokenId = event.params.tokenId
   entity.reputationCount = event.params.reputationCount
   entity.timesTmp=event.block.timestamp;
@@ -28,12 +23,11 @@ export function handleAddReputation(event: AddReputation): void {
 
  
 }
-
 export function handlePhotoNFTCreated(event: PhotoNFTCreated): void {
-  let entity = AllPhotoNFT.load(event.transaction.hash.toHex())
+    let entity = photoNFTCreated.load(event.transaction.hash.toHex())
 
   if (entity == null) {
-    entity = new AllPhotoNFT(event.transaction.hash.toHex())
+    entity = new photoNFTCreated(event.transaction.hash.toHex())
     
   }
   entity.owner = event.params.owner
@@ -47,4 +41,5 @@ export function handlePhotoNFTCreated(event: PhotoNFTCreated): void {
   entity.status="open";
   // Entities can be written to the store with `.save()`
   entity.save()
+    
 }
