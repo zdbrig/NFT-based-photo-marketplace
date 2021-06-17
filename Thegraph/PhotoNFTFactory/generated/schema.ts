@@ -12,6 +12,104 @@ import {
   BigDecimal
 } from "@graphprotocol/graph-ts";
 
+export class NFTFactory extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save NFTFactory entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save NFTFactory entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("NFTFactory", id.toString(), this);
+  }
+
+  static load(id: string): NFTFactory | null {
+    return store.get("NFTFactory", id) as NFTFactory | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get photoNFTCount(): i32 {
+    let value = this.get("photoNFTCount");
+    return value.toI32();
+  }
+
+  set photoNFTCount(value: i32) {
+    this.set("photoNFTCount", Value.fromI32(value));
+  }
+
+  get txCount(): BigInt {
+    let value = this.get("txCount");
+    return value.toBigInt();
+  }
+
+  set txCount(value: BigInt) {
+    this.set("txCount", Value.fromBigInt(value));
+  }
+}
+
+export class Transaction extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save Transaction entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save Transaction entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("Transaction", id.toString(), this);
+  }
+
+  static load(id: string): Transaction | null {
+    return store.get("Transaction", id) as Transaction | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get blockNumber(): BigInt {
+    let value = this.get("blockNumber");
+    return value.toBigInt();
+  }
+
+  set blockNumber(value: BigInt) {
+    this.set("blockNumber", Value.fromBigInt(value));
+  }
+
+  get timestamp(): BigInt {
+    let value = this.get("timestamp");
+    return value.toBigInt();
+  }
+
+  set timestamp(value: BigInt) {
+    this.set("timestamp", Value.fromBigInt(value));
+  }
+}
+
 export class AddedReputation extends Entity {
   constructor(id: string) {
     super();
@@ -197,5 +295,81 @@ export class AllPhotoNFT extends Entity {
 
   set status(value: string) {
     this.set("status", Value.fromString(value));
+  }
+}
+
+export class PhotoNFT extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id !== null, "Cannot save PhotoNFT entity without an ID");
+    assert(
+      id.kind == ValueKind.STRING,
+      "Cannot save PhotoNFT entity with non-string ID. " +
+        'Considering using .toHex() to convert the "id" to a string.'
+    );
+    store.set("PhotoNFT", id.toString(), this);
+  }
+
+  static load(id: string): PhotoNFT | null {
+    return store.get("PhotoNFT", id) as PhotoNFT | null;
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get nftName(): string {
+    let value = this.get("nftName");
+    return value.toString();
+  }
+
+  set nftName(value: string) {
+    this.set("nftName", Value.fromString(value));
+  }
+
+  get nftSymbol(): string {
+    let value = this.get("nftSymbol");
+    return value.toString();
+  }
+
+  set nftSymbol(value: string) {
+    this.set("nftSymbol", Value.fromString(value));
+  }
+
+  get photoPrice(): BigInt {
+    let value = this.get("photoPrice");
+    return value.toBigInt();
+  }
+
+  set photoPrice(value: BigInt) {
+    this.set("photoPrice", Value.fromBigInt(value));
+  }
+
+  get timesTmp(): BigInt {
+    let value = this.get("timesTmp");
+    return value.toBigInt();
+  }
+
+  set timesTmp(value: BigInt) {
+    this.set("timesTmp", Value.fromBigInt(value));
+  }
+
+  get blockNumber(): BigInt {
+    let value = this.get("blockNumber");
+    return value.toBigInt();
+  }
+
+  set blockNumber(value: BigInt) {
+    this.set("blockNumber", Value.fromBigInt(value));
   }
 }
