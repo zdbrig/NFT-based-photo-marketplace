@@ -164,30 +164,96 @@ contract NFTDutchAuction {
 
       emit AuctionCancelled(auction.id, auction.photoId);
   }
-
   function bid(address _photoId) public payable {
-      Auction storage auction = photoIdToAuction[_photoId];
+       Auction storage auction = photoIdToAuction[_photoId];
+
+      uint256 secondsPassed = 0;
       require(auction.startedAt > 0);
 
-      uint256 price = getCurrentPrice(auction);
-      require(msg.value >= price);
+    //   uint256 price = getCurrentPrice(msg.value);
+      require(msg.value >= auction.startingPrice);
 
-      address  seller = auction.seller;
+      secondsPassed = now- auction.startedAt;
+      secondsPassed = auction.duration -secondsPassed ;
+
+    //   secondsPassed = (auction.duration) -secondsPassed ;
+      if( secondsPassed  == 0){
+          address seller = auction.seller;
+      uint64 auctionId_temp = auction.id;
+
+      delete photoIdToAuction[_photoId];
+      delete auctionIdToAuction[auction.id];
+       uint256 sellerProceeds = msg.value;
+         address payable addressSeller = address(uint160(seller));
+       addressSeller.transfer(sellerProceeds);
+
+             PhotoNFTMarketplace instancePhotoNFTMarketplace = PhotoNFTMarketplace(PHOTO_NFT_MARKETPLACE);
+    instancePhotoNFTMarketplace.transfertFromPhotoNFT(seller, msg.sender, _photoId);
+
+      emit AuctionSuccessful(auctionId_temp, _photoId, msg.value, msg.sender);
+      }
+
+else {
+if(msg.value == auction.endingPrice){
+
+      address seller = auction.seller;
       uint64 auctionId_temp = auction.id;
 
       delete photoIdToAuction[_photoId];
       delete auctionIdToAuction[auction.id];
 
-      if (price > 0) {
-          uint256 sellerProceeds = price;
-          address payable addressSeller = address(uint160(seller));
-          addressSeller.transfer(sellerProceeds);
-      }
-       PhotoNFTMarketplace instancePhotoNFTMarketplace = PhotoNFTMarketplace(PHOTO_NFT_MARKETPLACE);
+      
+          uint256 sellerProceeds = msg.value;
+         address payable addressSeller = address(uint160(seller));
+       addressSeller.transfer(sellerProceeds);
+
+             PhotoNFTMarketplace instancePhotoNFTMarketplace = PhotoNFTMarketplace(PHOTO_NFT_MARKETPLACE);
     instancePhotoNFTMarketplace.transfertFromPhotoNFT(seller, msg.sender, _photoId);
 
-      emit AuctionSuccessful(auctionId_temp, _photoId, price, msg.sender);
-  }
+      emit AuctionSuccessful(auctionId_temp, _photoId, msg.value, msg.sender);
+    }  else {
+        address seller = auction.seller;
+      
+         uint256 sellerProceeds = msg.value;
+         address payable addressSeller = address(uint160(seller));
+          addressSeller.transfer(sellerProceeds);
+
+        PhotoNFTMarketplace instancePhotoNFTMarketplace = PhotoNFTMarketplace(PHOTO_NFT_MARKETPLACE);
+        instancePhotoNFTMarketplace.transfertFromPhotoNFT(seller, msg.sender, _photoId);
+
+        auction.startingPrice = uint128(msg.value);
+      }
+       
+ 
+          
+      }
+      
+   
+      }
+
+//   function bid(address _photoId) public payable {
+//       Auction storage auction = photoIdToAuction[_photoId];
+//       require(auction.startedAt > 0);
+
+//       uint256 price = getCurrentPrice(auction);
+//       require(msg.value >= price);
+
+//       address  seller = auction.seller;
+//       uint64 auctionId_temp = auction.id;
+
+//       delete photoIdToAuction[_photoId];
+//       delete auctionIdToAuction[auction.id];
+
+//       if (price > 0) {
+//           uint256 sellerProceeds = price;
+//           address payable addressSeller = address(uint160(seller));
+//           addressSeller.transfer(sellerProceeds);
+//       }
+//        PhotoNFTMarketplace instancePhotoNFTMarketplace = PhotoNFTMarketplace(PHOTO_NFT_MARKETPLACE);
+//     instancePhotoNFTMarketplace.transfertFromPhotoNFT(seller, msg.sender, _photoId);
+
+//       emit AuctionSuccessful(auctionId_temp, _photoId, price, msg.sender);
+//   }
 
   function getCurrentPriceByAuctionId(uint64 _auctionId) public view returns (uint256) {
       Auction storage auction = auctionIdToAuction[_auctionId];

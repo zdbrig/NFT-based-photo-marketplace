@@ -16,6 +16,7 @@ function Item() {
     const [photo, setPhoto] = useState<any>();
     const [price, setPrice] = useState<any>();
     const [networkModal, setNetworkModal] = useState(false);
+    const [loading, setLoading] = useState(false);
     const copyLink = window.location.href;
     const toggle = () => setNetworkModal(false);
     const [nft, setNFT] = useState<any>();
@@ -72,26 +73,37 @@ function Item() {
                         <h5>Network not supported</h5>
                     </div>
                 </Modal>{" "}
+                <Modal
+                    isOpen={loading}
+                    toggle={toggle}
+                    className="modalLoading"
+                    wrapClassName="modalLoadingWrap"
+                    modalClassName="modalLoadingModal"
+                    backdropClassName="modalLoadingBackdrop"
+                    contentClassName="modalLoadingContent"
+                >
+                    <div>
+                        <p className="modalPara">
+                            {" "}
+                            Waiting for validation of the transaction
+                        </p>
+                        <img src="loading.gif" alt="" />
+                    </div>
+                </Modal>
             </>
             <Header onClickActive={handleClick}></Header>
             <main className="main">
                 <div className="container">
                     <Itemhead />
-                    <div className="row">
-                        <div className="col-12 col-xl-8">
-                            <Itemcontent
-                                photo={photo}
-                                copyLink={copyLink}
-                            ></Itemcontent>
-                        </div>
-                        <div className="col-12 col-xl-4">
-                            <Itemsidebar
-                                activeItem={activeItem}
-                                price={price}
-                                nft={nft}
-                            ></Itemsidebar>
-                        </div>
-                    </div>
+
+                    <>
+                        <Itemsidebar
+                            activeItem={activeItem}
+                            price={price}
+                            nft={nft}
+                        ></Itemsidebar>
+                    </>
+
                     <Itemasset></Itemasset>
                 </div>
             </main>

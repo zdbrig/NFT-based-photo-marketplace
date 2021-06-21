@@ -367,7 +367,7 @@ function Activitycomponent(props: any) {
     function goItem(price: any, photo: any, nft: any) {
         localStorage.setItem("prix", price);
         localStorage.setItem("photo", photo);
-        localStorage.setItem("nft", nft);
+        localStorage.setItem("nftPhoto", nft);
         window.location.assign("#/Item");
     }
     const ChargerPlus = (e: any) => {

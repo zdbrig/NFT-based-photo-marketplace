@@ -9,6 +9,8 @@ import { PhotoNFTMarketplaceEvents } from "./photo-nft-marketplace/commons/Photo
 import { PhotoNFTData } from "./PhotoNFTData.sol";
 
 
+
+
 contract PhotoNFTMarketplace is PhotoNFTTradable, PhotoNFTMarketplaceEvents {
     using SafeMath for uint256;
 
@@ -26,6 +28,18 @@ contract PhotoNFTMarketplace is PhotoNFTTradable, PhotoNFTMarketplaceEvents {
      * @notice - msg.sender buy NFT with ETH (msg.value)
      * @notice - PhotoID is always 1. Because each photoNFT is unique.
      */
+
+     /***ownerPhoto */
+
+
+     function ownerPhoto (address _photoNFT) public returns  (address){
+        PhotoNFT photoNFT = PhotoNFT(_photoNFT);
+        PhotoNFTData.Photo memory photo = photoNFTData.getPhotoByNFTAddress(photoNFT);
+        address _seller = photo.ownerAddress;
+        return _seller;
+     }
+
+
     function buyPhotoNFT(PhotoNFT _photoNFT) public payable returns (bool) {
         PhotoNFT photoNFT = _photoNFT;
 
@@ -59,6 +73,65 @@ contract PhotoNFTMarketplace is PhotoNFTTradable, PhotoNFTMarketplaceEvents {
         //photoNFT.mint(msg.sender, tokenURI);
     }
 
+
+
+//transfert photo
+function transfertPhotoNFT(PhotoNFT _photoNFT) public payable returns (bool) {
+        PhotoNFT photoNFT = _photoNFT;
+
+        PhotoNFTData.Photo memory photo = photoNFTData.getPhotoByNFTAddress(photoNFT);
+        address _seller = photo.ownerAddress;                     /// Owner
+        address payable seller = address(uint160(_seller));  /// Convert owner address with payable
+        
+     
+ 
+        
+
+        /// Approve a buyer address as a receiver before NFT's transferFrom method is executed
+        address buyer = msg.sender;
+        uint photoId = 1;  /// [Note]: PhotoID is always 1. Because each photoNFT is unique.
+        photoNFT.approve(buyer, photoId);
+
+        address ownerBeforeOwnershipTransferred = photoNFT.ownerOf(photoId);
+
+        /// Transfer Ownership of the PhotoNFT from a seller to a buyer
+        transferOwnershipOfPhotoNFT(photoNFT, photoId, buyer);    
+        photoNFTData.updateOwnerOfPhotoNFT(photoNFT, buyer);
+        photoNFTData.updateStatus(photoNFT, "Cancelled");
+
+        /// Event for checking result of transferring ownership of a photoNFT
+        address ownerAfterOwnershipTransferred = photoNFT.ownerOf(photoId);
+        emit PhotoNFTOwnershipChanged(photoNFT, photoId, ownerBeforeOwnershipTransferred, ownerAfterOwnershipTransferred);
+
+        /// Mint a photo with a new photoId
+        //string memory tokenURI = photoNFTFactory.getTokenURI(photoData.ipfsHashOfPhoto);  /// [Note]: IPFS hash + URL
+        //photoNFT.mint(msg.sender, tokenURI);
+    }
+
+
+    function transfertFromPhotoNFT(address seller , address buyer ,address _photoNFT) public payable returns (bool) {
+         PhotoNFT photoNFT = PhotoNFT(_photoNFT);
+        
+
+        uint photoId = 1;  /// [Note]: PhotoID is always 1. Because each photoNFT is unique.
+       
+
+        address ownerBeforeOwnershipTransferred = photoNFT.ownerOf(photoId);
+
+        /// Transfer Ownership of the PhotoNFT from a seller to a buyer
+        transferOwnershipOfPhotoNFT(photoNFT, photoId, buyer);    
+        photoNFTData.updateOwnerOfPhotoNFT(photoNFT, buyer);
+        // photoNFTData.updateStatus(photoNFT, "Cancelled");
+
+        /// Event for checking result of transferring ownership of a photoNFT
+        address ownerAfterOwnershipTransferred = photoNFT.ownerOf(photoId);
+         photoNFT.approve(buyer, photoId);
+        emit PhotoNFTOwnershipChanged(photoNFT, photoId, ownerBeforeOwnershipTransferred, ownerAfterOwnershipTransferred);
+
+        /// Mint a photo with a new photoId
+        //string memory tokenURI = photoNFTFactory.getTokenURI(photoData.ipfsHashOfPhoto);  /// [Note]: IPFS hash + URL
+        //photoNFT.mint(msg.sender, tokenURI);
+    }
 
     ///-----------------------------------------------------
     /// Methods below are pending methods
