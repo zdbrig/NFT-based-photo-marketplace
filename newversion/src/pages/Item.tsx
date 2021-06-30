@@ -17,6 +17,8 @@ function Item() {
     const [price, setPrice] = useState<any>();
     const [networkModal, setNetworkModal] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [accountMetamask, setAccountMetamask] = useState("");
+
     const copyLink = window.location.href;
     const toggle = () => setNetworkModal(false);
     const [nft, setNFT] = useState<any>();
@@ -28,6 +30,10 @@ function Item() {
             netId1.then((value: any) => {
                 if (value !== 42) {
                     setNetworkModal(true);
+                } else {
+                    const accoun = web3.eth.getAccounts().then((acco: any) => {
+                        setAccountMetamask(acco[0]);
+                    });
                 }
             });
         } else {
@@ -91,7 +97,10 @@ function Item() {
                     </div>
                 </Modal>
             </>
-            <Header onClickActive={handleClick}></Header>
+            <Header
+                onClickActive={handleClick}
+                account={accountMetamask}
+            ></Header>
             <main className="main">
                 <div className="container">
                     <Itemhead />

@@ -1,4 +1,4 @@
-const NFTDutchAuction = artifacts.require("./NFTDutchAuction.sol");
+const NFTDutchAuction = artifacts.require("./Auction.sol");
 const PhotoNFTMarketPlace = artifacts.require("./PhotoNFTMarketplace.sol");
 
 const _photoNFTMarketPlace = PhotoNFTMarketPlace.address;

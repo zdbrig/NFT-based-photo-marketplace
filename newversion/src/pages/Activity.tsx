@@ -11,6 +11,7 @@ function Activity() {
     const [activeItem, setActiveItem] = useState(false);
     const [ShowComponent, setShowComponent] = useState(false);
     const [modalnetwork, setModalNetwork] = useState(false);
+    const [accountMetamask, setAccountMetamask] = useState("");
     const toggle = () => setActiveItem(!modalnetwork);
     const handleClick = (active: any) => {
         setActiveItem(active);
@@ -26,6 +27,10 @@ function Activity() {
                 if (value !== 42) {
                     //alert(value);
                     setModalNetwork(true);
+                } else {
+                    const accoun = web3.eth.getAccounts().then((acco: any) => {
+                        setAccountMetamask(acco[0]);
+                    });
                 }
             });
         } else {
@@ -40,7 +45,10 @@ function Activity() {
     }
     return (
         <div className="Activity">
-            <Header onClickActive={handleClick}></Header>
+            <Header
+                onClickActive={handleClick}
+                account={accountMetamask}
+            ></Header>
             {modalnetwork === true ? (
                 <>
                     <Modal

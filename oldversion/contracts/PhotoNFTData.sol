@@ -24,7 +24,8 @@ contract PhotoNFTData is PhotoNFTDataStorages {
         string memory _photoNFTSymbol, 
         address _ownerAddress, 
         uint _photoPrice, 
-        string memory _ipfsHashOfPhoto
+        string memory _ipfsHashOfPhoto,
+        string memory _typeOfSale
     ) public returns (bool) {
         /// Save metadata of a photoNFT of photo
         Photo memory photo = Photo({
@@ -34,6 +35,7 @@ contract PhotoNFTData is PhotoNFTDataStorages {
             ownerAddress: _ownerAddress,
             photoPrice: _photoPrice,
             ipfsHashOfPhoto: _ipfsHashOfPhoto,
+            typeOfSale: _typeOfSale,
             status: "Open",
             reputation: 0
         });

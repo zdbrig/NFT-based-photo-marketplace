@@ -20,7 +20,7 @@ function Activitycomponent(props: any) {
     const [photoNFTMarketplace, setPhotoNFTMarketplace] = useState<any>();
     const [PHOTO_NFT_MARKETPLACE, setPHOTO_NFT_MARKETPLACE] = useState<any>();
     const [allPhotos, setAllPhoto] = useState<any>([]);
-
+    const [tailleTab, setTailleTab] = useState(0);
     const [index, setIndex] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const toggleModal = () => setShowModal(false);
@@ -344,7 +344,7 @@ function Activitycomponent(props: any) {
                 let stringArr: Array<any> = [];
                 let tab: Array<any> = [];
                 let tab1: Array<any> = [];
-                for (var i = value.length; i > 0; i--) {
+                for (var i = value.length; i >= 0; i--) {
                     let x = value.slice(i, i + 1);
 
                     tab.push(x);
@@ -358,15 +358,18 @@ function Activitycomponent(props: any) {
                         }
                     });
                 });
-
+                let taille = tab1.length;
+                console.log("taille" + taille);
+                setTailleTab(taille);
                 setAllPhoto(tab1);
             });
         });
     }, []);
 
     function goItem(price: any, photo: any, nft: any) {
-        localStorage.setItem("prix", price);
-        localStorage.setItem("photo", photo);
+        // localStorage.setItem("prix", price);
+        // localStorage.setItem("photo", photo);
+        // localStorage.setItem("nftPhoto", nft);
         localStorage.setItem("nftPhoto", nft);
         window.location.assign("#/Item");
     }
@@ -381,22 +384,24 @@ function Activitycomponent(props: any) {
             <div className="row row--grid">
                 {index < 8 ? renderCard() : renderCardPlus()}
             </div>
-            <div className="row row--grid">
-                <div className="col-12">
-                    <button
-                        className="main__load"
-                        type="button"
-                        // data-toggle="collapse"
-                        // data-target="#collapsemore"
-                        // aria-expanded="false"
-                        // aria-controls="collapsemore"
-                        onClick={ChargerPlus}
-                        disabled={showModal}
-                    >
-                        Load more
-                    </button>
+            {tailleTab > 8 && (
+                <div className="row row--grid">
+                    <div className="col-12">
+                        <button
+                            className="main__load"
+                            type="button"
+                            // data-toggle="collapse"
+                            // data-target="#collapsemore"
+                            // aria-expanded="false"
+                            // aria-controls="collapsemore"
+                            onClick={ChargerPlus}
+                            disabled={showModal}
+                        >
+                            Load more
+                        </button>
+                    </div>
                 </div>
-            </div>
+            )}
         </div>
     );
 }

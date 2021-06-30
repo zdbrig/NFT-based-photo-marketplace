@@ -333,14 +333,14 @@
     "absolutePath": "/home/amal/zbriggithub/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/token/ERC721/ERC721Burnable.sol",
     "exportedSymbols": {
       "ERC721Burnable": [
-        5880
+        6036
       ]
     },
-    "id": 5881,
+    "id": 6037,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 5858,
+        "id": 6014,
         "literals": [
           "solidity",
           "^",
@@ -353,10 +353,10 @@
       {
         "absolutePath": "/home/amal/zbriggithub/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/token/ERC721/ERC721.sol",
         "file": "./ERC721.sol",
-        "id": 5859,
+        "id": 6015,
         "nodeType": "ImportDirective",
-        "scope": 5881,
-        "sourceUnit": 5857,
+        "scope": 6037,
+        "sourceUnit": 6013,
         "src": "25:22:40",
         "symbolAliases": [],
         "unitAlias": ""
@@ -367,44 +367,44 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 5860,
+              "id": 6016,
               "name": "ERC721",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 5856,
+              "referencedDeclaration": 6012,
               "src": "182:6:40",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ERC721_$5856",
+                "typeIdentifier": "t_contract$_ERC721_$6012",
                 "typeString": "contract ERC721"
               }
             },
-            "id": 5861,
+            "id": 6017,
             "nodeType": "InheritanceSpecifier",
             "src": "182:6:40"
           }
         ],
         "contractDependencies": [
-          3057,
-          3204,
-          5856,
-          6621
+          3213,
+          3360,
+          6012,
+          6777
         ],
         "contractKind": "contract",
         "documentation": "@title ERC721 Burnable Token\n@dev ERC721 Token that can be irreversibly burned (destroyed).",
         "fullyImplemented": true,
-        "id": 5880,
+        "id": 6036,
         "linearizedBaseContracts": [
-          5880,
-          5856,
-          6621,
-          3057,
-          3204
+          6036,
+          6012,
+          6777,
+          3213,
+          3360
         ],
         "name": "ERC721Burnable",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 5878,
+              "id": 6034,
               "nodeType": "Block",
               "src": "359:89:40",
               "statements": [
@@ -419,18 +419,18 @@
                             "argumentTypes": null,
                             "expression": {
                               "argumentTypes": null,
-                              "id": 5868,
+                              "id": 6024,
                               "name": "msg",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 6941,
+                              "referencedDeclaration": 7101,
                               "src": "396:3:40",
                               "typeDescriptions": {
                                 "typeIdentifier": "t_magic_message",
                                 "typeString": "msg"
                               }
                             },
-                            "id": 5869,
+                            "id": 6025,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
@@ -446,11 +446,11 @@
                           },
                           {
                             "argumentTypes": null,
-                            "id": 5870,
+                            "id": 6026,
                             "name": "tokenId",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 5863,
+                            "referencedDeclaration": 6019,
                             "src": "408:7:40",
                             "typeDescriptions": {
                               "typeIdentifier": "t_uint256",
@@ -469,18 +469,18 @@
                               "typeString": "uint256"
                             }
                           ],
-                          "id": 5867,
+                          "id": 6023,
                           "name": "_isApprovedOrOwner",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 5620,
+                          "referencedDeclaration": 5776,
                           "src": "377:18:40",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_internal_view$_t_address_$_t_uint256_$returns$_t_bool_$",
                             "typeString": "function (address,uint256) view returns (bool)"
                           }
                         },
-                        "id": 5871,
+                        "id": 6027,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -502,21 +502,21 @@
                           "typeString": "bool"
                         }
                       ],
-                      "id": 5866,
+                      "id": 6022,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        6944,
-                        6945
+                        7104,
+                        7105
                       ],
-                      "referencedDeclaration": 6944,
+                      "referencedDeclaration": 7104,
                       "src": "369:7:40",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
                         "typeString": "function (bool) pure"
                       }
                     },
-                    "id": 5872,
+                    "id": 6028,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -530,7 +530,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 5873,
+                  "id": 6029,
                   "nodeType": "ExpressionStatement",
                   "src": "369:48:40"
                 },
@@ -540,11 +540,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 5875,
+                        "id": 6031,
                         "name": "tokenId",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 5863,
+                        "referencedDeclaration": 6019,
                         "src": "433:7:40",
                         "typeDescriptions": {
                           "typeIdentifier": "t_uint256",
@@ -559,21 +559,21 @@
                           "typeString": "uint256"
                         }
                       ],
-                      "id": 5874,
+                      "id": 6030,
                       "name": "_burn",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        5715,
-                        5728
+                        5871,
+                        5884
                       ],
-                      "referencedDeclaration": 5728,
+                      "referencedDeclaration": 5884,
                       "src": "427:5:40",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_uint256_$returns$__$",
                         "typeString": "function (uint256)"
                       }
                     },
-                    "id": 5876,
+                    "id": 6032,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -587,29 +587,29 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 5877,
+                  "id": 6033,
                   "nodeType": "ExpressionStatement",
                   "src": "427:14:40"
                 }
               ]
             },
             "documentation": "@dev Burns a specific ERC721 token.\n@param tokenId uint256 id of the ERC721 token to be burned.",
-            "id": 5879,
+            "id": 6035,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "burn",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 5864,
+              "id": 6020,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 5863,
+                  "id": 6019,
                   "name": "tokenId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 5879,
+                  "scope": 6035,
                   "src": "335:15:40",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -618,7 +618,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 5862,
+                    "id": 6018,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "335:7:40",
@@ -634,19 +634,19 @@
               "src": "334:17:40"
             },
             "returnParameters": {
-              "id": 5865,
+              "id": 6021,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "359:0:40"
             },
-            "scope": 5880,
+            "scope": 6036,
             "src": "321:127:40",
             "stateMutability": "nonpayable",
             "superFunction": null,
             "visibility": "public"
           }
         ],
-        "scope": 5881,
+        "scope": 6037,
         "src": "155:295:40"
       }
     ],
@@ -657,7 +657,7 @@
       "absolutePath": "/home/amal/zbriggithub/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/token/ERC721/ERC721Burnable.sol",
       "exportedSymbols": {
         "ERC721Burnable": [
-          5880
+          6036
         ]
       }
     },
@@ -671,45 +671,45 @@
             ".0"
           ]
         },
-        "id": 5858,
+        "id": 6014,
         "name": "PragmaDirective",
         "src": "0:23:40"
       },
       {
         "attributes": {
-          "SourceUnit": 5857,
+          "SourceUnit": 6013,
           "absolutePath": "/home/amal/zbriggithub/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/token/ERC721/ERC721.sol",
           "file": "./ERC721.sol",
-          "scope": 5881,
+          "scope": 6037,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 5859,
+        "id": 6015,
         "name": "ImportDirective",
         "src": "25:22:40"
       },
       {
         "attributes": {
           "contractDependencies": [
-            3057,
-            3204,
-            5856,
-            6621
+            3213,
+            3360,
+            6012,
+            6777
           ],
           "contractKind": "contract",
           "documentation": "@title ERC721 Burnable Token\n@dev ERC721 Token that can be irreversibly burned (destroyed).",
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            5880,
-            5856,
-            6621,
-            3057,
-            3204
+            6036,
+            6012,
+            6777,
+            3213,
+            3360
           ],
           "name": "ERC721Burnable",
-          "scope": 5881
+          "scope": 6037
         },
         "children": [
           {
@@ -721,15 +721,15 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "ERC721",
-                  "referencedDeclaration": 5856,
+                  "referencedDeclaration": 6012,
                   "type": "contract ERC721"
                 },
-                "id": 5860,
+                "id": 6016,
                 "name": "UserDefinedTypeName",
                 "src": "182:6:40"
               }
             ],
-            "id": 5861,
+            "id": 6017,
             "name": "InheritanceSpecifier",
             "src": "182:6:40"
           },
@@ -743,7 +743,7 @@
                 null
               ],
               "name": "burn",
-              "scope": 5880,
+              "scope": 6036,
               "stateMutability": "nonpayable",
               "superFunction": null,
               "visibility": "public"
@@ -755,7 +755,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "tokenId",
-                      "scope": 5879,
+                      "scope": 6035,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -768,17 +768,17 @@
                           "name": "uint256",
                           "type": "uint256"
                         },
-                        "id": 5862,
+                        "id": 6018,
                         "name": "ElementaryTypeName",
                         "src": "335:7:40"
                       }
                     ],
-                    "id": 5863,
+                    "id": 6019,
                     "name": "VariableDeclaration",
                     "src": "335:15:40"
                   }
                 ],
-                "id": 5864,
+                "id": 6020,
                 "name": "ParameterList",
                 "src": "334:17:40"
               },
@@ -789,7 +789,7 @@
                   ]
                 },
                 "children": [],
-                "id": 5865,
+                "id": 6021,
                 "name": "ParameterList",
                 "src": "359:0:40"
               },
@@ -821,14 +821,14 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                6944,
-                                6945
+                                7104,
+                                7105
                               ],
-                              "referencedDeclaration": 6944,
+                              "referencedDeclaration": 7104,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
-                            "id": 5866,
+                            "id": 6022,
                             "name": "Identifier",
                             "src": "369:7:40"
                           },
@@ -862,11 +862,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 5620,
+                                  "referencedDeclaration": 5776,
                                   "type": "function (address,uint256) view returns (bool)",
                                   "value": "_isApprovedOrOwner"
                                 },
-                                "id": 5867,
+                                "id": 6023,
                                 "name": "Identifier",
                                 "src": "377:18:40"
                               },
@@ -888,16 +888,16 @@
                                       "overloadedDeclarations": [
                                         null
                                       ],
-                                      "referencedDeclaration": 6941,
+                                      "referencedDeclaration": 7101,
                                       "type": "msg",
                                       "value": "msg"
                                     },
-                                    "id": 5868,
+                                    "id": 6024,
                                     "name": "Identifier",
                                     "src": "396:3:40"
                                   }
                                 ],
-                                "id": 5869,
+                                "id": 6025,
                                 "name": "MemberAccess",
                                 "src": "396:10:40"
                               },
@@ -907,26 +907,26 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 5863,
+                                  "referencedDeclaration": 6019,
                                   "type": "uint256",
                                   "value": "tokenId"
                                 },
-                                "id": 5870,
+                                "id": 6026,
                                 "name": "Identifier",
                                 "src": "408:7:40"
                               }
                             ],
-                            "id": 5871,
+                            "id": 6027,
                             "name": "FunctionCall",
                             "src": "377:39:40"
                           }
                         ],
-                        "id": 5872,
+                        "id": 6028,
                         "name": "FunctionCall",
                         "src": "369:48:40"
                       }
                     ],
-                    "id": 5873,
+                    "id": 6029,
                     "name": "ExpressionStatement",
                     "src": "369:48:40"
                   },
@@ -956,14 +956,14 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                5715,
-                                5728
+                                5871,
+                                5884
                               ],
-                              "referencedDeclaration": 5728,
+                              "referencedDeclaration": 5884,
                               "type": "function (uint256)",
                               "value": "_burn"
                             },
-                            "id": 5874,
+                            "id": 6030,
                             "name": "Identifier",
                             "src": "427:5:40"
                           },
@@ -973,41 +973,41 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 5863,
+                              "referencedDeclaration": 6019,
                               "type": "uint256",
                               "value": "tokenId"
                             },
-                            "id": 5875,
+                            "id": 6031,
                             "name": "Identifier",
                             "src": "433:7:40"
                           }
                         ],
-                        "id": 5876,
+                        "id": 6032,
                         "name": "FunctionCall",
                         "src": "427:14:40"
                       }
                     ],
-                    "id": 5877,
+                    "id": 6033,
                     "name": "ExpressionStatement",
                     "src": "427:14:40"
                   }
                 ],
-                "id": 5878,
+                "id": 6034,
                 "name": "Block",
                 "src": "359:89:40"
               }
             ],
-            "id": 5879,
+            "id": 6035,
             "name": "FunctionDefinition",
             "src": "321:127:40"
           }
         ],
-        "id": 5880,
+        "id": 6036,
         "name": "ContractDefinition",
         "src": "155:295:40"
       }
     ],
-    "id": 5881,
+    "id": 6037,
     "name": "SourceUnit",
     "src": "0:451:40"
   },
@@ -1017,7 +1017,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-06-18T10:04:00.767Z",
+  "updatedAt": "2021-06-27T13:16:01.112Z",
   "devdoc": {
     "details": "ERC721 Token that can be irreversibly burned (destroyed).",
     "methods": {

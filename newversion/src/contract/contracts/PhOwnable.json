@@ -86,14 +86,14 @@
     "absolutePath": "/home/amal/zbriggithub/NFT-based-photo-marketplace/oldversion/contracts/modifiers/PhOwnable.sol",
     "exportedSymbols": {
       "PhOwnable": [
-        2288
+        2444
       ]
     },
-    "id": 2289,
+    "id": 2445,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2272,
+        "id": 2428,
         "literals": [
           "solidity",
           "^",
@@ -106,10 +106,10 @@
       {
         "absolutePath": "/home/amal/zbriggithub/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/ownership/Ownable.sol",
         "file": "../openzeppelin-solidity/contracts/ownership/Ownable.sol",
-        "id": 2273,
+        "id": 2429,
         "nodeType": "ImportDirective",
-        "scope": 2289,
-        "sourceUnit": 3594,
+        "scope": 2445,
+        "sourceUnit": 3750,
         "src": "25:66:9",
         "symbolAliases": [],
         "unitAlias": ""
@@ -120,38 +120,38 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 2274,
+              "id": 2430,
               "name": "Ownable",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 3593,
+              "referencedDeclaration": 3749,
               "src": "116:7:9",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Ownable_$3593",
+                "typeIdentifier": "t_contract$_Ownable_$3749",
                 "typeString": "contract Ownable"
               }
             },
-            "id": 2275,
+            "id": 2431,
             "nodeType": "InheritanceSpecifier",
             "src": "116:7:9"
           }
         ],
         "contractDependencies": [
-          3593
+          3749
         ],
         "contractKind": "contract",
         "documentation": null,
         "fullyImplemented": true,
-        "id": 2288,
+        "id": 2444,
         "linearizedBaseContracts": [
-          2288,
-          3593
+          2444,
+          3749
         ],
         "name": "PhOwnable",
         "nodeType": "ContractDefinition",
         "nodes": [
           {
             "body": {
-              "id": 2286,
+              "id": 2442,
               "nodeType": "Block",
               "src": "185:51:9",
               "statements": [
@@ -165,18 +165,18 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 2282,
+                        "id": 2438,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
                           "argumentTypes": null,
-                          "id": 2280,
+                          "id": 2436,
                           "name": "now",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 6943,
+                          "referencedDeclaration": 7103,
                           "src": "205:3:9",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -187,11 +187,11 @@
                         "operator": ">=",
                         "rightExpression": {
                           "argumentTypes": null,
-                          "id": 2281,
+                          "id": 2437,
                           "name": "_time",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2277,
+                          "referencedDeclaration": 2433,
                           "src": "212:5:9",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -212,21 +212,21 @@
                           "typeString": "bool"
                         }
                       ],
-                      "id": 2279,
+                      "id": 2435,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        6944,
-                        6945
+                        7104,
+                        7105
                       ],
-                      "referencedDeclaration": 6944,
+                      "referencedDeclaration": 7104,
                       "src": "196:7:9",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
                         "typeString": "function (bool) pure"
                       }
                     },
-                    "id": 2283,
+                    "id": 2439,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -240,31 +240,31 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 2284,
+                  "id": 2440,
                   "nodeType": "ExpressionStatement",
                   "src": "196:22:9"
                 },
                 {
-                  "id": 2285,
+                  "id": 2441,
                   "nodeType": "PlaceholderStatement",
                   "src": "228:1:9"
                 }
               ]
             },
             "documentation": null,
-            "id": 2287,
+            "id": 2443,
             "name": "onlyStakingPerson",
             "nodeType": "ModifierDefinition",
             "parameters": {
-              "id": 2278,
+              "id": 2434,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2277,
+                  "id": 2433,
                   "name": "_time",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2287,
+                  "scope": 2443,
                   "src": "173:10:9",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -273,7 +273,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2276,
+                    "id": 2432,
                     "name": "uint",
                     "nodeType": "ElementaryTypeName",
                     "src": "173:4:9",
@@ -292,7 +292,7 @@
             "visibility": "internal"
           }
         ],
-        "scope": 2289,
+        "scope": 2445,
         "src": "94:149:9"
       }
     ],
@@ -303,7 +303,7 @@
       "absolutePath": "/home/amal/zbriggithub/NFT-based-photo-marketplace/oldversion/contracts/modifiers/PhOwnable.sol",
       "exportedSymbols": {
         "PhOwnable": [
-          2288
+          2444
         ]
       }
     },
@@ -317,39 +317,39 @@
             ".0"
           ]
         },
-        "id": 2272,
+        "id": 2428,
         "name": "PragmaDirective",
         "src": "0:23:9"
       },
       {
         "attributes": {
-          "SourceUnit": 3594,
+          "SourceUnit": 3750,
           "absolutePath": "/home/amal/zbriggithub/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/ownership/Ownable.sol",
           "file": "../openzeppelin-solidity/contracts/ownership/Ownable.sol",
-          "scope": 2289,
+          "scope": 2445,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 2273,
+        "id": 2429,
         "name": "ImportDirective",
         "src": "25:66:9"
       },
       {
         "attributes": {
           "contractDependencies": [
-            3593
+            3749
           ],
           "contractKind": "contract",
           "documentation": null,
           "fullyImplemented": true,
           "linearizedBaseContracts": [
-            2288,
-            3593
+            2444,
+            3749
           ],
           "name": "PhOwnable",
-          "scope": 2289
+          "scope": 2445
         },
         "children": [
           {
@@ -361,15 +361,15 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "Ownable",
-                  "referencedDeclaration": 3593,
+                  "referencedDeclaration": 3749,
                   "type": "contract Ownable"
                 },
-                "id": 2274,
+                "id": 2430,
                 "name": "UserDefinedTypeName",
                 "src": "116:7:9"
               }
             ],
-            "id": 2275,
+            "id": 2431,
             "name": "InheritanceSpecifier",
             "src": "116:7:9"
           },
@@ -386,7 +386,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "_time",
-                      "scope": 2287,
+                      "scope": 2443,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "uint256",
@@ -399,17 +399,17 @@
                           "name": "uint",
                           "type": "uint256"
                         },
-                        "id": 2276,
+                        "id": 2432,
                         "name": "ElementaryTypeName",
                         "src": "173:4:9"
                       }
                     ],
-                    "id": 2277,
+                    "id": 2433,
                     "name": "VariableDeclaration",
                     "src": "173:10:9"
                   }
                 ],
-                "id": 2278,
+                "id": 2434,
                 "name": "ParameterList",
                 "src": "172:12:9"
               },
@@ -441,14 +441,14 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                6944,
-                                6945
+                                7104,
+                                7105
                               ],
-                              "referencedDeclaration": 6944,
+                              "referencedDeclaration": 7104,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
-                            "id": 2279,
+                            "id": 2435,
                             "name": "Identifier",
                             "src": "196:7:9"
                           },
@@ -473,11 +473,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 6943,
+                                  "referencedDeclaration": 7103,
                                   "type": "uint256",
                                   "value": "now"
                                 },
-                                "id": 2280,
+                                "id": 2436,
                                 "name": "Identifier",
                                 "src": "205:3:9"
                               },
@@ -487,51 +487,51 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 2277,
+                                  "referencedDeclaration": 2433,
                                   "type": "uint256",
                                   "value": "_time"
                                 },
-                                "id": 2281,
+                                "id": 2437,
                                 "name": "Identifier",
                                 "src": "212:5:9"
                               }
                             ],
-                            "id": 2282,
+                            "id": 2438,
                             "name": "BinaryOperation",
                             "src": "205:12:9"
                           }
                         ],
-                        "id": 2283,
+                        "id": 2439,
                         "name": "FunctionCall",
                         "src": "196:22:9"
                       }
                     ],
-                    "id": 2284,
+                    "id": 2440,
                     "name": "ExpressionStatement",
                     "src": "196:22:9"
                   },
                   {
-                    "id": 2285,
+                    "id": 2441,
                     "name": "PlaceholderStatement",
                     "src": "228:1:9"
                   }
                 ],
-                "id": 2286,
+                "id": 2442,
                 "name": "Block",
                 "src": "185:51:9"
               }
             ],
-            "id": 2287,
+            "id": 2443,
             "name": "ModifierDefinition",
             "src": "146:90:9"
           }
         ],
-        "id": 2288,
+        "id": 2444,
         "name": "ContractDefinition",
         "src": "94:149:9"
       }
     ],
-    "id": 2289,
+    "id": 2445,
     "name": "SourceUnit",
     "src": "0:244:9"
   },
@@ -541,7 +541,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.1",
-  "updatedAt": "2021-06-18T10:04:00.700Z",
+  "updatedAt": "2021-06-27T13:16:01.057Z",
   "devdoc": {
     "methods": {
       "isOwner()": {

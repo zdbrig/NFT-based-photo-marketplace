@@ -22,156 +22,163 @@ import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Forgot from "./pages/Forgot";
 import Privacy from "./pages/Privacy";
+import EditProfil from "./pages/EditProfil";
 import PageNotFound from "./pages/Pagenotfound";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { createBrowserHistory } from "history";
 export const history = createBrowserHistory();
 function App() {
-  return (
-    <HashRouter>
-      <div>
-        <Switch>
-          <Route exact path="/">
-            {" "}
-            <HomeLink></HomeLink>{" "}
-          </Route>
-          <Route path="/Home">
-            {" "}
-            <HomeLink></HomeLink>{" "}
-          </Route>
-          <Route path="/Activity">
-            <ActivityLink></ActivityLink>
-          </Route>
-          <Route path="/Token">
-            <TokenLink></TokenLink>
-          </Route>
-          <Route path="/Faq">
-            <FaqLink></FaqLink>
-          </Route>
-          <Route path="/Contact">
-            {" "}
-            <ContactLink></ContactLink>
-          </Route>
-          <Route path="/Blog">
-            <BlogLink></BlogLink>
-          </Route>
-          <Route path="/Article">
-            <ArticleLink></ArticleLink>
-          </Route>
-          <Route path="/Authors">
-            <AuthorsLink></AuthorsLink>
-          </Route>
-          <Route path="/Author">
-            <AuthorLink></AuthorLink>
-          </Route>
-          <Route path="/Collection">
-            <CollectionLink></CollectionLink>
-          </Route>
-          <Route path="/Create">
-            <CreateLink></CreateLink>
-          </Route>
-          <Route path="/Explore">
-            <ExploreLink></ExploreLink>
-          </Route>
-          <Route path="/Exploresecond">
-            <ExploresecondLink></ExploresecondLink>
-          </Route>
-          <Route path="/Explorethree">
-            <ExplorestyleThreeLink></ExplorestyleThreeLink>
-          </Route>
-          <Route path="/Item">
-            <ItemLink></ItemLink>
-          </Route>
-          <Route path="/Homesecond">
-            <HomesecondLink></HomesecondLink>
-          </Route>
-          <Route path="/Homethree">
-            <HomethreeLink></HomethreeLink>
-          </Route>
-          <Route path="/Signin">
-            <SigninLink></SigninLink>
-          </Route>
-          <Route path="/Signup">
-            <SignupLink></SignupLink>
-          </Route>
-          <Route path="/Forgot">
-            <ForgotLink></ForgotLink>
-          </Route>
-          <Route path="/Privacy">
-            <PrivacyLink></PrivacyLink>
-          </Route>
-          <Route path="/PageNotFound">
-            <PageNotFoundLink></PageNotFoundLink>
-          </Route>
-        </Switch>
-      </div>
-    </HashRouter>
-  );
+    return (
+        <HashRouter>
+            <div>
+                <Switch>
+                    <Route exact path="/">
+                        {" "}
+                        <HomeLink></HomeLink>{" "}
+                    </Route>
+                    <Route path="/Home">
+                        {" "}
+                        <HomeLink></HomeLink>{" "}
+                    </Route>
+                    <Route path="/Activity">
+                        <ActivityLink></ActivityLink>
+                    </Route>
+                    <Route path="/EditProfil">
+                        <EditProfilLink></EditProfilLink>
+                    </Route>
+                    <Route path="/Token">
+                        <TokenLink></TokenLink>
+                    </Route>
+                    <Route path="/Faq">
+                        <FaqLink></FaqLink>
+                    </Route>
+                    <Route path="/Contact">
+                        {" "}
+                        <ContactLink></ContactLink>
+                    </Route>
+                    <Route path="/Blog">
+                        <BlogLink></BlogLink>
+                    </Route>
+                    <Route path="/Article">
+                        <ArticleLink></ArticleLink>
+                    </Route>
+                    <Route path="/Authors">
+                        <AuthorsLink></AuthorsLink>
+                    </Route>
+                    <Route path="/Author">
+                        <AuthorLink></AuthorLink>
+                    </Route>
+                    <Route path="/Collection">
+                        <CollectionLink></CollectionLink>
+                    </Route>
+                    <Route path="/Create">
+                        <CreateLink></CreateLink>
+                    </Route>
+                    <Route path="/Explore">
+                        <ExploreLink></ExploreLink>
+                    </Route>
+                    <Route path="/Exploresecond">
+                        <ExploresecondLink></ExploresecondLink>
+                    </Route>
+                    <Route path="/Explorethree">
+                        <ExplorestyleThreeLink></ExplorestyleThreeLink>
+                    </Route>
+                    <Route path="/Item">
+                        <ItemLink></ItemLink>
+                    </Route>
+                    <Route path="/Homesecond">
+                        <HomesecondLink></HomesecondLink>
+                    </Route>
+                    <Route path="/Homethree">
+                        <HomethreeLink></HomethreeLink>
+                    </Route>
+                    <Route path="/Signin">
+                        <SigninLink></SigninLink>
+                    </Route>
+                    <Route path="/Signup">
+                        <SignupLink></SignupLink>
+                    </Route>
+                    <Route path="/Forgot">
+                        <ForgotLink></ForgotLink>
+                    </Route>
+                    <Route path="/Privacy">
+                        <PrivacyLink></PrivacyLink>
+                    </Route>
+                    <Route path="/PageNotFound">
+                        <PageNotFoundLink></PageNotFoundLink>
+                    </Route>
+                </Switch>
+            </div>
+        </HashRouter>
+    );
 }
 function HomeLink() {
-  return <Home />;
+    return <Home />;
+}
+function EditProfilLink() {
+    return <EditProfil />;
 }
 function PageNotFoundLink() {
-  return <PageNotFound></PageNotFound>;
+    return <PageNotFound></PageNotFound>;
 }
 function ExploresecondLink() {
-  return <Exploresecond />;
+    return <Exploresecond />;
 }
 function PrivacyLink() {
-  return <Privacy />;
+    return <Privacy />;
 }
 function ActivityLink() {
-  return <Activity />;
+    return <Activity />;
 }
 function TokenLink() {
-  return <Token></Token>;
+    return <Token></Token>;
 }
 function FaqLink() {
-  return <Faq></Faq>;
+    return <Faq></Faq>;
 }
 function ContactLink() {
-  return <Contact></Contact>;
+    return <Contact></Contact>;
 }
 function BlogLink() {
-  return <Blog></Blog>;
+    return <Blog></Blog>;
 }
 function ArticleLink() {
-  return <Article></Article>;
+    return <Article></Article>;
 }
 function AuthorsLink() {
-  return <Authors></Authors>;
+    return <Authors></Authors>;
 }
 function AuthorLink() {
-  return <Author></Author>;
+    return <Author></Author>;
 }
 function CollectionLink() {
-  return <Collection></Collection>;
+    return <Collection></Collection>;
 }
 function CreateLink() {
-  return <Create></Create>;
+    return <Create></Create>;
 }
 function ExploreLink() {
-  return <Explore></Explore>;
+    return <Explore></Explore>;
 }
 function ExplorestyleThreeLink() {
-  return <ExplorestyleThree></ExplorestyleThree>;
+    return <ExplorestyleThree></ExplorestyleThree>;
 }
 function ItemLink() {
-  return <Item></Item>;
+    return <Item></Item>;
 }
 function HomesecondLink() {
-  return <Homesecond></Homesecond>;
+    return <Homesecond></Homesecond>;
 }
 function HomethreeLink() {
-  return <Homethree></Homethree>;
+    return <Homethree></Homethree>;
 }
 function SigninLink() {
-  return <Signin></Signin>;
+    return <Signin></Signin>;
 }
 function SignupLink() {
-  return <Signup></Signup>;
+    return <Signup></Signup>;
 }
 function ForgotLink() {
-  return <Forgot></Forgot>;
+    return <Forgot></Forgot>;
 }
 export default App;

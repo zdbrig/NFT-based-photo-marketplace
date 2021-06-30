@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { isPropertySignature } from "typescript";
+import { useAsyncEffect } from "@wbe/use-async-effect";
 import { getListItem } from "../../Api/Item";
 import { Modal } from "reactstrap";
 import Web3 from "web3";
-
+import Moment from "react-moment";
+import moment from "moment";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { FacebookShareButton, TwitterShareButton } from "react-share";
 import "./Itemcontent.css";
 import { render } from "@testing-library/react";
+import { getListLiveauction } from "../../Api/Liveauctions";
+import photoNft1 from "../../contract/contracts/PhotoNFT.json";
 function Itemsidebar(props: any) {
-    const [web3, setWeb3] = useState<any>();
+    const [web, setWeb3] = useState<any>();
     const [accounts, setAcounts] = useState<any>();
     const [balance, setBalance] = useState<any>();
     const [networkId, setNetworkId] = useState<any>();
@@ -25,9 +28,17 @@ function Itemsidebar(props: any) {
     const [photo, setPhoto] = useState<any>([]);
     const [typeAchat, setTypeAchat] = useState<any>([]);
     const [showButtonBid, setShowButtonBid] = useState(false);
+    const [showButtonBidBuy, setShowButtonBidBuy] = useState(true);
+    const [showButtonAuction, setShowButtonAuction] = useState(false);
+    const [detailsAuction, setdetailsAuction] = useState<any>([]);
+    const [Bid, setBid] = useState<any>([]);
     const toggle = () => setLoading(false);
     const toggleModal = () => setShowModal(false);
     const [link, setLink] = useState("");
+    const [timeEnding, setTime] = useState(0);
+    //@ts-ignore
+    const { ethereum } = window;
+    const web3 = new Web3(ethereum);
     function onclicklink() {
         let url = window.location.href;
         setLink(url);
@@ -56,7 +67,8 @@ function Itemsidebar(props: any) {
             .call();
         console.log("=== owner of photo===", photo);
         //@ts-ignore
-        const buyAmount = web3.utils.toWei(photo.photoPrice, "ether");
+        // const buyAmount = web3.utils.toWei(photo.photoPrice, "ether");
+        const buyAmount = photo.photoPrice;
         console.log(buyAmount);
         // await web3.utils.fromWei(
         //     `${props.price}`,
@@ -65,7 +77,14 @@ function Itemsidebar(props: any) {
         //@ts-ignore
         const txReceipt1 = await photoNFTMarketplace.methods
             .buyPhotoNFT(addressPhoto)
-            .send({ from: accounts[0], value: buyAmount });
+            .send({ from: accounts[0], value: buyAmount })
+            .once("receipt", (receipt: any) => {
+                console.log("=== receipt ===", receipt);
+                setLoading(false);
+            })
+            .then((res: any) => {
+                window.location.assign("#/Activity");
+            });
         console.log("=== response of buyPhotoNFT ===", txReceipt1);
         setLoading(false);
     }
@@ -77,8 +96,6 @@ function Itemsidebar(props: any) {
         const { ethereum } = window;
         const web3 = new Web3(ethereum);
         const accounts = await web3.eth.getAccounts();
-        const currentAccount = accounts[0];
-
         // Get the contract instance.
         const networkId = await web3.eth.net.getId();
         const networkType = await web3.eth.net.getNetworkType();
@@ -108,6 +125,52 @@ function Itemsidebar(props: any) {
         }
         return instancePhotoNFTData;
     }
+    async function connectSmartContractAuction() {
+        let PhotoAuction = {};
+
+        PhotoAuction = require("../../contract/contracts/Auction.json");
+        //@ts-ignore
+        const { ethereum } = window;
+        const web3 = new Web3(ethereum);
+
+        // Use web3 to get the user's accounts.
+        const accounts = await web3.eth.getAccounts();
+        const currentAccount = accounts[0];
+        const networkId = await web3.eth.net.getId();
+        const networkType = await web3.eth.net.getNetworkType();
+
+        let balance =
+            accounts.length > 0
+                ? await web3.eth.getBalance(accounts[0])
+                : web3.utils.toWei("0");
+        balance = web3.utils.fromWei(balance, "ether");
+
+        let instancePhotoNFTMarketplace = null;
+
+        let instancePhotoAuction = null;
+        let deployedNetwork = null;
+        // Create instance of contracts
+        //@ts-ignore
+
+        //@ts-ignore
+        if (PhotoAuction.networks) {
+            deployedNetwork =
+                //@ts-ignore
+                PhotoAuction.networks[networkId.toString()];
+            if (deployedNetwork) {
+                instancePhotoAuction = new web3.eth.Contract(
+                    //@ts-ignore
+                    PhotoAuction.abi,
+                    deployedNetwork && deployedNetwork.address
+                );
+                console.log(
+                    "=== instancePhotoAuction ===",
+                    instancePhotoAuction
+                );
+            }
+        }
+        return instancePhotoAuction;
+    }
 
     async function connectSmartContract() {
         setAddressPhoto(localStorage.getItem("nftPhoto"));
@@ -117,10 +180,7 @@ function Itemsidebar(props: any) {
 
         PhotoNFTMarketplace = require("../../contract/contracts/PhotoNFTMarketplace.json");
 
-        PhotoAuction = require("../../contract/contracts/NFTDutchAuction.json");
-        //@ts-ignore
-        const { ethereum } = window;
-        const web3 = new Web3(ethereum);
+        PhotoAuction = require("../../contract/contracts/Auction.json");
 
         // Use web3 to get the user's accounts.
         const accounts = await web3.eth.getAccounts();
@@ -149,6 +209,12 @@ function Itemsidebar(props: any) {
                     //@ts-ignore
                     PhotoNFTMarketplace.abi,
                     deployedNetwork && deployedNetwork.address
+                );
+                let PHOTO_NFT_MARKETPLACE = deployedNetwork.address;
+
+                console.log(
+                    "=== instancePhotoNFTMarketplace ===",
+                    instancePhotoNFTMarketplace
                 );
                 console.log(
                     "=== instancePhotoNFTMarketplace ===",
@@ -188,7 +254,7 @@ function Itemsidebar(props: any) {
             setPhotoAuction(instancePhotoAuction);
         } else {
             setWeb3(web3);
-            setAcounts(accounts);
+
             setBalance(balance);
             setNetworkId(networkId);
             setNetworkType(networkType);
@@ -196,88 +262,230 @@ function Itemsidebar(props: any) {
     }
     useEffect(() => {
         setAddressPhoto(localStorage.getItem("nftPhoto"));
-        setTypeAchat(localStorage.getItem("typeAchat"));
-        if (localStorage.getItem("typeAchat") === "InstantSalePrice") {
-            setShowButtonBid(false);
-        } else {
-            setShowButtonBid(true);
-        }
     });
-    useEffect(() => {
-        const data = connectSmartContractNftDare().then((data: any) => {
-            let Photos = data.methods
-                .getPhotoByNFTAddress(localStorage.getItem("nftPhoto"))
-                .call();
+    useAsyncEffect(async () => {
+        const accounts1 = await web3.eth.getAccounts();
+        connectSmartContractNftDare()
+            .then((data: any) => {
+                let Photos = data.methods
+                    .getPhotoByNFTAddress(localStorage.getItem("nftPhoto"))
+                    .call();
 
-            Photos.then((value: any) => {
-                let photo1 = value;
+                Photos.then((value: any) => {
+                    let photo1 = value;
 
-                setPhoto(photo1);
+                    if (value.typeOfSale === "InstantSalePrice") {
+                        setShowButtonBid(false);
+                    } else {
+                        setShowButtonBid(true);
+                    }
+                    setPhoto(photo1);
+                });
+            })
+            .then((value: any) => {
+                let auctionNFT = connectSmartContractAuction().then(
+                    (auctionNFT: any) => {
+                        setPhotoAuction(auctionNFT);
+                        console.log("contractauction" + auctionNFT);
+                        let detailsAuction = auctionNFT.methods
+                            .getAuctionByPhotoId(
+                                localStorage.getItem("nftPhoto")
+                            )
+                            .call();
+                        detailsAuction.then((value1: any) => {
+                            var d = new Date();
+                            console.log(d);
+                            const javaScriptRelease = Date.parse(d.toString());
+
+                            console.log(javaScriptRelease);
+                            // let timeout =
+                            //     (Number(value1.duration) + Number(value1.startedAt)) *
+                            //         1000 -
+                            //     javaScriptRelease;
+                            let timeout =
+                                Number(value1.duration) +
+                                Number(value1.startedAt);
+                            console.log(timeout);
+                            var temps = moment.unix(timeout);
+
+                            console.log(temps.toString());
+                            let x =
+                                Date.parse(temps.toString()) -
+                                Date.parse(d.toString());
+
+                            let adressOwner = photo.ownerAddress;
+                            // console.log(accounts[0]);
+                            if (value1.owner === accounts1[0]) {
+                                setShowButtonBidBuy(false);
+                            }
+                            setTimeout(() => {
+                                // setShowButtonBid(false);
+                                console.log("owner" + value1.owner);
+
+                                setShowButtonBidBuy(false);
+
+                                console.log("owner1" + accounts1[0]);
+                                if (value1.owner === accounts1[0]) {
+                                    setShowButtonAuction(true);
+
+                                    // auctionNFT.methods
+                                    //     .finalizeAuction(photo.photoNFT)
+                                    //     .send({
+                                    //         from: accounts[0],
+                                    //     });
+                                }
+                            }, x);
+                            setTime(timeout);
+                        });
+                    }
+                );
             });
-        });
+
         connectSmartContract();
     }, []);
+    function finAuction() {
+        // let photoNFT = new web3.eth.Contract(
+        //     //@ts-ignore
+        //     photoNft1.abi,
+        //     addressPhoto
+        // );
+        // photoNFT.methods
+        //     .approve("0xd54113d5FA14Ed2A8F984263cDE6053439f3a4Ce", 1)
+        //     .send({ from: accounts[0] })
+        //     .once("receipt", (receipt: any) => {
 
+        return new Promise(async (resolve, reject) => {
+            try {
+                photoAuction.methods.finalizeAuction(photo.photoNFT).send(
+                    { from: accounts[0] }
+                    // (err: any, transaction: any) => {
+                    //     if (!err) resolve(transaction);
+                    //     reject(err);
+                    // }
+                );
+            } catch (e) {
+                reject(e);
+            }
+        });
+        //
+        // console.log(accounts[0] + photo.photoNFT);
+        // let lastBid = photoAuction.methods.getCurrentBid(photo.photoNFT).call();
+        // lastBid.then((res: any) => {
+        //     console.log(res[1]);
+        //     photoAuction.methods
+        //         .approveAndTransfer(accounts[0], res[1], photo.photoNFT)
+        //         .send({ from: accounts[0] })
+        //         .once("receipt", (receipt: any) => {
+        //             console.log("=== receipt ===", receipt);
+        //         });
+        //     // photoAuction.methods.finalizeAuction(photo.photoNFT).send({
+        //     //     from: accounts[0],
+        //     // });
+        //});
+    }
     function renderPhoto() {
         let ret: Array<any> = [];
-        console.log(photo);
-        {
-            photo !== undefined &&
-                ret.push(
-                    <iframe
-                        src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
-                        className="imgItem"
-                    />
-                );
+
+        if (photo.ipfsHashOfPhoto !== undefined) {
+            ret.push(
+                <iframe
+                    src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
+                    className="imgItem"
+                />
+            );
+        } else {
+            ret.push("");
         }
         return ret;
     }
+
     function bidPhoto() {
         setShowModal(true);
     }
     function renderPrix() {
+        //@ts-ignore
+        const { ethereum } = window;
+        const web3 = new Web3(ethereum);
         let ret: Array<any> = [];
         {
-            photo !== undefined &&
-                ret.push(
-                    <label>
-                        {photo.photoPrice !== undefined &&
-                            web3.utils.fromWei(photo.photoPrice, "ether")}
-                    </label>
-                );
+            photo !== undefined
+                ? ret.push(
+                      <>
+                          {photo.photoPrice !== undefined
+                              ? web3.utils.fromWei(photo.photoPrice, "ether")
+                              : ""}
+                      </>
+                  )
+                : ret.push("");
         }
+
         return ret;
     }
     async function createBiding() {
-        // let PhotoNFT = {};
+        let PhotoNFT = {};
 
-        // PhotoNFT = require("../../contract/contracts/PhotoNFT.json");
-        // console.log("=== value of buyPhotoNFT ===" + PhotoNFT);
-        // //@ts-ignore
-        // let photoNFT = new web3.eth.Contract(PhotoNFT.abi, addressPhoto);
-        // console.log(photoNFT);
-        // const photoId = 1; /// [Note]: PhotoID is always 1. Because each photoNFT is unique.
+        PhotoNFT = require("../../contract/contracts/PhotoNFT.json");
+        console.log("=== value of buyPhotoNFT ===" + PhotoNFT);
 
-        // const owner = await photoNFT.methods.ownerOf(photoId).call();
-        // console.log("=== owner of photoId ===", owner);
+        //@ts-ignore
+        let photoNFT = new web3.eth.Contract(PhotoNFT.abi, addressPhoto);
+        console.log(photoNFT);
+        /// Check owner of photoId
+        const photoId = 1; /// [Note]: PhotoID is always 1. Because each photoNFT is unique.
 
-        // console.log(photo);
-        // console.log(price);
+        const owner = await photoNFT.methods.ownerOf(photoId).call();
         setShowModal(false);
         setLoading(true);
         const photoPrice = web3.utils.toWei(price, "ether");
-        console.log(photoPrice);
+        console.log("price" + photoPrice);
+        console.log("addressPhoto" + addressPhoto);
+        // // const address = "0x5d8A4cadF97ae7e42C7ce894bD0dc57616A2f8fa";
+
+        // // const gas = 4476768;
+
         photoAuction.methods
             .bid(addressPhoto)
-            .send({ value: photoPrice, from: accounts[0] })
+            .send({ from: accounts[0], value: photoPrice })
             .once("receipt", (receipt: any) => {
                 console.log("=== receipt ===", receipt);
-
-                const PHOTO_NFT = receipt.events.PhotoNFTCreated.returnValues;
-                console.log("=== PHOTO_NFT ===", PHOTO_NFT);
                 setLoading(false);
             });
+
+        let res = await photoAuction.methods.getStatus(1).call();
+        console.log("res" + JSON.stringify(res));
     }
+    async function getAuction(photo: any) {
+        let detailsAuction = await photoAuction.methods
+            .getAuctionByPhotoId(photo)
+            .call();
+        console.log(JSON.stringify(detailsAuction));
+    }
+    //             (err: any, transaction: any) => {
+    //                 if (!err) resolve(transaction);
+    //                 reject(err);
+    //             }
+    //         );
+    //     } catch (e) {
+    //         reject(e);
+    //     }
+    // });
+    // photoAuction.methods
+    //     .approvePhotoAuction(address, addressPhoto)
+    //     .send({ from: owner })
+    //     .once("receipt", (receipt: any) => {
+    //         console.log("=== receipt ===", receipt);
+    //     });
+
+    // photoAuction.methods
+    //     .bid(addressPhoto, photoPrice)
+    //     .send({ from: accounts[0] })
+    //     .once("receipt", (receipt: any) => {
+    //         console.log("=== receipt ===", receipt);
+    //         setLoading(false);
+    //         const PHOTO_NFT = receipt.events.PhotoNFTCreated.returnValues;
+    //         console.log("=== PHOTO_NFT ===", PHOTO_NFT);
+    //     });
+
     return (
         <div className="row">
             <>
@@ -394,9 +602,10 @@ function Itemsidebar(props: any) {
                 <div className="asset__desc">
                     <h2>Descriptions</h2>
                     <p>
-                        There are many variations of passages of Lorem Ipsum
+                        {photo.photoNFTSymbol}
+                        {/* There are many variations of passages of Lorem Ipsum
                         available, but the majority have suffered alteration in
-                        some form, by injected humour.
+                        some form, by injected humour. */}
                     </p>
                 </div>
                 <ul className="asset__authors">
@@ -415,112 +624,135 @@ function Itemsidebar(props: any) {
                         </div>
                     </li>
                 </ul>
-                <ul className="nav nav-tabs asset__tabs" role="tablist">
-                    <li className="nav-item">
-                        <a
-                            className="nav-link active"
-                            data-toggle="tab"
-                            href="#tab-1"
-                            role="tab"
-                            aria-controls="tab-1"
-                            aria-selected="true"
-                        >
-                            History
-                        </a>
-                    </li>
-
-                    <li className="nav-item">
-                        <a
-                            className="nav-link"
-                            data-toggle="tab"
-                            href="#tab-2"
-                            role="tab"
-                            aria-controls="tab-2"
-                            aria-selected="false"
-                        >
-                            Bids
-                        </a>
-                    </li>
-
-                    <li className="nav-item">
-                        <a
-                            className="nav-link"
-                            data-toggle="tab"
-                            href="#tab-3"
-                            role="tab"
-                            aria-controls="tab-3"
-                            aria-selected="false"
-                        >
-                            Details
-                        </a>
-                    </li>
-                </ul>
-                <div className="tab-content">
-                    <div
-                        className="tab-pane fade show active"
-                        id="tab-1"
-                        role="tabpanel"
-                    >
-                        <div
-                            className="asset__actions asset__actions--scroll"
-                            id="asset__actions--scroll"
-                        >
-                            {getListItem().map((ele) => {
-                                return (
-                                    <div className="asset__action asset__action--verified">
-                                        <img
-                                            src="img/avatars/avatar10.jpg"
-                                            alt=""
-                                        />
-                                        <p>
-                                            Bid placed for <b>{ele.Price}</b> 4
-                                            hours ago <br />
-                                            by{" "}
-                                            <a href="#/Author">{ele.adress}</a>
-                                        </p>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-
-                    <div className="tab-pane fade" id="tab-2" role="tabpanel">
-                        <div className="asset__actions">
-                            {getListItem().map((ele) => {
-                                return (
-                                    <div className="asset__action asset__action--verified">
-                                        <img
-                                            src="img/avatars/avatar10.jpg"
-                                            alt=""
-                                        />
-                                        <p>
-                                            Bid placed for <b>{ele.Price}</b> 4
-                                            hours ago <br />
-                                            by{" "}
-                                            <a href="#/Author">{ele.adress}</a>
-                                        </p>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-
-                    <div className="tab-pane fade" id="tab-3" role="tabpanel">
-                        <ul className="asset__authors asset__authors--tab">
-                            <li>
-                                <span>Owner</span>
-                                <div className="asset__author asset__author--verified">
-                                    <img src="img/avatars/avatar5.jpg" alt="" />
-                                    <a href="#/Author">@midinh</a>
-                                </div>
+                {photo.typeOfSale === "PutOnSale" ? (
+                    <>
+                        <ul className="nav nav-tabs asset__tabs" role="tablist">
+                            <li className="nav-item">
+                                <a
+                                    className="nav-link active"
+                                    data-toggle="tab"
+                                    href="#tab-1"
+                                    role="tab"
+                                    aria-controls="tab-1"
+                                    aria-selected="true"
+                                >
+                                    History
+                                </a>
                             </li>
-                            <li>
-                                <span>Year created</span>
-                                <p>2021</p>
+
+                            <li className="nav-item">
+                                <a
+                                    className="nav-link"
+                                    data-toggle="tab"
+                                    href="#tab-2"
+                                    role="tab"
+                                    aria-controls="tab-2"
+                                    aria-selected="false"
+                                >
+                                    Bids
+                                </a>
+                            </li>
+
+                            <li className="nav-item">
+                                <a
+                                    className="nav-link"
+                                    data-toggle="tab"
+                                    href="#tab-3"
+                                    role="tab"
+                                    aria-controls="tab-3"
+                                    aria-selected="false"
+                                >
+                                    Details
+                                </a>
                             </li>
                         </ul>
-                    </div>
-                </div>
+                        <div className="tab-content">
+                            <div
+                                className="tab-pane fade show active"
+                                id="tab-1"
+                                role="tabpanel"
+                            >
+                                <div
+                                    className="asset__actions asset__actions--scroll"
+                                    id="asset__actions--scroll"
+                                >
+                                    {getListItem().map((ele) => {
+                                        return (
+                                            <div className="asset__action asset__action--verified">
+                                                <img
+                                                    src="img/avatars/avatar10.jpg"
+                                                    alt=""
+                                                />
+                                                <p>
+                                                    Bid placed for{" "}
+                                                    <b>{ele.Price}</b> 4 hours
+                                                    ago <br />
+                                                    by{" "}
+                                                    <a href="#/Author">
+                                                        {ele.adress}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            <div
+                                className="tab-pane fade"
+                                id="tab-2"
+                                role="tabpanel"
+                            >
+                                <div className="asset__actions">
+                                    {getListItem().map((ele) => {
+                                        return (
+                                            <div className="asset__action asset__action--verified">
+                                                <img
+                                                    src="img/avatars/avatar10.jpg"
+                                                    alt=""
+                                                />
+                                                <p>
+                                                    Bid placed for{" "}
+                                                    <b>{ele.Price}</b> 4 hours
+                                                    ago <br />
+                                                    by{" "}
+                                                    <a href="#/Author">
+                                                        {ele.adress}
+                                                    </a>
+                                                </p>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+
+                            <div
+                                className="tab-pane fade"
+                                id="tab-3"
+                                role="tabpanel"
+                            >
+                                <ul className="asset__authors asset__authors--tab">
+                                    <li>
+                                        <span>Owner</span>
+                                        <div className="asset__author asset__author--verified">
+                                            <img
+                                                src="img/avatars/avatar5.jpg"
+                                                alt=""
+                                            />
+                                            <a href="#/Author">@midinh</a>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <span>Year created</span>
+                                        <p>2021</p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>{" "}
+                    </>
+                ) : (
+                    ""
+                )}
 
                 {props.activeItem === true ? (
                     <>
@@ -553,7 +785,7 @@ function Itemsidebar(props: any) {
                             </a>
                         </div>
                     </>
-                ) : (
+                ) : showButtonBidBuy === true ? (
                     <div className="asset__btns">
                         <button
                             className="asset__btn asset__btn--clr"
@@ -572,6 +804,18 @@ function Itemsidebar(props: any) {
                             </button>
                         )}
                     </div>
+                ) : (
+                    showButtonAuction === true && (
+                        <div className="asset__btns">
+                            <button
+                                className="asset__btn asset__btn--clr"
+                                type="button"
+                                onClick={finAuction}
+                            >
+                                Fin Auction
+                            </button>
+                        </div>
+                    )
                 )}
             </div>
         </div>

@@ -38,7 +38,20 @@ contract PhotoNFTMarketplace is PhotoNFTTradable, PhotoNFTMarketplaceEvents {
         address _seller = photo.ownerAddress;
         return _seller;
      }
+   function approveAndTransfer(address  _from, address _to, address _photoId ) public returns(bool) {
+       //PhotoNFT remoteContract = PhotoNFT(_photoId);
+     
+       PhotoNFT photoNFT = PhotoNFT(_photoId);
+       uint i = 1;
+        photoNFT.approve(_to, i);
+        transferOwnershipOfPhotoNFT(photoNFT,i , _to); 
+        photoNFTData.updateOwnerOfPhotoNFT(photoNFT, _to);
+        photoNFTData.updateStatus(photoNFT, "Cancelled");
 
+        /// Event for checking result of transferring ownership of a photoNFT
+        address ownerAfterOwnershipTransferred = photoNFT.ownerOf(i);
+        return true;
+    } 
 
     function buyPhotoNFT(PhotoNFT _photoNFT) public payable returns (bool) {
         PhotoNFT photoNFT = _photoNFT;
@@ -76,6 +89,7 @@ contract PhotoNFTMarketplace is PhotoNFTTradable, PhotoNFTMarketplaceEvents {
 
 
 //transfert photo
+
 function transfertPhotoNFT(PhotoNFT _photoNFT) public payable returns (bool) {
         PhotoNFT photoNFT = _photoNFT;
 
@@ -108,6 +122,11 @@ function transfertPhotoNFT(PhotoNFT _photoNFT) public payable returns (bool) {
         //photoNFT.mint(msg.sender, tokenURI);
     }
 
+function approvePhoto(address auction ,address _photoNFT) public{
+     PhotoNFT photoNFT = PhotoNFT(_photoNFT);
+ uint photoId = 1;
+ photoNFT.approve(auction, photoId);
+}
 
     function transfertFromPhotoNFT(address seller , address buyer ,address _photoNFT) public payable returns (bool) {
          PhotoNFT photoNFT = PhotoNFT(_photoNFT);
