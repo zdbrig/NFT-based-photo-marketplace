@@ -25,6 +25,8 @@ function Header(props: any) {
     const [activeButton, setActiveButton] = useState(false);
     const [accountAlgo, setAccountSign] = useState();
     const [account, setAccount] = useState("");
+
+    const [showInput, setShowInput] = useState(true);
     function namenetwork(netId: number) {
         if (netId == 1) {
             setNetName("Main");
@@ -37,50 +39,60 @@ function Header(props: any) {
             setNetName("Unknow");
         }
     }
+
+    useEffect(() => {
+        if (props.account !== "" && props.account !== undefined) {
+            setShowInput(true);
+            setAccount(props.account);
+        } else {
+            setShowInput(false);
+        }
+    });
     async function onClickSign() {
-        web3.eth.getAccounts(function (err: any, accounts: any) {
-            if (err != null) {
-                console.error("An error occurred: " + err);
-                setModalConnect(true);
-            } else if (accounts.length == 0) {
-                console.log("User is not logged in to MetaMask");
+        setModalConnect(true);
+        // web3.eth.getAccounts(function (err: any, accounts: any) {
+        //     if (err != null) {
+        //         console.error("An error occurred: " + err);
+        //         setModalConnect(true);
+        //     } else if (accounts.length == 0) {
+        //         console.log("User is not logged in to MetaMask");
 
-                setModalConnect(true);
-            } else {
-                const netId1 = web3.eth.net.getId();
-                netId1.then((value: any) => {
-                    if (value !== 42) {
-                        setModalNetwork(true);
-                        localStorage.setItem("publicKey", accounts[0]);
-                        localStorage.setItem("netName", value);
-                    } else {
-                        alert("vous avez deja connectez");
-                        localStorage.setItem("publicKey", accounts[0]);
-                        localStorage.setItem("netName", value);
-                    }
-                });
-            }
-        });
+        //         setModalConnect(true);
+        //     } else {
+        //         const netId1 = web3.eth.net.getId();
+        //         netId1.then((value: any) => {
+        //             if (value !== 42) {
+        //                 setModalNetwork(true);
+        //                 localStorage.setItem("publicKey", accounts[0]);
+        //                 localStorage.setItem("netName", value);
+        //             } else {
+        //                 alert("vous avez deja connectez");
+        //                 localStorage.setItem("publicKey", accounts[0]);
+        //                 localStorage.setItem("netName", value);
+        //             }
+        //         });
+        //     }
+        // });
 
-        // @ts-ignore
+        // // @ts-ignore
 
-        //this.algoConnected = JSON.stringify(d, null, 2);
+        // //this.algoConnected = JSON.stringify(d, null, 2);
 
-        // @ts-ignore
+        // // @ts-ignore
 
-        AlgoSigner.accounts({
-            ledger: "TestNet",
-        })
-            .then((d: any) => {
-                let accounts = d;
-                setModalConnect(false);
-                alert("vous avez deja connect with algosigner");
-            })
+        // AlgoSigner.accounts({
+        //     ledger: "TestNet",
+        // })
+        //     .then((d: any) => {
+        //         let accounts = d;
+        //         setModalConnect(false);
+        //         alert("vous avez deja connect with algosigner");
+        //     })
 
-            .catch((e: any) => {
-                let algoConnected = null;
-                setModalConnect(false);
-            });
+        //     .catch((e: any) => {
+        //         let algoConnected = null;
+        //         setModalConnect(false);
+        //     });
     }
 
     const connectAlgo = () => {
@@ -141,8 +153,10 @@ function Header(props: any) {
                 setNetId(netId);
                 namenetwork(netId);
                 const accounts = await web3.eth.getAccounts();
+                getUserByPublicKey(accounts[0]);
                 setAccount(accounts[0]);
-                alert("netid" + accounts[0]);
+                setShowInput(true);
+                window.location.assign("#/Signup ");
             }
         }
     }
@@ -163,7 +177,31 @@ function Header(props: any) {
         const active = false;
         props.onClickActive(active);
     }
+    function getUserByPublicKey(publicKey: any) {
+        fetch("/api/getUserByPublickey?publicKey=" + publicKey)
+            .then(function (response) {
+                if (response.status !== 200) {
+                    console.log(
+                        "Looks like there was a problem. Status Code: " +
+                            response.status
+                    );
+                    return;
+                }
 
+                // Examine the text in the response
+                response.json().then(function (data) {
+                    if (data !== undefined) {
+                        window.location.assign("#/Create");
+                    } else {
+                        window.location.assign("#/Singup");
+                    }
+                    console.log("data" + JSON.stringify(data));
+                });
+            })
+            .catch(function (err) {
+                console.log("Fetch Error :-S", err);
+            });
+    }
     return (
         <div className="header">
             <>
@@ -285,44 +323,39 @@ function Header(props: any) {
                     <a href="#/Home"></a>
                 </div>
 
-                <form action="#">
-                    <input
-                        type="text"
-                        className="account"
-                        disabled
-                        value={account}
-                    ></input>
-                    <button type="button">
-                        <svg
+                {/* <form action="#">*/}
+                {/* <input type="text" className="account"></input> */}
+                {/* <button type="button"> */}
+                {/* <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                         >
                             <path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z" />
-                        </svg>
-                    </button>
-                    <button type="button" className="close">
-                        <svg
+                        </svg> */}
+                {/* </button>
+                    <button type="button" className="close"> */}
+                {/* <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 24 24"
                         >
                             <path d="M13.41,12l6.3-6.29a1,1,0,1,0-1.42-1.42L12,10.59,5.71,4.29A1,1,0,0,0,4.29,5.71L10.59,12l-6.3,6.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l6.29,6.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z" />
-                        </svg>
-                    </button>
-                </form>
+                        </svg> */}
+                {/* </button>
+                </form> */}
 
                 <div className="header__menu">
                     <ul className="header__nav">
                         <li className="header__nav-item">
                             <a
                                 className="header__nav-link"
-                                href="#"
-                                role="button"
-                                id="dropdownMenuHome"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false"
+                                href="#/Home"
+                                // role="button"
+                                // id="dropdownMenuHome"
+                                // data-toggle="dropdown"
+                                // aria-haspopup="true"
+                                // aria-expanded="false"
                             >
-                                Home Pages{" "}
+                                Home{" "}
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 24 24"
@@ -335,7 +368,7 @@ function Header(props: any) {
                                 className="dropdown-menu header__nav-menu"
                                 aria-labelledby="dropdownMenuHome"
                             >
-                                <li>
+                                {/* <li>
                                     <a href="#/Home">Home Page 1</a>
                                 </li>
                                 <li>
@@ -343,10 +376,10 @@ function Header(props: any) {
                                 </li>
                                 <li>
                                     <a href="#/Homethree">Home Page 3</a>
-                                </li>
+                                </li> */}
                             </ul>
                         </li>
-                        <li className="header__nav-item">
+                        {/* <li className="header__nav-item">
                             <a
                                 className="header__nav-link"
                                 href="#"
@@ -387,7 +420,7 @@ function Header(props: any) {
                                     <a onClick={goItemSecond}>Buy photo</a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> */}
                         <li className="header__nav-item">
                             <a href="#/Activity" className="header__nav-link">
                                 Marketplace
@@ -416,10 +449,10 @@ function Header(props: any) {
                                 className="dropdown-menu header__nav-menu"
                                 aria-labelledby="dropdownMenu0"
                             >
-                                <li>
+                                {/* <li>
                                     <a href="#/Token">Token</a>
-                                </li>
-                                <li className="dropdown-submenu">
+                                </li> */}
+                                {/* <li className="dropdown-submenu">
                                     <a
                                         className="dropdown-item"
                                         href="#"
@@ -452,7 +485,7 @@ function Header(props: any) {
                                             <a href="#/Article">Article</a>
                                         </li>
                                     </ul>
-                                </li>
+                                </li> */}
                                 <li>
                                     <a href="#/Faq">Help center</a>
                                 </li>
@@ -493,12 +526,13 @@ function Header(props: any) {
                                 <li>
                                     <a href="#/Collection">Collection</a>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <a href="#/Create">Create Photo</a>
-                                </li>
+                                </li> */}
                             </ul>
                         </li>
-                        <li className="header__nav-item">
+
+                        {/* <li className="header__nav-item">
                             <a
                                 className="header__nav-link header__nav-link--menu"
                                 href="#"
@@ -536,12 +570,12 @@ function Header(props: any) {
                                     <a href="#/Privacy">Privacy policy</a>
                                 </li>
                             </ul>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
 
-                <div className="header__actions">
-                    <div className="header__action header__action--search">
+                <div className="header__actions accountDiv">
+                    {/* <div className="header__action header__action--search">
                         <button className="header__action-btn" type="button">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -550,20 +584,27 @@ function Header(props: any) {
                                 <path d="M21.71,20.29,18,16.61A9,9,0,1,0,16.61,18l3.68,3.68a1,1,0,0,0,1.42,0A1,1,0,0,0,21.71,20.29ZM11,18a7,7,0,1,1,7-7A7,7,0,0,1,11,18Z" />
                             </svg>
                         </button>
-                    </div>
-
-                    <div className="header__action header__action--signin">
-                        <button
-                            className={
-                                activeButton === false
-                                    ? "header__action-btn header__action-btn--signin"
-                                    : "buttonDisabled"
-                            }
-                            onClick={onClickSign}
-                        >
-                            <span>Sign in</span>
-                        </button>
-                    </div>
+                    </div> */}
+                    {showInput === false ? (
+                        <div className="header__action header__action--signin ">
+                            <button
+                                className={
+                                    activeButton === false
+                                        ? "header__action-btn header__action-btn--signin"
+                                        : "buttonDisabled"
+                                }
+                                onClick={onClickSign}
+                            >
+                                <span>Sign in</span>
+                            </button>
+                        </div>
+                    ) : (
+                        <input
+                            value={account}
+                            disabled
+                            className="account"
+                        ></input>
+                    )}
                 </div>
 
                 <button className="header__btn" type="button">

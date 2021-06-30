@@ -3,12 +3,14 @@ import Header from "../component/Header/Header";
 import Footer from "../component/Footer/Footer";
 import Author from "../component/Authors/Authorcomponent";
 import { unlockAccountImpl } from "../Ethereum/Unlockaccount";
-import photoNft from "../contract/contracts/PhotoNFT.json";
+import photoNft1 from "../contract/contracts/PhotoNFT.json";
+// import photoNft from "../../../../build/contracts/PhotoNFT.json";
 import ipfs from "../component/Ipfs/ipfsApi";
 import Web3 from "web3";
+
 import { Modal } from "reactstrap";
 import "./Create.css";
-import ReactModal from "react-modal";
+
 function Create() {
     const [photo, setPhoto] = useState<any>();
     const [namePhoto, setNamePhoto] = useState("");
@@ -19,18 +21,35 @@ function Create() {
     const [balance, setBalance] = useState<any>();
     const [networkId, setNetworkId] = useState<any>();
     const [networkType, setNetworkType] = useState<any>();
+    const [accountMetamask, setAccountMetamask] = useState<any>();
     const [photoNFTFactory, setphotoNFTFactory] = useState<any>();
     const [photoNFTMarketplace, setPhotoNFTMarketplace] = useState<any>();
     const [PHOTO_NFT_MARKETPLACE, setPHOTO_NFT_MARKETPLACE] = useState<any>();
     const [buffer, setBuffer] = useState<any>();
     const [ipfsHash, setIpfsHash] = useState<any>();
     const [buttonActive, setButtonActive] = useState(true);
+    const [disabledAuction, setDisableAuction] = useState(true);
     const [loading, setLoading] = useState(false);
     const [activeItem, setActiveItem] = useState(false);
+    const [showAuction, setShowAuction] = useState(false);
+    const [showModalAuction, setShowModalAuction] = useState(false);
+    const [auction, setAuction] = useState<any>();
+    const [startingPrice, setStartingPrice] = useState("");
+    const [endingPrice, setEndingPrice] = useState("");
+    const [duration, setDuration] = useState(0);
+    const [photoNft, setPhotoNft] = useState<any>();
+    const [selectedOption, setSelectedOption] = useState("");
+    const [networkModal, setModalNetwork] = useState(false);
+    const [addressAuction, setAddressAuction] = useState(false);
+
+    const toggleNetwork = () => setModalNetwork(false);
     const handleClick = (active: any) => {
         setActiveItem(active);
     };
-    const toggle = () => setLoading(!loading);
+    const toggleAuction = () => {
+        setShowModalAuction(false);
+    };
+    const toggle = () => setLoading(false);
     function OnchangPhoto(event: any) {
         event.preventDefault();
 
@@ -64,6 +83,7 @@ function Create() {
         setNamePhoto(e.target.value);
         console.log(namePhoto);
     }
+
     function onChangeDescription(e: any) {
         setDescription(e.target.value);
     }
@@ -88,7 +108,8 @@ function Create() {
                     namePhoto,
                     description,
                     photoPrice,
-                    result[0].hash
+                    result[0].hash,
+                    selectedOption
                 )
                 .send({ from: accounts[0] })
                 .once("receipt", (receipt: any) => {
@@ -98,11 +119,22 @@ function Create() {
                         receipt.events.PhotoNFTCreated.returnValues.photoNFT;
                     console.log("=== PHOTO_NFT ===", PHOTO_NFT);
 
-                    let PhotoNFT = {};
-                    PhotoNFT = photoNft.abi;
+                    // let PhotoNFT = {};
 
-                    let photoNFT = new web3.eth.Contract(PhotoNFT, PHOTO_NFT);
+                    // PhotoNFT = photoNft.abi;
+                    // console.log("=== PHOTO_NFT ===", PhotoNFT);
+                    // let photoNFT = new web3.eth.Contract(PhotoNFT, PHOTO_NFT);
+                    /// Get instance by using created photoNFT address
+                    // let PhotoNFT = {};
+                    // PhotoNFT = photoNft;
+                    let photoNFT = new web3.eth.Contract(
+                        //@ts-ignore
+                        photoNft1.abi,
+                        PHOTO_NFT
+                    );
+                    console.log("=== photoNFT ===", photoNFT);
                     const photoId = 1; /// [Note]: PhotoID is always 1. Because each photoNFT is unique.
+                    console.log("photoId" + photoId);
                     photoNFT.methods
                         .ownerOf(photoId)
                         .call()
@@ -118,29 +150,81 @@ function Create() {
                                 .openTradeWhenCreateNewPhotoNFT(
                                     PHOTO_NFT,
                                     photoId,
-                                    price
+                                    photoPrice
                                 )
                                 .send({ from: accounts[0] })
                                 .once("receipt", (receipt: any) => {
-                                    setLoading(false);
+                                    setPhotoNft(PHOTO_NFT);
+                                    console.log("xx");
                                 })
                                 .then((rest: any) => {
-                                    localStorage.setItem("typefile", photo);
-                                    window.location.assign("#/Activity");
+                                    if (selectedOption === "InstantSalePrice") {
+                                        // localStorage.setItem(
+                                        //     "typeAchat",
+                                        //     selectedOption
+                                        // );
+                                        localStorage.setItem(
+                                            "nftPhoto",
+                                            PHOTO_NFT
+                                        );
+                                        window.location.assign("#/Activity");
+                                    }
+                                    if (selectedOption === "PutOnSale") {
+                                        localStorage.setItem(
+                                            "nftPhoto",
+                                            PHOTO_NFT
+                                        );
+                                        setLoading(false);
+
+                                        setShowModalAuction(true);
+
+                                        // setShowAuction(true);
+                                    } // window.location.assign("#/Activity");
                                 });
                         });
                 });
         });
     };
     useEffect(() => {
-        if (description && price && namePhoto) {
+        if (localStorage.getItem("wallettype") === "metamask") {
+            //@ts-ignore
+            const web3 = new Web3(ethereum);
+            const netId1 = web3.eth.net.getId();
+
+            netId1.then((value: any) => {
+                if (value !== 42) {
+                    setModalNetwork(true);
+                } else {
+                    const accoun = web3.eth.getAccounts().then((acco: any) => {
+                        setAccountMetamask(acco[0]);
+                    });
+                }
+            });
+        } else {
+            window.location.assign("#/Signin");
+        }
+        if (description && price && namePhoto && selectedOption) {
             setButtonActive(false);
         } else {
             setButtonActive(true);
         }
+        if (endingPrice && duration) {
+            setDisableAuction(false);
+        } else {
+            setDisableAuction(true);
+        }
     });
+
+    // useEffect(() => {
+    //     if (endingPrice && duration) {
+    //         setDisableAuction(false);
+    //     } else {
+    //         setDisableAuction(true);
+    //     }
+    // }, [endingPrice, duration]);
     useEffect(() => {
         connect();
+        connectAuction();
     }, []);
     const connect = async () => {
         if (localStorage.getItem("wallettype") === "metamask") {
@@ -222,10 +306,97 @@ function Create() {
             setPHOTO_NFT_MARKETPLACE(PHOTO_NFT_MARKETPLACE);
         }
     };
+    async function connectAuction() {
+        //@ts-ignore
+        const { ethereum } = window;
+        const web3 = new Web3(ethereum);
+        const networkId = await web3.eth.net.getId();
+        let deployedNetwork = null;
+        let instanceAuctions = null;
+        let auctions = {};
+        auctions = require("../contract/contracts/Auction.json");
+        console.log(auctions);
+        console.log(" auctions" + auctions);
+        //@ts-ignore
+        if (auctions.networks) {
+            deployedNetwork =
+                //@ts-ignore
+                auctions.networks[networkId.toString()];
 
+            if (deployedNetwork) {
+                instanceAuctions = new web3.eth.Contract(
+                    //@ts-ignore
+                    auctions.abi,
+                    deployedNetwork && deployedNetwork.address
+                );
+                setAuction(instanceAuctions);
+                setAddressAuction(deployedNetwork.address);
+                console.log(
+                    "=== instanceauctions ===",
+                    deployedNetwork.address
+                );
+            }
+        }
+    }
+    async function createAuction() {
+        // let tokenTosell = tokenGenerate(32);
+        // let tokenTosell = "1";
+
+        // let startingPricePhoto = "";
+        // let endingPricePhoto = "";
+        // let durationPhoto = 0;
+
+        let startingPricePhoto = web3.utils.toHex(
+            web3.utils.toWei(price, "ether")
+        );
+
+        let endingPricePhoto = web3.utils.toHex(
+            web3.utils.toWei(endingPrice, "ether")
+        );
+
+        // convert from hours to seconds
+        let durationPhoto = duration * 60 * 60;
+
+        // const account= await
+        if (price > endingPrice) {
+            alert("The starting price must be lower than the end price");
+            throw "Error: The starting price must be lower than the end price";
+        }
+        setLoading(true);
+        await auction.methods
+            .createAuction(
+                photoNft,
+                startingPricePhoto,
+                endingPricePhoto,
+                durationPhoto
+            )
+            .send({ from: accounts[0] })
+            .once("receipt", (receipt: any) => {
+                console.log("=== receipt ===", receipt);
+            })
+            .then((res: any) => {
+                // localStorage.setItem("typeAchat", selectedOption);
+                window.location.assign("#Activity");
+            });
+    }
+    function changeStartingPrice(e: any) {
+        setStartingPrice(e.target.value);
+    }
+    function changeEndingPrice(e: any) {
+        setEndingPrice(e.target.value);
+    }
+    function changeDuration(e: any) {
+        setDuration(e.target.value);
+    }
+    function goHome() {
+        window.location.assign("#/Home");
+    }
+    function handleOptionChange(changeEvent: any) {
+        setSelectedOption(changeEvent.target.value);
+    }
     return (
         <div>
-            <Header onClickActive={handleClick} />
+            <Header onClickActive={handleClick} account={accountMetamask} />
             <>
                 <Modal
                     isOpen={loading}
@@ -245,16 +416,95 @@ function Create() {
                     </div>
                 </Modal>
             </>
+            <Modal
+                isOpen={networkModal}
+                toggle={toggleNetwork}
+                wrapClassName="modalLoadingWrap"
+                modalClassName="modalLoadingModal"
+                backdropClassName="modalLoadingBackdrop"
+                contentClassName="modalLoadingContent"
+            >
+                <div className="modal-header headerModal">
+                    <h2 className="modal-title" id="exampleModalLabel">
+                        Wrong Network
+                    </h2>
+                    <button
+                        type="button"
+                        className="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                        onClick={() => goHome()}
+                    >
+                        <span aria-hidden="true" className="spanx">
+                            &times;
+                        </span>
+                    </button>
+                </div>
+
+                <div className="modal-body">
+                    <h5>Network not supported</h5>
+                </div>
+            </Modal>{" "}
+            <Modal
+                isOpen={showModalAuction}
+                toggle={toggleAuction}
+                className="modalLoading"
+                wrapClassName="modalLoadingWrap"
+                modalClassName="modalLoadingModal"
+                backdropClassName="modalLoadingBackdrop"
+                contentClassName="modalLoadingContent"
+            >
+                <div className="row">
+                    {" "}
+                    <h5>Create Auction</h5>{" "}
+                </div>
+                <div className="row">
+                    <label>Starting Price</label>{" "}
+                    <input
+                        onChange={changeStartingPrice}
+                        type="text"
+                        className="sign__input"
+                        value={price}
+                        disabled
+                    ></input>
+                </div>
+                <div className="row">
+                    {" "}
+                    <label> Ending Price </label>{" "}
+                    <input
+                        onChange={changeEndingPrice}
+                        className="sign__input"
+                    ></input>{" "}
+                </div>
+                <div className="row ">
+                    {" "}
+                    <label> Duration / hour</label>{" "}
+                    <input
+                        onChange={changeDuration}
+                        className="sign__input"
+                    ></input>{" "}
+                </div>
+                <div className="row ajouter">
+                    {" "}
+                    <button
+                        onClick={createAuction}
+                        className={
+                            disabledAuction === false ? "sign__btn" : "btnItem"
+                        }
+                        disabled={disabledAuction}
+                    >
+                        Ajouter{" "}
+                    </button>
+                </div>
+            </Modal>
             <main className="main">
                 <div className="main__author" data-bg="img/bg/bg11.jpg"></div>
                 <div className="container">
                     <div className="row row--grid">
-                        {/* <!-- author --> */}
                         <div className="col-12 col-xl-3">
-                            <Author></Author>
+                            <Author account={accountMetamask} />
                         </div>
                         <div className="col-12 col-xl-9">
-                            {/* <!-- title --> */}
                             <div className="main__title main__title--create">
                                 <h2>Create collectible item</h2>
                             </div>
@@ -378,7 +628,7 @@ function Create() {
                                         </div>
                                     </div>
 
-                                    <div className="col-12 col-md-4">
+                                    {/* <div className="col-12 col-md-4">
                                         <div className="sign__group">
                                             <label
                                                 className="sign__label"
@@ -394,9 +644,9 @@ function Create() {
                                                 placeholder="e. g. Size"
                                             />
                                         </div>
-                                    </div>
+                                    </div> */}
 
-                                    <div className="col-12 col-md-4">
+                                    {/* <div className="col-12 col-md-4">
                                         <div className="sign__group">
                                             <label
                                                 className="sign__label"
@@ -412,7 +662,7 @@ function Create() {
                                                 placeholder="Subject"
                                             />
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     <div className="col-12">
                                         <div className="sign__group sign__group--row">
@@ -422,7 +672,14 @@ function Create() {
                                                         id="type1"
                                                         type="radio"
                                                         name="type"
-                                                        checked
+                                                        value="PutOnSale"
+                                                        checked={
+                                                            selectedOption ===
+                                                            "PutOnSale"
+                                                        }
+                                                        onChange={
+                                                            handleOptionChange
+                                                        }
                                                     />
                                                     <label htmlFor="type1">
                                                         Put on sale
@@ -433,12 +690,20 @@ function Create() {
                                                         id="type2"
                                                         type="radio"
                                                         name="type"
+                                                        value="InstantSalePrice"
+                                                        checked={
+                                                            selectedOption ===
+                                                            "InstantSalePrice"
+                                                        }
+                                                        onChange={
+                                                            handleOptionChange
+                                                        }
                                                     />
                                                     <label htmlFor="type2">
                                                         Instant sale price
                                                     </label>
                                                 </li>
-                                                <li>
+                                                {/* <li>
                                                     <input
                                                         id="type3"
                                                         type="radio"
@@ -447,7 +712,7 @@ function Create() {
                                                     <label htmlFor="type3">
                                                         Unlock one purchased
                                                     </label>
-                                                </li>
+                                                </li> */}
                                             </ul>
                                         </div>
                                     </div>
@@ -463,9 +728,23 @@ function Create() {
                                             onClick={createItem}
                                             disabled={buttonActive}
                                         >
-                                            Create item
+                                            Create photo
                                         </button>
                                     </div>
+
+                                    {/* <div className="col-12 col-xl-3">
+                                        <button
+                                            type="button"
+                                            className={
+                                                buttonActive === false
+                                                    ? "sign__btn"
+                                                    : "btnItem"
+                                            }
+                                            onClick={onClickCreateAuction}
+                                        >
+                                            Create auction
+                                        </button>
+                                    </div> */}
                                 </div>
                             </form>
                             {/* <!-- end create htmlForm --> */}

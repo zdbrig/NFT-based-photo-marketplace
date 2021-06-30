@@ -10,7 +10,8 @@ import { getListActivity } from "../Api/Activity";
 function Activity() {
     const [activeItem, setActiveItem] = useState(false);
     const [ShowComponent, setShowComponent] = useState(false);
-    const [modalnetwork, setModalNetwork] = useState(true);
+    const [modalnetwork, setModalNetwork] = useState(false);
+    const [accountMetamask, setAccountMetamask] = useState("");
     const toggle = () => setActiveItem(!modalnetwork);
     const handleClick = (active: any) => {
         setActiveItem(active);
@@ -18,18 +19,23 @@ function Activity() {
     //@ts-ignore
     const { ethereum } = window;
     useEffect(() => {
-        const web3 = new Web3(ethereum);
-        const netId1 = web3.eth.net.getId();
-        netId1.then((value: any) => {
-            if (
-                localStorage.getItem("wallettype") === "metamask" &&
-                value === 42
-            ) {
-                setModalNetwork(false);
-            } else {
-                setModalNetwork(true);
-            }
-        });
+        if (localStorage.getItem("wallettype") === "metamask") {
+            //@ts-ignore
+            const web3 = new Web3(ethereum);
+            const netId1 = web3.eth.net.getId();
+            netId1.then((value: any) => {
+                if (value !== 42) {
+                    //alert(value);
+                    setModalNetwork(true);
+                } else {
+                    const accoun = web3.eth.getAccounts().then((acco: any) => {
+                        setAccountMetamask(acco[0]);
+                    });
+                }
+            });
+        } else {
+            window.location.assign("#/Signin");
+        }
     });
     function goHome() {
         window.location.assign("#/Home");
@@ -39,7 +45,10 @@ function Activity() {
     }
     return (
         <div className="Activity">
-            <Header onClickActive={handleClick}></Header>
+            <Header
+                onClickActive={handleClick}
+                account={accountMetamask}
+            ></Header>
             {modalnetwork === true ? (
                 <>
                     <Modal

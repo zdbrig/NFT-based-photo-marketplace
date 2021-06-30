@@ -1,28 +1,107 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Header from "../component/Header/Header";
 import Footer from "../component/Footer/Footer";
+import { Modal } from "reactstrap";
+import "./Signup.css";
+import Web3 from "web3";
 function Signup() {
     const [activeItem, setActiveItem] = useState(false);
-    const handleClick = (active: any) => {
-        setActiveItem(active);
-    };
+    const [username, setUserName] = useState("");
+    const [email, setEmail] = useState("");
+    const [publicKey, setPublicKey] = useState("");
+    const [activeSignup, setActiveSignup] = useState(true);
+    const [networkModal, setModalNetwork] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const toggle = () => setLoading(false);
+    function changeUserName(event: any) {
+        setUserName(event.target.value);
+    }
+    function changeEmail(event: any) {
+        setEmail(event.target.value);
+    }
+
+    useEffect(() => {
+        if (localStorage.getItem("wallettype") === "metamask") {
+            //@ts-ignore
+            const web3 = new Web3(ethereum);
+            const netId1 = web3.eth.net.getId();
+
+            netId1.then((value: any) => {
+                if (value !== 42) {
+                    setModalNetwork(true);
+                } else {
+                    const accoun = web3.eth.getAccounts().then((acco: any) => {
+                        setPublicKey(acco[0]);
+                    });
+                }
+            });
+        } else {
+            window.location.assign("#/Signin");
+        }
+        if (username && email) {
+            setActiveSignup(false);
+        } else {
+            setActiveSignup(true);
+        }
+    });
+
+    async function clickSingup() {
+        console.log(publicKey);
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                username: username,
+                email: email,
+                publicKey: publicKey,
+            }),
+        };
+        try {
+            fetch("api/addUsers", requestOptions)
+                .then((response) => response.text())
+
+                .then((data) => {
+                    window.location.assign("#/Create");
+                });
+        } catch (err) {
+            alert(err);
+        }
+    }
+
     return (
         <div>
-            <Header onClickActive={handleClick}></Header>
+            <Modal
+                isOpen={loading}
+                toggle={toggle}
+                className="modalLoading"
+                wrapClassName="modalLoadingWrap"
+                modalClassName="modalLoadingModal"
+                backdropClassName="modalLoadingBackdrop"
+                contentClassName="modalLoadingContent"
+            >
+                <div>
+                    <p className="modalPara">
+                        {" "}
+                        Waiting for validation of the transaction
+                    </p>
+                    <img src="loading.gif" alt="" />
+                </div>
+            </Modal>
+            {/* <Header onClickActive={handleClick}></Header> */}
             <main className="main">
                 <div className="container">
                     <div className="row row--grid">
                         {/* <!-- breadcrumb --> */}
                         <div className="col-12">
-                            <ul className="breadcrumb">
+                            {/* <ul className="breadcrumb">
                                 <li className="breadcrumb__item">
                                     <a href="#/Home">Home</a>
                                 </li>
                                 <li className="breadcrumb__item breadcrumb__item--active">
                                     Sign up
                                 </li>
-                            </ul>
+                            </ul> */}
                         </div>
                         {/* <!-- end breadcrumb -->
 
@@ -31,31 +110,37 @@ function Signup() {
                             <div className="sign">
                                 <div className="sign__content">
                                     <form action="#" className="sign__form">
-                                        <a href="#/Home" className="sign__logo">
+                                        {/* <a href="#/Home" className="sign__logo">
                                             <img src="img/logo.svg" alt="" />
-                                        </a>
+                                        </a> */}
+                                        <h2> Create An account </h2>
 
+                                        {/* <label className="eth">
+                                            {" "}
+                                            Current Ethereum Address{" "}
+                                        </label>
                                         <div className="sign__group">
                                             <input
                                                 type="text"
                                                 className="sign__input"
-                                                placeholder="Name"
+                                                value={publicKey}
+                                                disabled
+                                            />
+                                        </div> */}
+                                        <div className="sign__group">
+                                            <input
+                                                type="text"
+                                                className="sign__input"
+                                                placeholder="username"
+                                                onChange={changeUserName}
                                             />
                                         </div>
-
                                         <div className="sign__group">
                                             <input
                                                 type="text"
                                                 className="sign__input"
                                                 placeholder="Email"
-                                            />
-                                        </div>
-
-                                        <div className="sign__group">
-                                            <input
-                                                type="password"
-                                                className="sign__input"
-                                                placeholder="Password"
+                                                onChange={changeEmail}
                                             />
                                         </div>
 
@@ -73,18 +158,21 @@ function Signup() {
                                                 </a>
                                             </label>
                                         </div>
-
                                         <button
-                                            className="sign__btn"
                                             type="button"
+                                            onClick={clickSingup}
+                                            disabled={activeSignup}
+                                            className={
+                                                activeSignup === true
+                                                    ? "btnSignup"
+                                                    : "sign__btn"
+                                            }
                                         >
                                             Sign up
                                         </button>
-
-                                        <span className="sign__delimiter">
+                                        {/* <span className="sign__delimiter">
                                             or
                                         </span>
-
                                         <div className="sign__social">
                                             <a className="fb" href="#">
                                                 <svg
@@ -114,11 +202,10 @@ function Signup() {
                                                 </svg>
                                             </a>
                                         </div>
-
                                         <span className="sign__text">
                                             Already have an account?{" "}
                                             <a href="#/Signin">Sign in!</a>
-                                        </span>
+                                        </span> */}
                                     </form>
                                 </div>
                             </div>
@@ -128,7 +215,7 @@ function Signup() {
                 </div>
             </main>
 
-            <Footer></Footer>
+            {/* <Footer></Footer> */}
         </div>
     );
 }

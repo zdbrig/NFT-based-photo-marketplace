@@ -17,8 +17,10 @@ contract PhotoNFT is ERC721Full {
         address owner,  /// Initial owner (Seller)
         string memory _nftName, 
         string memory _nftSymbol,
-        string memory _tokenURI,    /// [Note]: TokenURI is URL include ipfs hash
-        uint photoPrice
+        string memory _tokenURI, // [Note]: TokenURI is URL include ipfs hash
+        
+        uint photoPrice,
+        string memory typeOfSale //add typeBuy
     ) 
         public 
         ERC721Full(_nftName, _nftSymbol) 

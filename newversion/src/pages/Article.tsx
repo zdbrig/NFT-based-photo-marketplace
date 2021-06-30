@@ -7,16 +7,7 @@ function Article() {
     const handleClick = (active: any) => {
         setActiveItem(active);
     };
-    useEffect(() => {
-        if (
-            localStorage.getItem("wallettype") === "metamask" &&
-            localStorage.getItem("netid") === "42"
-        ) {
-            setActiveItem(true);
-        } else {
-            setActiveItem(false);
-        }
-    });
+ 
 
     return (
         <div>
