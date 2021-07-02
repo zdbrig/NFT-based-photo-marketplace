@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { ListGroupItem } from "reactstrap";
+import moment from "moment";
 import { getListActivity } from "../../Api/Activity";
 import { unlockAccountImpl } from "../../Ethereum/Unlockaccount";
 import "./Activitycomponent.css";
 import Web3 from "web3";
 import { Modal } from "reactstrap";
+import en from "javascript-time-ago/locale/en";
+// import TimeAgo from "javascript-time-ago";
 import Swal from "sweetalert2";
+import TimeAgo from "react-timeago";
+
 function Activitycomponent(props: any) {
     const [photo, setPhoto] = useState();
     const [namePhoto, setNamePhoto] = useState("");
@@ -20,9 +25,12 @@ function Activitycomponent(props: any) {
     const [photoNFTMarketplace, setPhotoNFTMarketplace] = useState<any>();
     const [PHOTO_NFT_MARKETPLACE, setPHOTO_NFT_MARKETPLACE] = useState<any>();
     const [allPhotos, setAllPhoto] = useState<any>([]);
-    const [tailleTab, setTailleTab] = useState(0);
+    const [allPhotos1, setAllPhoto1] = useState<any>([]);
+    const [tailleTab, setTailleTab] = useState(8);
     const [index, setIndex] = useState(0);
     const [showModal, setShowModal] = useState(false);
+    const [showMorePhoto, setShowMorePhoto] = useState(false);
+    const [showButton, setShowButton] = useState(false);
     const toggleModal = () => setShowModal(false);
     const connectContract = async () => {
         // const web3 = await unlockAccountImpl();
@@ -66,7 +74,7 @@ function Activitycomponent(props: any) {
             }
         }
 
-        setPhotoNFTData(instancePhotoNFTData);
+        // setPhotoNFTData(instancePhotoNFTData);
         if (PhotoNFTMarketplace.networks) {
             deployedNetwork =
                 PhotoNFTMarketplace.networks[networkId.toString()];
@@ -82,43 +90,89 @@ function Activitycomponent(props: any) {
                 );
             }
         }
-        setPhotoNFTData(instancePhotoNFTData);
 
-        setWeb3(web3);
-        setAcounts(accounts);
-        setBalance(balance);
-        setNetworkId(networkId);
-        setNetworkType(networkType);
-        setPhotoNFTMarketplace(instancePhotoNFTMarketplace);
+        // setPhotoNFTData(instancePhotoNFTData);
 
-        setPHOTO_NFT_MARKETPLACE(PHOTO_NFT_MARKETPLACE);
+        // setWeb3(web3);
+        // setAcounts(accounts);
+        // setBalance(balance);
+        // setNetworkId(networkId);
+        // setNetworkType(networkType);
+        // setPhotoNFTMarketplace(instancePhotoNFTMarketplace);
+
+        // setPHOTO_NFT_MARKETPLACE(PHOTO_NFT_MARKETPLACE);
         return instancePhotoNFTData;
     };
+    // useEffect(() => {
+    //     renderallphotos();
+    // }, [allPhotos]);
+
+    function getTime(id: any) {
+        let ret: Array<any> = [];
+        var querytosend = `{
+            allPhotoNFTs(where:{photoNft:"${id}"}){
+                id
+                owner
+                photoNft
+                nftName
+                nftSymbol
+                photoPrice
+                ipfsHashOfPhoto
+                timesTmp
+                blockNumber
+                status
+              }
+          }`;
+
+        console.log(allPhotos1);
+        fetch(
+            "https://api.thegraph.com/subgraphs/name/zouaouik/photonftfactory1",
+            {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json;charset=UTF-8",
+                },
+                body: JSON.stringify({
+                    query: querytosend,
+                }),
+            }
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                // ret.push(data.data.allPhotoNFTs);
+
+                // setTime(data.data.allPhotoNFTs[0].timesTmp);
+                //ret.push(data.data.allPhotoNFTs);
+                allPhotos1.push(data.data.allPhotoNFTs);
+                setAllPhoto1([...allPhotos1]);
+                console.log("ret1" + data.data.allPhotoNFTs);
+                // return data;
+            });
+    }
+
     function renderCard() {
+        //@ts-ignore
+        const { ethereum } = window;
+
+        const web3 = new Web3(ethereum);
         let ret: Array<any> = [];
         let i = index;
 
-        console.log(allPhotos);
-        allPhotos.map((photo: any) => {
-            console.log(photo);
-            // const IPFS = require("ipfs");
+        console.log("photo1" + JSON.stringify(allPhotos1));
+        if (!Array.isArray(allPhotos1)) return;
+        let lengthTab = allPhotos1.length;
 
-            const urlipfs = "https://ipfs.io/ipfs/" + photo.ipfsHashOfPhoto;
-            // console.log(urlipfs);
+        console.log(lengthTab);
 
-            // const toStream = require("it-to-stream");
-            // const FileType = require("file-type");
-            // const type = FileType.fromStream(
-            //     toStream(
-            //         urlipfs.cat(photo.ipfsHashOfPhoto, {
-            //             length: 100, // or however many bytes you need
-            //         })
-            //     )
-            // );
-            //console.log(type);
-            if (i < index + 8) {
-                i++;
-                console.log("index" + index);
+        for (let i = 0; i <= 7; i++) {
+            if (!Array.isArray(allPhotos1[i])) return;
+            console.log(allPhotos1[i]);
+            allPhotos1[i].map((photo: any) => {
+                var date = new Date(photo.timesTmp * 1000);
+
+                // TimeAgo.addDefaultLocale(en);
+                // const timeAgo = new TimeAgo("en-US");
+                // let time = timeAgo.format(date);
                 ret.push(
                     <>
                         <div className="col-12 col-lg-6">
@@ -152,18 +206,16 @@ function Activitycomponent(props: any) {
                                                         "ether"
                                                     ),
                                                     photo.ipfsHashOfPhoto,
-                                                    photo.photoNFT
+                                                    photo.photoNft
                                                 )
                                             }
                                         >
-                                            {photo.photoNFTSymbol}
+                                            {photo.nftSymbol}
                                         </a>
                                     </h3>
                                     <p className="activity__text">
                                         listed by{" "}
-                                        <a href="#/Author">
-                                            {photo.photoNFTName}
-                                        </a>{" "}
+                                        <a href="#/Author">{photo.nftName}</a>{" "}
                                         <br />
                                         for{" "}
                                         {web3.utils.fromWei(
@@ -173,90 +225,22 @@ function Activitycomponent(props: any) {
                                         ETH <b></b>{" "}
                                     </p>
                                     <span className="activity__time">
-                                        4 minutes ago
+                                        <TimeAgo date={date} />
                                     </span>
                                 </div>
                             </div>
                         </div>
                     </>
                 );
-            }
-        });
-        // if (i > index + 8) {
-        //     alert("zz");
-        //     console.log(index);
-        //     let ret: Array<any> = [];
-        //     let i = index;
-        //     let indice = allPhotos.length - index;
-        //     console.log(indice);
-        //     // fruits.forEach(function(item, index, array) {
-        //     allPhotos.forEach((photo: any, indice: any) => {
-        //         console.log(photo.photoNFTSymbol);
-        //         indice = indice - 1;
-        //         if (i < index + 8) {
-        //             console.log("x");
-        //             if (photo.status === "Open") {
-        //                 i++;
-        //                 console.log("index" + index);
-        //                 ret.push(
-        //                     <>
-        //                         <p>amal</p>
-        //                         <div className="col-12 col-lg-6">
-        //                             <div className="activity">
-        //                                 <button
-        //                                     onClick={() =>
-        //                                         goItem(
-        //                                             web3.utils.fromWei(
-        //                                                 `${photo.photoPrice}`,
-        //                                                 "ether"
-        //                                             ),
-        //                                             photo.ipfsHashOfPhoto,
-        //                                             photo.photoNFT
-        //                                         )
-        //                                     }
-        //                                     className="activity__cover"
-        //                                 >
-        //                                     <img
-        //                                         src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
-        //                                         alt=""
-        //                                     />
-        //                                 </button>
-        //                                 <div className="activity__content">
-        //                                     <h3 className="activity__title">
-        //                                         <a href="#/Item">
-        //                                             {photo.photoNFTSymbol}
-        //                                         </a>
-        //                                     </h3>
-        //                                     <p className="activity__text">
-        //                                         listed by{" "}
-        //                                         <a href="#/Author">
-        //                                             {photo.photoNFTName}
-        //                                         </a>{" "}
-        //                                         <br />
-        //                                         for{" "}
-        //                                         {web3.utils.fromWei(
-        //                                             `${photo.photoPrice}`,
-        //                                             "ether"
-        //                                         )}{" "}
-        //                                         ETH <b></b>{" "}
-        //                                     </p>
-        //                                     <span className="activity__time">
-        //                                         4 minutes ago
-        //                                     </span>
-        //                                 </div>
-        //                             </div>
-        //                         </div>
-        //                     </>
-        //                 );
-        //             }
-        //         }
-        //     });
-        // }
+                //}
+            });
+        }
 
         return ret;
     }
 
     function renderCardPlus() {
+        console.log(allPhotos1);
         let ret: Array<any> = [];
 
         let i = index;
@@ -340,28 +324,63 @@ function Activitycomponent(props: any) {
         const data = connectContract().then((data: any) => {
             let allPhotos = data.methods.getAllPhotos().call();
 
+            let tab: Array<any> = [];
             allPhotos.then((value: any) => {
-                let stringArr: Array<any> = [];
-                let tab: Array<any> = [];
-                let tab1: Array<any> = [];
-                for (var i = value.length; i >= 0; i--) {
-                    let x = value.slice(i, i + 1);
-
-                    tab.push(x);
-                }
-
-                tab.map((ele: any) => {
-                    ele.map((ele1: any) => {
-                        if (ele1.status === "Open") {
-                            // console.log(ele1);
-                            tab1.push(ele1);
-                        }
-                    });
+                value.map((ele: any) => {
+                    if (ele.status === "Open") {
+                        console.log(ele.status);
+                        tab.push(ele.photoNFT);
+                    }
                 });
-                let taille = tab1.length;
-                console.log("taille" + taille);
-                setTailleTab(taille);
-                setAllPhoto(tab1);
+                if (tab.length > 8) {
+                    setShowButton(true);
+                }
+                console.log("lengt" + tab);
+                let index = tab.length - 1;
+                for (let i = index; i > 0; i--) {
+                    getTime(tab[i]);
+                }
+                // value.map((ele: any) => {
+                //     getTime(ele.photoNFT);
+                // });
+                console.log("photos" + allPhotos1);
+
+                // let tab: Array<any> = [];
+
+                // let tab1: Array<any> = [];
+                // for (var i = value.length; i >= 0; i--) {
+                //     let x = value.slice(i, i + 1);
+
+                //     tab.push(x);
+                // }
+
+                // tab.map((ele: any) => {
+                //     ele.map((ele1: any) => {
+                //         if (ele1.status === "Open") {
+                //             // console.log(ele1);
+                //             tab1.push(ele1);
+                //         }
+                //     });
+                // });
+                // let stringArr: Array<any> = [];
+                // console.log();
+                // tab1.map((photo: any) => {
+                //     let ret = getTime(puseEffecthoto.photoNFT);
+                //     console.log(ret);
+                //     stringArr.push(getTime(photo.photoNFT));
+                //     console.log("ret" + stringArr);
+                // });
+                // photo1.push(
+                //     getTime("0x5b2fcbc4e4950ef8963990886eb2f965e43cc0c6")
+                // );
+                // console.log("photo" + photo1[0]);
+                // setAllPhoto(tab1);
+
+                // let taille = tab1.length;
+                // console.log("taille" + taille);
+
+                // setTailleTab(taille);
+                // setAllPhoto(tab1);
             });
         });
     }, []);
@@ -373,18 +392,110 @@ function Activitycomponent(props: any) {
         localStorage.setItem("nftPhoto", nft);
         window.location.assign("#/Item");
     }
-    const ChargerPlus = (e: any) => {
-        e.preventDefault();
-        setIndex(index + 8);
-        props.onClickCharge();
+    function renderAllPhoto() {
+        //@ts-ignore
+        const { ethereum } = window;
+
+        const web3 = new Web3(ethereum);
+        let ret: Array<any> = [];
+        let x = allPhotos1.length - tailleTab;
+        let z = 0;
+        if (x < 8) {
+            z = allPhotos1.length;
+
+            // setTailleTab(allPhotos1.length);
+        } else {
+            z = tailleTab + 8;
+        }
+        // let x = tailleTab + 8;
+        if (!Array.isArray(allPhotos1)) return;
+
+        for (let i = tailleTab; i < z; i++) {
+            console.log(allPhotos1[i]);
+            allPhotos1[i].map((photo: any) => {
+                ret.push(
+                    <>
+                        <div className="col-12 col-lg-6">
+                            <div className="activity">
+                                <button
+                                    type="button"
+                                    onClick={() =>
+                                        goItem(
+                                            web3.utils.fromWei(
+                                                `${photo.photoPrice}`,
+                                                "ether"
+                                            ),
+                                            photo.ipfsHashOfPhoto,
+                                            photo.photoNFT
+                                        )
+                                    }
+                                    className="activity__cover"
+                                >
+                                    <iframe
+                                        src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
+                                        className="embedfile"
+                                    />
+                                </button>
+                                <div className="activity__content">
+                                    <h3 className="activity__title">
+                                        <a
+                                            onClick={() =>
+                                                goItem(
+                                                    web3.utils.fromWei(
+                                                        `${photo.photoPrice}`,
+                                                        "ether"
+                                                    ),
+                                                    photo.ipfsHashOfPhoto,
+                                                    photo.photoNFT
+                                                )
+                                            }
+                                        >
+                                            {photo.nftSymbol}
+                                        </a>
+                                    </h3>
+                                    <p className="activity__text">
+                                        listed by{" "}
+                                        <a href="#/Author">{photo.nftName}</a>{" "}
+                                        <br />
+                                        for{" "}
+                                        {web3.utils.fromWei(
+                                            `${photo.photoPrice}`,
+                                            "ether"
+                                        )}{" "}
+                                        ETH <b></b>{" "}
+                                    </p>
+                                    <span className="activity__time">
+                                        {/* {time} */}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                );
+                //}
+            });
+        }
+
+        return ret;
+    }
+    const ChargerPlus = () => {
+        if (allPhotos1.length - tailleTab < 8) {
+            setShowButton(false);
+        }
+
+        setShowMorePhoto(true);
     };
 
     return (
         <div className="col-12 col-xl-9 order-xl-1">
             <div className="row row--grid">
-                {index < 8 ? renderCard() : renderCardPlus()}
+                {/* {index < 8 ? renderCard() : renderCardPlus()} */}
+                {renderCard()}
             </div>
-            {tailleTab > 8 && (
+            <div className="row row--grid">
+                {showMorePhoto === true && renderAllPhoto()}
+            </div>
+            {showButton === true && (
                 <div className="row row--grid">
                     <div className="col-12">
                         <button

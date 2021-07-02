@@ -20,8 +20,15 @@ router.get("/api/getUserByPublickey", (req, res, next) =>
         })
 
         .then((assets) => {
-            console.log(assets);
-            res.send(assets);
+            console.log(assets.res);
+
+            if (assets.res !== null) {
+                console.log("iff");
+
+                res.send(assets.res);
+            } else {
+                res.send({ user: "undefined" });
+            }
         })
         .catch((error) => console.log("error: " + error))
 );

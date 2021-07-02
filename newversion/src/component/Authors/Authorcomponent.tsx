@@ -1,16 +1,21 @@
+import { faLongArrowAltUp } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import { unstable_renderSubtreeIntoContainer } from "react-dom";
+
 import { Modal } from "reactstrap";
 import "./AuthorComponent.css";
 function Authorcomponent(props: any) {
     const [user, setUser] = useState<any>();
     const [publickey, setpublicKey] = useState<any>();
     const [loading, setLoading] = useState(true);
+    const [ipfsPhoto, setipfsphoto] = useState<any>();
     const toggle = () => setLoading(false);
     useEffect(() => {
-        console.log("compte" + props.account);
         setpublicKey(props.account);
     });
+
+    function goEditProfil() {
+        window.location.assign("#/EditProfil");
+    }
     useEffect(() => {
         getUserByPublicKey(props.account);
     }, [publickey]);
@@ -27,25 +32,44 @@ function Authorcomponent(props: any) {
 
                 // Examine the text in the response
                 response.json().then(function (data) {
-                    setUser(Object.assign(data));
-                    setLoading(false);
                     console.log("data" + JSON.stringify(data));
+                    setUser(data);
+                    console.log("photo" + data.photo);
+                    setipfsphoto(data.photo);
+                    setLoading(false);
+                    // console.log("data" + JSON.stringify(data));
                 });
             })
             .catch(function (err) {
                 console.log("Fetch Error :-S", err);
             });
     }
+    function logout() {
+        localStorage.clear();
+        window.location.href = "/";
+    }
 
     function renderUser() {
         if (user !== undefined) {
+            // console.log(Object.prototype.toString.call(user.photo));
+
+            console.log(ipfsPhoto);
+            const urlipfs = "https://ipfs.io/ipfs/" + ipfsPhoto;
+            console.log(urlipfs);
             return (
                 <div className="author__meta">
                     <a
                         href="#/Author"
                         className="author__avatar author__avatar--verified"
                     >
-                        <img src="img/avatars/avatar5.jpg" alt="" />
+                        {ipfsPhoto === "" ? (
+                            <img src="img/avatars/avatar5.jpg" alt="" />
+                        ) : (
+                            <img
+                                src={`https://ipfs.io/ipfs/${ipfsPhoto}`}
+                                alt=""
+                            />
+                        )}
                     </a>
                     <h1 className="author__name">
                         {user.username === undefined && user === undefined ? (
@@ -134,11 +158,17 @@ function Authorcomponent(props: any) {
                     </div>
                     <div>
                         {" "}
-                        <button className="EditProfil"> Edit Profil</button>
+                        <button className="EditProfil" onClick={goEditProfil}>
+                            {" "}
+                            Edit Profil
+                        </button>
                     </div>
                     <div>
                         {" "}
-                        <button className="EditProfil"> Singout</button>
+                        <button className="EditProfil" onClick={logout}>
+                            {" "}
+                            Singout
+                        </button>
                     </div>
                 </div>
             );

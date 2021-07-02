@@ -178,7 +178,15 @@ function Header(props: any) {
         props.onClickActive(active);
     }
     function getUserByPublicKey(publicKey: any) {
-        fetch("/api/getUserByPublickey?publicKey=" + publicKey)
+        fetch("/api/getUserByPublickey?publicKey=" + publicKey, {
+            method: "GET",
+            mode: "no-cors",
+            credentials: "same-origin",
+            headers: {
+                "Content-type": "application/json",
+                Authorization: "Bearer abc123def.abc123def.abc123def",
+            },
+        })
             .then(function (response) {
                 if (response.status !== 200) {
                     console.log(
@@ -190,7 +198,9 @@ function Header(props: any) {
 
                 // Examine the text in the response
                 response.json().then(function (data) {
-                    if (data !== undefined) {
+                    console.log("data" + data);
+
+                    if (data.user !== "undefined") {
                         window.location.assign("#/Create");
                     } else {
                         window.location.assign("#/Singup");

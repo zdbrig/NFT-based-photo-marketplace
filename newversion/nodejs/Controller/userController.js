@@ -5,7 +5,7 @@ var userDao = {};
 userDao.getUser = (publicKey) =>
     new Promise((resolve, reject) => {
         users.findOne({ publicKey: publicKey }, (err, res) =>
-            err ? reject(err) : resolve(res)
+            err ? reject(err) : resolve({ res })
         );
     });
 

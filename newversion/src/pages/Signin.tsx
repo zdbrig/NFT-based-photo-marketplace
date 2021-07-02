@@ -28,6 +28,41 @@ function Signin() {
     const handleClick = (active: any) => {
         setActiveItem(active);
     };
+    function getUserByPublicKey(publicKey: any) {
+        fetch("/api/getUserByPublickey?publicKey=" + publicKey, {
+            method: "GET",
+            mode: "no-cors",
+            credentials: "same-origin",
+            headers: {
+                "Content-type": "application/json",
+                Authorization: "Bearer abc123def.abc123def.abc123def",
+            },
+        })
+            .then(function (response) {
+                if (response.status !== 200) {
+                    console.log(
+                        "Looks like there was a problem. Status Code: " +
+                            response.status
+                    );
+                    return;
+                }
+
+                // Examine the text in the response
+                response.json().then(function (data) {
+                    console.log("data1" + data.user);
+
+                    if (data.user !== "undefined") {
+                        window.location.assign("#/Create");
+                    } else {
+                        window.location.assign("#/Signup");
+                    }
+                    console.log("data" + JSON.stringify(data));
+                });
+            })
+            .catch(function (err) {
+                console.log("Fetch Error :-S", err);
+            });
+    }
 
     async function onClickConnectMetamask() {
         setModalConnect(false);
@@ -44,20 +79,19 @@ function Signin() {
                 setNetId(netId);
 
                 const accounts = await web3.eth.getAccounts();
-
+                getUserByPublicKey(accounts[0]);
                 setAccount(accounts[0]);
-                window.location.assign("#/home");
+                // window.location.assign("#/home");
             }
         }
     }
     return (
         <div>
-            <Header onClickActive={handleClick}></Header>
             <main className="main">
                 <div className="container">
                     <div className="row row--grid">
                         {/* <!-- breadcrumb --> */}
-                        <div className="col-12">
+                        {/* <div className="col-12">
                             <ul className="breadcrumb">
                                 <li className="breadcrumb__item">
                                     <a href="#/Home">Home</a>
@@ -66,7 +100,7 @@ function Signin() {
                                     Sign in
                                 </li>
                             </ul>
-                        </div>
+                        </div> */}
                         {/* <!-- end breadcrumb --> */}
 
                         {/* <!-- sign in --> */}

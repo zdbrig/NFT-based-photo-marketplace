@@ -527,7 +527,7 @@ function Itemsidebar(props: any) {
                     <div className="row">
                         {" "}
                         <button onClick={createBiding} className="sign__btn">
-                            Ajouter{" "}
+                            Add bid{" "}
                         </button>
                     </div>
                 </Modal>

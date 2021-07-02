@@ -493,7 +493,7 @@ function Create() {
                         }
                         disabled={disabledAuction}
                     >
-                        Ajouter{" "}
+                        Add Auction{" "}
                     </button>
                 </div>
             </Modal>
