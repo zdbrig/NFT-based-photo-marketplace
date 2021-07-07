@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { ListGroupItem } from "reactstrap";
 import moment from "moment";
 import { getListActivity } from "../../Api/Activity";
 import { unlockAccountImpl } from "../../Ethereum/Unlockaccount";
+import Iframe from "react-iframe";
+import IframeResizer from "iframe-resizer-react";
 import "./Activitycomponent.css";
+
 import Web3 from "web3";
 import { Modal } from "reactstrap";
 import en from "javascript-time-ago/locale/en";
 // import TimeAgo from "javascript-time-ago";
 import Swal from "sweetalert2";
 import TimeAgo from "react-timeago";
+import { finished } from "stream";
 
 function Activitycomponent(props: any) {
     const [photo, setPhoto] = useState();
@@ -150,8 +154,29 @@ function Activitycomponent(props: any) {
             });
     }
 
+    const iframeRef = useRef(null);
+
+    function finished() {
+        const iframeItem = iframeRef.current;
+
+        $("#myIframe")
+            .contents()
+            .find("img")
+            .append(
+                $('<link rel="stylesheet" type="text/css" href="style.css">')
+            );
+        $("#myIframe")
+            .contents()
+            .find("head")
+            .append(
+                $(
+                    '<link rel="stylesheet" type="text/css" href="/home/amal/zbriggithub/NFT-based-photo-marketplace/newversion/src/component/Activity/iframe.css">'
+                )
+            );
+    }
     function renderCard() {
         //@ts-ignore
+
         const { ethereum } = window;
 
         const web3 = new Web3(ethereum);
@@ -191,10 +216,83 @@ function Activitycomponent(props: any) {
                                     }
                                     className="activity__cover"
                                 >
+                                    {/* <img
+                                        src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
+                                        id="imgphoto"
+                                    ></img> */}
+
+                                    {/* <iframe
+                                        src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
+                                        id="iframe"
+                                        name="iframe"
+
+                                        // display="none"
+                                    /> */}
                                     <iframe
+                                        id="myIframe"
+                                        name="rv-h5-e89778af72"
+                                        src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
+                                        scrolling="no"
+                                        onLoad={finished}
+                                    ></iframe>
+                                    {/* <IframeResizer
+                                        forwardRef={iframeRef}
+                                        heightCalculationMethod="lowestElement"
+                                        inPageLinks
+                                        log
+                                        src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
+                                        style={{
+                                            width: "1px",
+                                            minWidth: "100%",
+                                        }}
+                                        onLoad={finished}
+                                    /> */}
+
+                                    {/* <object
+                                        data={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
+                                        width="300"
+                                        height="200"
+                                    ></object> */}
+                                    {/* <video
+                                        width="320"
+                                        height="240"
+                                        controls
+                                        id="myVideo"
+                                    >
+                                        <source
+                                            src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
+                                            type="video/mp4"
+                                        />
+                                        <source
+                                            src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
+                                            type="png/jpeg"
+                                        />
+                                    </video> */}
+
+                                    {/* <video
+                                        width="320"
+                                        height="240"
+                                        muted
+                                        // poster={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
+                                        className="vid"
+                                    >
+                                        <source
+                                            src="http://www.alex-bernardini.fr/videos/Wildlife.mp4"
+                                            type="video/mp4"
+                                        /> */}
+                                    {/* <object>
+                                            <param
+                                                name="movie"
+                                                value={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
+                                            />
+                                        </object> */}
+
+                                    {/* <iframe
                                         src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
                                         className="embedfile"
-                                    />
+                                        width="250"
+                                        height="200"
+                                    /> */}
                                 </button>
                                 <div className="activity__content">
                                     <h3 className="activity__title">
@@ -385,6 +483,17 @@ function Activitycomponent(props: any) {
         });
     }, []);
 
+    $(window).on("load", function () {
+        $("#iframe")
+            .contents()
+            .find("head")
+            .click(function () {
+                alert("zz");
+            });
+        // var css =
+        //     '<style type="text/css">' + "#yourCSS{display:none}; " + "</style>";
+        // jQuery(head).append(css);
+    });
     function goItem(price: any, photo: any, nft: any) {
         // localStorage.setItem("prix", price);
         // localStorage.setItem("photo", photo);
@@ -431,10 +540,12 @@ function Activitycomponent(props: any) {
                                     }
                                     className="activity__cover"
                                 >
-                                    <iframe
+                                    {/* <iframe
                                         src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
-                                        className="embedfile"
-                                    />
+                                        id="iframe"
+                                        name="iframe"
+                                        className="iframe"
+                                    /> */}
                                 </button>
                                 <div className="activity__content">
                                     <h3 className="activity__title">

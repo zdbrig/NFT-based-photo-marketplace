@@ -41,6 +41,7 @@ function Create() {
     const [selectedOption, setSelectedOption] = useState("");
     const [networkModal, setModalNetwork] = useState(false);
     const [addressAuction, setAddressAuction] = useState(false);
+    const [redevance, setRedevance] = useState(0);
 
     const toggleNetwork = () => setModalNetwork(false);
     const handleClick = (active: any) => {
@@ -109,7 +110,8 @@ function Create() {
                     description,
                     photoPrice,
                     result[0].hash,
-                    selectedOption
+                    selectedOption,
+                    redevance
                 )
                 .send({ from: accounts[0] })
                 .once("receipt", (receipt: any) => {
@@ -394,6 +396,10 @@ function Create() {
     function handleOptionChange(changeEvent: any) {
         setSelectedOption(changeEvent.target.value);
     }
+
+    function changeRedevance(e: any) {
+        setRedevance(e.target.value);
+    }
     return (
         <div>
             <Header onClickActive={handleClick} account={accountMetamask} />
@@ -620,10 +626,11 @@ function Create() {
                                                 id="royalties"
                                                 name="royalties"
                                                 className="sign__select"
+                                                onChange={changeRedevance}
                                             >
-                                                <option value="1">5%</option>
-                                                <option value="2">10%</option>
-                                                <option value="3">20%</option>
+                                                <option value="5">5%</option>
+                                                <option value="10">10%</option>
+                                                <option value="20">20%</option>
                                             </select>
                                         </div>
                                     </div>

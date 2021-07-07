@@ -12,7 +12,9 @@ contract PhotoNFTFactoryEvents {
         string nftSymbol, 
         uint photoPrice, 
         string ipfsHashOfPhoto,
-        string typeOfSale
+        string typeOfSale,
+        uint redevance,
+        address seller
     );
 
     event AddReputation (

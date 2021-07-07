@@ -17,10 +17,10 @@ contract Auction {
 
     // Mapping from owner to a list of owned auctions
    uint64 public auctionId; // max is 18446744073709551615
-   event AuctionBid( uint64 auctionId, address _bidder, uint256 amount);
-   event AuctionFinalized(address _owner, uint _auctionId);
-event AuctionCreated(uint64 auctionId, address photoId,
-                      uint256 startingPrice, uint256 endingPrice, uint256 duration,uint64 startedAt,uint endingAuction);
+   event AuctionBid( uint64 auctionId, address photoNft ,address _bidder, uint256 amount);
+   event AuctionFinalized(address _owner, uint _auctionId,uint amountPhoto,address winer);
+event AuctionCreated(address owner,uint64 auctionId, address photoId,
+                      uint256 startingPrice, uint256 endingPrice, uint256 duration,uint64 startedAt,uint endingAuction,bool finalAuction);
   mapping (address => Auction) internal photoIdToAuction;
   mapping (uint64 => Auction) internal auctionIdToAuction;
 enum Status { pending, active, finished }
@@ -93,13 +93,16 @@ enum Status { pending, active, finished }
       auctionIdToAuction[auctionId] = auction;
 
       emit AuctionCreated(
+          address (auction.owner),
           uint64(auctionId),
           address(_photoId),
           uint256(auction.startingPrice),
           uint256(auction.endingPrice),
           uint256(auction.duration),
           uint64(auction.startedAt) ,
-          uint64(endingAuction)
+          uint64(endingAuction),
+          bool(auction.finalized)
+
       );
 
       auctionId++;
@@ -134,7 +137,7 @@ if(ethAmountSent == auction.endingPrice){
         newBid.from = msg.sender;
         newBid.amount = ethAmountSent;
         auctionBids[auctionId_temp].push(newBid);
-      cancelAuction(auctionId_temp);
+      finalizeAuction(_photoId);
 
         }
         // there are previous bids
@@ -156,7 +159,7 @@ if(ethAmountSent == auction.endingPrice){
         newBid.amount = ethAmountSent;
         auctionBids[auctionId_temp].push(newBid);
         
-       emit AuctionBid(auctionId_temp, msg.sender, ethAmountSent);
+       emit AuctionBid(auctionId_temp, _photoId, msg.sender, ethAmountSent);
     }
 
     event BidSuccess(address _from, uint _auctionId);
@@ -203,7 +206,7 @@ function isFinished(uint64 index) public view returns (bool) { return getStatus(
          PhotoNFTMarketplace instancePhotoNFTMarketplace = PhotoNFTMarketplace(PHOTO_NFT_MARKETPLACE);
           
             
-        instancePhotoNFTMarketplace.approveAndTransfer(myAuction.owner, myAuction.owner, myAuction.photoId);
+        instancePhotoNFTMarketplace.approveAndTransfer(myAuction.owner, myAuction.owner, myAuction.photoId,lastBid.amount);
              auctionIdToAuction[_auctionId].active = false;
              
             emit AuctionCanceled(msg.sender, _auctionId);
@@ -233,10 +236,10 @@ if(bidsLength == 0) {
 myAuction.owner.send(lastBid.amount);
             PhotoNFTMarketplace instancePhotoNFTMarketplace = PhotoNFTMarketplace(PHOTO_NFT_MARKETPLACE);
           
-        instancePhotoNFTMarketplace.approveAndTransfer(address(this), lastBid.from, myAuction.photoId);
+        instancePhotoNFTMarketplace.approveAndTransfer(myAuction.owner, lastBid.from, myAuction.photoId,lastBid.amount);
                 photoIdToAuction[_photoId].active = false;
                 photoIdToAuction[_photoId].finalized = true;
-                emit AuctionFinalized(msg.sender, auctionId);
+                emit AuctionFinalized(msg.sender, auctionId,lastBid.amount,lastBid.from);
         }
         
     }

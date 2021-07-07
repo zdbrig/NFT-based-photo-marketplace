@@ -20,22 +20,26 @@ contract PhotoNFTData is PhotoNFTDataStorages {
     function saveMetadataOfPhotoNFT(
         address[] memory _photoAddresses, 
         PhotoNFT _photoNFT, 
-        string memory _photoNFTName, 
+        // string memory _photoNFTName, 
         string memory _photoNFTSymbol, 
         address _ownerAddress, 
         uint _photoPrice, 
         string memory _ipfsHashOfPhoto,
-        string memory _typeOfSale
+        string memory _typeOfSale,
+        uint _redevance,
+        address seller
     ) public returns (bool) {
         /// Save metadata of a photoNFT of photo
         Photo memory photo = Photo({
             photoNFT: _photoNFT,
-            photoNFTName: _photoNFTName,
+            // photoNFTName: _photoNFTName,
             photoNFTSymbol: _photoNFTSymbol,
             ownerAddress: _ownerAddress,
             photoPrice: _photoPrice,
             ipfsHashOfPhoto: _ipfsHashOfPhoto,
             typeOfSale: _typeOfSale,
+            redevance: _redevance,
+            seller: seller,
             status: "Open",
             reputation: 0
         });
@@ -48,14 +52,14 @@ contract PhotoNFTData is PhotoNFTDataStorages {
     /**
      * @notice - Update owner address of a photoNFT by transferring ownership
      */
-    function updateOwnerOfPhotoNFT(PhotoNFT _photoNFT, address _newOwner) public returns (bool) {
+    function updateSellerOfPhotoNFT(PhotoNFT _photoNFT, address _newOwner) public returns (bool) {
         /// Identify photo's index
         uint photoIndex = getPhotoIndex(_photoNFT);
 
         /// Update metadata of a photoNFT of photo
         Photo storage photo = photos[photoIndex];
         require (_newOwner != address(0), "A new owner address should be not empty");
-        photo.ownerAddress = _newOwner;  
+        photo.seller = _newOwner;  
     }
 
     /**

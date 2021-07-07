@@ -5,6 +5,7 @@ import { Modal } from "reactstrap";
 import Web3 from "web3";
 import Moment from "react-moment";
 import moment from "moment";
+import TimeAgo from "react-timeago";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { FacebookShareButton, TwitterShareButton } from "react-share";
 import "./Itemcontent.css";
@@ -31,7 +32,7 @@ function Itemsidebar(props: any) {
     const [showButtonBidBuy, setShowButtonBidBuy] = useState(true);
     const [showButtonAuction, setShowButtonAuction] = useState(false);
     const [detailsAuction, setdetailsAuction] = useState<any>([]);
-    const [Bid, setBid] = useState<any>([]);
+    const [Bids, setBids] = useState<any>([]);
     const toggle = () => setLoading(false);
     const toggleModal = () => setShowModal(false);
     const [link, setLink] = useState("");
@@ -172,6 +173,80 @@ function Itemsidebar(props: any) {
         return instancePhotoAuction;
     }
 
+    function getAuctions(id: any) {
+        var querytosend = `{
+            tauctionCreateds(where:{photoId:"${id}"})
+            {id timestamp blockNumber endingPrice startedAt duration endingPrice startingPrice photoId auctionId
+              }
+          }`;
+
+        fetch("https://api.thegraph.com/subgraphs/name/zouaouik/auction", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json;charset=UTF-8",
+            },
+            body: JSON.stringify({
+                query: querytosend,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                // ret.push(data.data.allPhotoNFTs);
+
+                // setTime(data.data.allPhotoNFTs[0].timesTmp);
+                //ret.push(data.data.allPhotoNFTs);
+                console.log("ret1" + data.data.tauctionCreateds[0].auctionId);
+                getBids(data.data.tauctionCreateds[0].auctionId);
+                getUserByPublicKey(data.data.tauctionCreateds[0].auctionId);
+            });
+    }
+    function getBids(id: any) {
+        var querytosend = `{
+        tauctionBids(where:{auctionId:"${id}"})
+        {id timestamp blockNumber amount auctionId
+          }
+      }`;
+
+        fetch("https://api.thegraph.com/subgraphs/name/zouaouik/auction", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json;charset=UTF-8",
+            },
+            body: JSON.stringify({
+                query: querytosend,
+            }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                setBids(data.data.tauctionBids);
+            });
+    }
+
+    function getUserByPublicKey(publicKey: any) {
+        fetch("/api/getUserByPublickey?publicKey=" + publicKey)
+            .then(function (response) {
+                if (response.status !== 200) {
+                    console.log(
+                        "Looks like there was a problem. Status Code: " +
+                            response.status
+                    );
+                    return;
+                }
+
+                // Examine the text in the response
+                response.json().then(function (data) {
+                    // console.log("data" + JSON.stringify(data));
+                    // setUser(data);
+                    // console.log("photo" + data.photo);
+                    // setipfsphoto(data.photo);
+                    // setLoading(false);
+                    // console.log("data" + JSON.stringify(data));
+                });
+            })
+            .catch(function (err) {
+                console.log("Fetch Error :-S", err);
+            });
+    }
     async function connectSmartContract() {
         setAddressPhoto(localStorage.getItem("nftPhoto"));
         let PhotoNFTMarketplace = {};
@@ -340,7 +415,7 @@ function Itemsidebar(props: any) {
                     }
                 );
             });
-
+        getAuctions(localStorage.getItem("nftPhoto"));
         connectSmartContract();
     }, []);
     function finAuction() {
@@ -676,7 +751,10 @@ function Itemsidebar(props: any) {
                                     className="asset__actions asset__actions--scroll"
                                     id="asset__actions--scroll"
                                 >
-                                    {getListItem().map((ele) => {
+                                    {Bids.map((ele: any) => {
+                                        var date = new Date(
+                                            ele.timestamp * 1000
+                                        );
                                         return (
                                             <div className="asset__action asset__action--verified">
                                                 <img
@@ -685,8 +763,16 @@ function Itemsidebar(props: any) {
                                                 />
                                                 <p>
                                                     Bid placed for{" "}
-                                                    <b>{ele.Price}</b> 4 hours
-                                                    ago <br />
+                                                    <b>
+                                                        {" "}
+                                                        {web3.utils.fromWei(
+                                                            `${ele.amount}`,
+                                                            "ether"
+                                                        )}{" "}
+                                                        ETH &nbsp;
+                                                    </b>
+                                                    <TimeAgo date={date} />{" "}
+                                                    <br />
                                                     by{" "}
                                                     <a href="#/Author">
                                                         {ele.adress}
@@ -704,7 +790,10 @@ function Itemsidebar(props: any) {
                                 role="tabpanel"
                             >
                                 <div className="asset__actions">
-                                    {getListItem().map((ele) => {
+                                    {Bids.map((ele: any) => {
+                                        var date = new Date(
+                                            ele.timestamp * 1000
+                                        );
                                         return (
                                             <div className="asset__action asset__action--verified">
                                                 <img
@@ -713,8 +802,16 @@ function Itemsidebar(props: any) {
                                                 />
                                                 <p>
                                                     Bid placed for{" "}
-                                                    <b>{ele.Price}</b> 4 hours
-                                                    ago <br />
+                                                    <b>
+                                                        {" "}
+                                                        {web3.utils.fromWei(
+                                                            `${ele.amount}`,
+                                                            "ether"
+                                                        )}{" "}
+                                                        ETH &nbsp;
+                                                    </b>{" "}
+                                                    <TimeAgo date={date} />{" "}
+                                                    <br />
                                                     by{" "}
                                                     <a href="#/Author">
                                                         {ele.adress}

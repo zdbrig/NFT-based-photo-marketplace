@@ -35,17 +35,22 @@ contract PhotoNFTMarketplace is PhotoNFTTradable, PhotoNFTMarketplaceEvents {
      function ownerPhoto (address _photoNFT) public returns  (address){
         PhotoNFT photoNFT = PhotoNFT(_photoNFT);
         PhotoNFTData.Photo memory photo = photoNFTData.getPhotoByNFTAddress(photoNFT);
-        address _seller = photo.ownerAddress;
+        address _seller = photo.seller;
         return _seller;
      }
-   function approveAndTransfer(address  _from, address _to, address _photoId ) public returns(bool) {
+   function approveAndTransfer(address payable _from, address _to, address _photoId, uint amount ) public returns(bool) {
        //PhotoNFT remoteContract = PhotoNFT(_photoId);
      
+    
        PhotoNFT photoNFT = PhotoNFT(_photoId);
+
+           PhotoNFTData.Photo memory photo = photoNFTData.getPhotoByNFTAddress(photoNFT);
+           uint amountRedevance = (amount*photo.redevance)/100;
+           _from.transfer(amountRedevance);
        uint i = 1;
         photoNFT.approve(_to, i);
         transferOwnershipOfPhotoNFT(photoNFT,i , _to); 
-        photoNFTData.updateOwnerOfPhotoNFT(photoNFT, _to);
+        photoNFTData.updateSellerOfPhotoNFT(photoNFT, _to);
         photoNFTData.updateStatus(photoNFT, "Cancelled");
 
         /// Event for checking result of transferring ownership of a photoNFT
@@ -74,7 +79,7 @@ contract PhotoNFTMarketplace is PhotoNFTTradable, PhotoNFTMarketplaceEvents {
 
         /// Transfer Ownership of the PhotoNFT from a seller to a buyer
         transferOwnershipOfPhotoNFT(photoNFT, photoId, buyer);    
-        photoNFTData.updateOwnerOfPhotoNFT(photoNFT, buyer);
+        photoNFTData.updateSellerOfPhotoNFT(photoNFT, buyer);
         photoNFTData.updateStatus(photoNFT, "Cancelled");
 
         /// Event for checking result of transferring ownership of a photoNFT
@@ -110,7 +115,7 @@ function transfertPhotoNFT(PhotoNFT _photoNFT) public payable returns (bool) {
 
         /// Transfer Ownership of the PhotoNFT from a seller to a buyer
         transferOwnershipOfPhotoNFT(photoNFT, photoId, buyer);    
-        photoNFTData.updateOwnerOfPhotoNFT(photoNFT, buyer);
+        photoNFTData.updateSellerOfPhotoNFT(photoNFT, buyer);
         photoNFTData.updateStatus(photoNFT, "Cancelled");
 
         /// Event for checking result of transferring ownership of a photoNFT
@@ -139,7 +144,7 @@ function approvePhoto(address auction ,address _photoNFT) public{
 
         /// Transfer Ownership of the PhotoNFT from a seller to a buyer
         transferOwnershipOfPhotoNFT(photoNFT, photoId, buyer);    
-        photoNFTData.updateOwnerOfPhotoNFT(photoNFT, buyer);
+        photoNFTData.updateSellerOfPhotoNFT(photoNFT, buyer);
         // photoNFTData.updateStatus(photoNFT, "Cancelled");
 
         /// Event for checking result of transferring ownership of a photoNFT
