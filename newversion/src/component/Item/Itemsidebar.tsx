@@ -195,9 +195,18 @@ function Itemsidebar(props: any) {
 
                 // setTime(data.data.allPhotoNFTs[0].timesTmp);
                 //ret.push(data.data.allPhotoNFTs);
-                console.log("ret1" + data.data.tauctionCreateds[0].auctionId);
-                getBids(data.data.tauctionCreateds[0].auctionId);
-                getUserByPublicKey(data.data.tauctionCreateds[0].auctionId);
+
+                if (
+                    Array.isArray(data.data.tauctionCreateds) === true &&
+                    data.data.tauctionCreateds.length > 0
+                ) {
+                    console.log(
+                        "ret1" + data.data.tauctionCreateds[0].auctionId
+                    );
+
+                    getBids(data.data.tauctionCreateds[0].auctionId);
+                    getUserByPublicKey(data.data.tauctionCreateds[0].auctionId);
+                }
             });
     }
     function getBids(id: any) {

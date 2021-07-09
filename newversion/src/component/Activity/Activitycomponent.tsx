@@ -35,7 +35,9 @@ function Activitycomponent(props: any) {
     const [showModal, setShowModal] = useState(false);
     const [showMorePhoto, setShowMorePhoto] = useState(false);
     const [showButton, setShowButton] = useState(false);
+    const [isImage, setIsImage] = useState(true);
     const toggleModal = () => setShowModal(false);
+
     const connectContract = async () => {
         // const web3 = await unlockAccountImpl();
         //@ts-ignore
@@ -125,6 +127,8 @@ function Activitycomponent(props: any) {
                 timesTmp
                 blockNumber
                 status
+                redevance
+                seller
               }
           }`;
 
@@ -174,6 +178,41 @@ function Activitycomponent(props: any) {
                 )
             );
     }
+    const testImage = (url: string) => {
+        return new Promise(function (resolve, reject) {
+            let timeout = 5000;
+            let timer: any,
+                img = new Image();
+            img.onerror = img.onabort = function () {
+                clearTimeout(timer);
+                reject("error");
+            };
+            img.onload = function () {
+                clearTimeout(timer);
+                resolve("success");
+            };
+            timer = setTimeout(function () {
+                // reset .src to invalid URL so it stops previous
+                // loading, but doens't trigger new load
+                img.src = "//!!!!/noexist.jpg";
+                reject("timeout");
+            }, timeout);
+            img.src = url;
+        });
+    };
+    const renderImageOrVideo = () => {
+        testImage(
+            "https://ipfs.io/ipfs/QmXWQVE4pixnmgiMzBnEgFBWG8z7Cbirqpv3KUihTtRpoU"
+        ).then(
+            (res) => {
+                setIsImage(true);
+            },
+            (error) => {
+                setIsImage(false);
+            }
+        );
+    };
+
     function renderCard() {
         //@ts-ignore
 
@@ -181,160 +220,89 @@ function Activitycomponent(props: any) {
 
         const web3 = new Web3(ethereum);
         let ret: Array<any> = [];
-        let i = index;
+        // let i = index;
 
         console.log("photo1" + JSON.stringify(allPhotos1));
-        if (!Array.isArray(allPhotos1)) return;
+        if (!Array.isArray(allPhotos1) || allPhotos1.length === 0) return;
         let lengthTab = allPhotos1.length;
 
         console.log(lengthTab);
+        if (lengthTab <= 8) {
+            for (let i = 0; i < lengthTab; i++) {
+                console.log("photo" + allPhotos1[i]);
+                allPhotos1[i].map((photo: any) => {
+                    var date = new Date(photo.timesTmp * 1000);
 
-        for (let i = 0; i <= 7; i++) {
-            if (!Array.isArray(allPhotos1[i])) return;
-            console.log(allPhotos1[i]);
-            allPhotos1[i].map((photo: any) => {
-                var date = new Date(photo.timesTmp * 1000);
-
-                // TimeAgo.addDefaultLocale(en);
-                // const timeAgo = new TimeAgo("en-US");
-                // let time = timeAgo.format(date);
-                ret.push(
-                    <>
-                        <div className="col-12 col-lg-6">
-                            <div className="activity">
-                                <button
-                                    type="button"
-                                    onClick={() =>
-                                        goItem(
-                                            web3.utils.fromWei(
+                    ret.push(
+                        <>
+                            <div className="col-12 col-lg-6">
+                                <div className="activity">
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            goItem(
+                                                web3.utils.fromWei(
+                                                    `${photo.photoPrice}`,
+                                                    "ether"
+                                                ),
+                                                photo.ipfsHashOfPhoto,
+                                                photo.photoNFT
+                                            )
+                                        }
+                                        className="activity__cover"
+                                    >
+                                        {isImage ? (
+                                            <img
+                                                src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
+                                            ></img>
+                                        ) : (
+                                            <video> </video>
+                                        )}
+                                    </button>
+                                    <div className="activity__content">
+                                        <h3 className="activity__title">
+                                            <a
+                                                onClick={() =>
+                                                    goItem(
+                                                        web3.utils.fromWei(
+                                                            `${photo.photoPrice}`,
+                                                            "ether"
+                                                        ),
+                                                        photo.ipfsHashOfPhoto,
+                                                        photo.photoNft
+                                                    )
+                                                }
+                                            >
+                                                {photo.nftSymbol}
+                                            </a>
+                                        </h3>
+                                        <p className="activity__text">
+                                            listed by{" "}
+                                            <a href="#/Author">
+                                                {photo.nftName}
+                                            </a>{" "}
+                                            <br />
+                                            for{" "}
+                                            {web3.utils.fromWei(
                                                 `${photo.photoPrice}`,
                                                 "ether"
-                                            ),
-                                            photo.ipfsHashOfPhoto,
-                                            photo.photoNFT
-                                        )
-                                    }
-                                    className="activity__cover"
-                                >
-                                    {/* <img
-                                        src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
-                                        id="imgphoto"
-                                    ></img> */}
-
-                                    {/* <iframe
-                                        src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
-                                        id="iframe"
-                                        name="iframe"
-
-                                        // display="none"
-                                    /> */}
-                                    <iframe
-                                        id="myIframe"
-                                        name="rv-h5-e89778af72"
-                                        src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
-                                        scrolling="no"
-                                        onLoad={finished}
-                                    ></iframe>
-                                    {/* <IframeResizer
-                                        forwardRef={iframeRef}
-                                        heightCalculationMethod="lowestElement"
-                                        inPageLinks
-                                        log
-                                        src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
-                                        style={{
-                                            width: "1px",
-                                            minWidth: "100%",
-                                        }}
-                                        onLoad={finished}
-                                    /> */}
-
-                                    {/* <object
-                                        data={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
-                                        width="300"
-                                        height="200"
-                                    ></object> */}
-                                    {/* <video
-                                        width="320"
-                                        height="240"
-                                        controls
-                                        id="myVideo"
-                                    >
-                                        <source
-                                            src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
-                                            type="video/mp4"
-                                        />
-                                        <source
-                                            src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
-                                            type="png/jpeg"
-                                        />
-                                    </video> */}
-
-                                    {/* <video
-                                        width="320"
-                                        height="240"
-                                        muted
-                                        // poster={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
-                                        className="vid"
-                                    >
-                                        <source
-                                            src="http://www.alex-bernardini.fr/videos/Wildlife.mp4"
-                                            type="video/mp4"
-                                        /> */}
-                                    {/* <object>
-                                            <param
-                                                name="movie"
-                                                value={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
-                                            />
-                                        </object> */}
-
-                                    {/* <iframe
-                                        src={`https://ipfs.io/ipfs/${photo.ipfsHashOfPhoto}`}
-                                        className="embedfile"
-                                        width="250"
-                                        height="200"
-                                    /> */}
-                                </button>
-                                <div className="activity__content">
-                                    <h3 className="activity__title">
-                                        <a
-                                            onClick={() =>
-                                                goItem(
-                                                    web3.utils.fromWei(
-                                                        `${photo.photoPrice}`,
-                                                        "ether"
-                                                    ),
-                                                    photo.ipfsHashOfPhoto,
-                                                    photo.photoNft
-                                                )
-                                            }
-                                        >
-                                            {photo.nftSymbol}
-                                        </a>
-                                    </h3>
-                                    <p className="activity__text">
-                                        listed by{" "}
-                                        <a href="#/Author">{photo.nftName}</a>{" "}
-                                        <br />
-                                        for{" "}
-                                        {web3.utils.fromWei(
-                                            `${photo.photoPrice}`,
-                                            "ether"
-                                        )}{" "}
-                                        ETH <b></b>{" "}
-                                    </p>
-                                    <span className="activity__time">
-                                        <TimeAgo date={date} />
-                                    </span>
+                                            )}{" "}
+                                            ETH <b></b>{" "}
+                                        </p>
+                                        <span className="activity__time">
+                                            <TimeAgo date={date} />
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </>
-                );
-                //}
-            });
-        }
+                        </>
+                    );
+                    //}
+                });
+            }
 
-        return ret;
+            return ret;
+        }
     }
 
     function renderCardPlus() {
@@ -435,7 +403,7 @@ function Activitycomponent(props: any) {
                 }
                 console.log("lengt" + tab);
                 let index = tab.length - 1;
-                for (let i = index; i > 0; i--) {
+                for (let i = index; i >= 0; i--) {
                     getTime(tab[i]);
                 }
                 // value.map((ele: any) => {
