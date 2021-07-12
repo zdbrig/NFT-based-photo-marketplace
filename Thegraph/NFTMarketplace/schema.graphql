@@ -1,0 +1,34 @@
+
+type TransactionPhotoNFTOwnershipChanged @entity {
+  id: ID!
+  adressPhotoNFT: Bytes! # address
+  photoId: BigInt! # uint256
+  ownerBeforeOwnershipTransferred:Bytes! 
+  ownerAfterOwnershipTransferred:Bytes!
+  blockNumber:BigInt!
+  timestamp:BigInt!
+   transaction: AllTransaction!
+}
+
+type TransactionTradeStatusChange @entity {
+  id: ID!
+  address: BigInt! #  uint256
+  status: Bytes! # address
+  blockNumber:BigInt!
+  timestamp:BigInt!
+  transaction: AllTransaction!
+}
+type AllTransaction  @entity{
+  id: ID!
+  address: BigInt! #  uint256
+  status: Bytes! # address
+  adressPhotoNFT: Bytes! # address
+  photoId: BigInt! # uint256
+  ownerBeforeOwnershipTransferred:Bytes! 
+  ownerAfterOwnershipTransferred:Bytes!
+  typeEvent:String!
+  blockNumber:BigInt!
+  timestamp:BigInt!
+  tradeStatusChange: [TransactionTradeStatusChange]!
+  AllphotoNft:[TransactionPhotoNFTOwnershipChanged]!
+}

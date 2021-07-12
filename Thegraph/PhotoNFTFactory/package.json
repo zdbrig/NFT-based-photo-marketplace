@@ -1,0 +1,16 @@
+{
+  "name": "PhotoNFTFactory",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ ZouaouiK/PhotoNFTFactory",
+    "create-local": "graph create --node http://localhost:8020/ NFT/PhotoNFTFactory",
+    "remove-local": "graph remove --node http://localhost:8020/ NFT/PhotoNFTFactory",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs https://ipfs.network.thegraph.com NFT/PhotoNFTFactory"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.20.0",
+    "@graphprotocol/graph-ts": "0.20.0"
+  }
+}

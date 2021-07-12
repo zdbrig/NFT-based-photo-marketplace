@@ -1,0 +1,43 @@
+#type ExampleEntity @entity {
+  #id: ID!
+  #count: BigInt!
+  #photoNFT: Bytes! # address
+  #photoId: BigInt! # uint256
+#}
+type photoNFTOwnership @entity{
+  id: ID!
+  adressPhotoNFT: Bytes! # address
+  photoId: BigInt! # uint256
+  ownerBeforeOwnershipTransferred:Bytes! 
+  ownerAfterOwnershipTransferred:Bytes!
+  blockNumber:BigInt!
+  timestamp:BigInt!
+}
+type tradeStatusChange @entity{
+  id: ID!
+  address: BigInt! #  uint256
+  status: Bytes! # address
+  blockNumber:BigInt!
+  timestamp:BigInt!
+}
+type addReputation @entity{
+  id: ID!
+  count: BigInt!
+  tokenId: BigInt! # uint256
+  reputationCount: BigInt! # uint256
+  timesTmp:BigInt!
+  blockNumber:BigInt!
+}
+type photoNFTCreated @entity {
+  id:ID!
+  owner:Bytes!
+  photoNft:Bytes!
+  nftName:String!
+  nftSymbol:String!
+  photoPrice:BigInt!
+  ipfsHashOfPhoto:String!
+  timesTmp:BigInt!
+  blockNumber:BigInt!
+  status:String!
+
+}
