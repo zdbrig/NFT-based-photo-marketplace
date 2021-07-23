@@ -13,7 +13,7 @@ function goDepositNFT(){
     window.location.assign("#/DepositNFT")
 } 
     return(<div className="Desktop">  
- <Header></Header>
+ <Header showButtonConnect={true}></Header>
 
  <main className="main">
                        

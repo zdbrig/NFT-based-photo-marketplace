@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import './signup_1.css'
 import Modal from "react-bootstrap/Modal";
+import Header from "../component/header/header" 
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Signup1() {
@@ -33,6 +34,8 @@ function Signup1() {
     function openModal(){setIsOpen(true)};
     function closeModal(){setIsOpen(false)};
     return (
+        <>
+        <Header showButtonConnect={false}></Header>
         <div className="pageInvitation">
            <Modal show={isOpen}>
         <Modal.Header >
@@ -58,6 +61,7 @@ function Signup1() {
                 <button onClick={() => { invitationTo() }}> Next </button>
             </div>
         </div>
+        </>
     )
 }
 export default Signup1;
