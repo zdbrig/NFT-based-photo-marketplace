@@ -3,7 +3,7 @@ import React ,{ useState, useEffect } from "react";
  import Header from "../component/header/header" 
 function DepositNFT(){
     return<div className="WithdrawNFT">  
- <Header></Header>
+ <Header showButtonConnect={true}></Header>
 
  
     </div>

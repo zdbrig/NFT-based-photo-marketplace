@@ -1,13 +1,19 @@
-import  "./header.css"
+import React, { useEffect, useState } from "react"
+import "./header.css"
 
-function Header(){
-    return(<div className="header">
- <div className="row"> 
- <div className="col-6 logo"> <p className="paraLogo">Logo</p> </div>
- <div className="col-6 "> <button className="buttonConnect">  Connect</button> </div>
- </div>
+function Header(props: any) {
+    const [showConnect, setShowConnect] = useState(props.showButtonConnect)
+    useEffect(() => {
+        console.log(showConnect)
+    });
 
-    </div>)
 
-} 
+    return (
+        <div className="header">
+            <div className="row">
+                <div className="col-6 logo"> <p className="paraLogo">Logo</p> </div>
+                <div className="col-6 "> {showConnect? <button className="buttonConnect">  Connect</button>:null} </div>
+            </div>
+        </div>)
+}
 export default Header

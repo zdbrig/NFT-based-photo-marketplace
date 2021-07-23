@@ -3,7 +3,7 @@ import "./withdrawnft.css"
  import Header from "../component/header/header" 
 function withdrawnft(){
     return<div className="WithdrawNFT">  
- <Header></Header>
+ <Header showButtonConnect={true}></Header>
  
  <main className="main">
                        
