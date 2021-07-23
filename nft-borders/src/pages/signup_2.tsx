@@ -1,29 +1,61 @@
 import React, { useState, useEffect } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import Header from "../component/header/header" 
+import CryptoJs from "crypto-js"
 import './signup_2.css'
 
 function Signup2(props:any) {
 
     let history = useHistory();
+    const location = useLocation<{ email: 'value' }>();
     const [password,setPassword]=useState("");
     const [confirmPass,setConfirmPass]=useState("");
+    const [email]=useState(!location.state ? "" : location.state.email);
     const [show,setShow]=useState(false);
-
+    useEffect(() => {
+        //console.log("email"+email)
+    });
+   
     function handleChangePass(event: any) {
-        console.log(event.target.value)
+      //  console.log(event.target.value)
         setPassword(event.target.value);
     }
     function handleChangeConfPass(event: any) {
-        console.log(event.target.value)
+        //console.log(event.target.value)
         setConfirmPass(event.target.value);
     }
+    
+    async function saveUser() {
+        // SHA1
+        let pwd =CryptoJs.SHA1(password).toString();
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                email: email,
+                password: pwd
+            }),
+        };
+        try {
+            fetch("api/addUsers", requestOptions)
+                .then((response) => response.text())
+
+                .then((data) => {
+
+                   // console.log(data)
+                    history.push("/desktop");
+                });
+        } catch (err) {
+            alert(err);
+        }
+    }
+
     function nextButton(){
         if (password != confirmPass ) {
             alert("Passwords do not match.");
             return false;
         }else{
-            history.push("/desktop");
+            saveUser()
             return true;
         }
     }

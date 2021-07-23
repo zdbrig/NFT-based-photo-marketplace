@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import Header from "../component/header/header" 
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function Signup1() {
+function Signup1(props:any) {
     let history = useHistory();
     const [email, setEmail] = useState("");
     const [isOpen, setIsOpen] = useState(false);
@@ -15,8 +15,37 @@ function Signup1() {
     const [title, setTitle]=useState("");
     
     function handleChange(event: any) {
-        console.log(event.target.value)
+        //console.log(event.target.value)
         setEmail(event.target.value);
+    }
+    function getUserByEmail(email: any) {
+        fetch("/api/getUserByEmail?email=" + email)
+            .then(function (response) {
+                if (response.status !== 200) {
+                    console.log(
+                        "Looks like there was a problem. Status Code: " +
+                            response.status
+                    );
+                    return;
+                }
+
+                // Examine the text in the response
+                response.json().then(function (data) {
+                   // console.log(data)
+                   if(data.res==null){
+                    history.push({
+                        pathname:"/signup",
+                        state: { email: email }
+                    }); 
+                    }else{
+                        history.push("/desktop");
+                        
+                    }
+                });
+            })
+            .catch(function (err) {
+                console.log("Fetch Error :-S", err);
+            });
     }
     function invitationTo() {
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -25,7 +54,7 @@ function Signup1() {
             openModal()
             
         } else {
-            history.push("/signup");
+            getUserByEmail(email)
             console.log("email valid")
         }
 
