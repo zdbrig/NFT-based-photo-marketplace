@@ -4,10 +4,15 @@ import './App.css';
 import { HashRouter, Route, Switch } from "react-router-dom";
 import Signup_1 from "./pages/signup_1"
 import Signup_2 from "./pages/signup_2"
+import SuperAdmin from "./pages/superAdmin"
+import UpdateStatus from "./pages/updateStatus"
 import Desktop from "./pages/desktop"
 import WithdrawNFT from "./pages/withdrawnft"
 import RedeemBottle from "./pages/redeembottle"
 import DepositNFT from "./pages/depositnft"
+import Redemption from "./pages/redemption"
+
+
 function App() {
   return (
     <HashRouter>
@@ -37,6 +42,19 @@ function App() {
                         {" "}
                         <DepositNFT_Link></DepositNFT_Link>{" "}
                     </Route>
+                    <Route exact path="/superAdmin">
+                        {" "}
+                        <SuperAdmin_Link></SuperAdmin_Link>{" "}
+                    </Route>
+                    
+                    <Route exact path="/updateStatus">
+                        {" "}
+                        <UpdateStatus_Link></UpdateStatus_Link>{" "}
+                    </Route>
+                    <Route exact path="/redemption">
+                        {" "}
+                        <Redemption_Link></Redemption_Link>{" "}
+                    </Route>
                 </Switch>
             </div>
         </HashRouter>
@@ -59,5 +77,14 @@ function Redeem_Bottle_Link() {
 }
 function DepositNFT_Link() {
   return <DepositNFT/>;
+}
+function SuperAdmin_Link() {
+  return <SuperAdmin/>;
+}
+function UpdateStatus_Link() {
+  return <UpdateStatus/>;
+}
+function Redemption_Link(){
+  return <Redemption/>
 }
 export default App;
