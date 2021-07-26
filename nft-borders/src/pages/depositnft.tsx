@@ -3,17 +3,21 @@ import React ,{ useState, useEffect } from "react";
  import Header from "../component/header/header" 
  import "./depositnft.css"
 function DepositNFT(){
+    function goPageDesktop(){
+        window.location.assign("#/desktop")
+ 
+     } 
     return<div className="DepositNFT">  
  <Header showButtonConnect={true}></Header>
  <main className="main">
                        
-                          
+                  
                        <div className="col-12">
 <p className="paraDeposit"> Deposit NFT</p>
                           
                            </div>
                            <div className="row">
-<div className="col-4"> <label className=" parafont labelBack">  Back</label></div>
+<div className="col-4"> <label className=" parafont labelBack" onClick={goPageDesktop}>  &lt; back </label></div>
 <div className="col-8 para" >
 <p className=" parafont ">Step 1. Press the “Connect” button in the top right.</p>
 <p className=" parafont ">Step 2. Select which NFT from this dropdown</p>

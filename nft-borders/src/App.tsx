@@ -13,6 +13,7 @@ import DepositNFT from "./pages/depositnft"
 import Redemption from "./pages/redemption"
 import Withdrawnft2 from "./pages/withdrawnft_2"
 import Redeembottle_2 from './pages/redeembottle_2';
+import ProgressUpdate from "./pages/progresupdate"
 function App() {
   return (
     <HashRouter>
@@ -64,6 +65,10 @@ function App() {
                         {" "}
                         <Withdrawnft2_Link></Withdrawnft2_Link>{" "}
                     </Route>
+                    <Route exact path="/ProgressUpdate">
+                        {" "}
+                        <Progress_Update_Link></Progress_Update_Link>{" "}
+                    </Route>
                 </Switch>
             </div>
         </HashRouter>
@@ -102,5 +107,7 @@ function Redemption_Link(){
 function Withdrawnft2_Link() {
   return <Withdrawnft2/>;
 }
-
+function Progress_Update_Link() {
+  return <ProgressUpdate/>;
+}
 export default App;

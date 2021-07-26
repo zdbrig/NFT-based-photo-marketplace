@@ -3,6 +3,15 @@ import React ,{ useState, useEffect } from "react";
  import Header from "../component/header/header" 
  import "./redeembottle.css"
 function Redeembottle(){
+    function submitDetailsBottle(){
+        window.location.assign("#/RedeemBottle2")
+ 
+     }
+     function goPageDesktop(){
+        window.location.assign("#/desktop")
+ 
+     }
+
     return<div className="Redeembottle">  
  <Header showButtonConnect={true}></Header>
 
@@ -13,7 +22,7 @@ function Redeembottle(){
                           
                            </div>
                            < div className="col-12">
-<div className="col-12"> <label className=" parafont labelBack">  Back</label></div>
+<div className="col-12"> <label className=" parafont labelBack" onClick={goPageDesktop}>  &lt; back </label></div>
 <div className="col-12 divInput" >
 <p className="paraFrom">Enter the delivery details for your bottle</p>
     <form>
@@ -35,7 +44,7 @@ function Redeembottle(){
         <div className="col-sm-6"><input className="inputform "placeholder="Country"></input></div>
         
     </div>
-    <div className="divButton" > <button >Submit</button></div>
+    <div className="divButton" > <button onClick={submitDetailsBottle}>Submit</button></div>
 </div>
 
 </form>
