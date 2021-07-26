@@ -11,8 +11,8 @@ import WithdrawNFT from "./pages/withdrawnft"
 import RedeemBottle from "./pages/redeembottle"
 import DepositNFT from "./pages/depositnft"
 import Redemption from "./pages/redemption"
-
-
+import Withdrawnft2 from "./pages/withdrawnft_2"
+import Redeembottle_2 from './pages/redeembottle_2';
 function App() {
   return (
     <HashRouter>
@@ -38,6 +38,11 @@ function App() {
                         {" "}
                         <Redeem_Bottle_Link></Redeem_Bottle_Link>{" "}
                     </Route>
+                    <Route exact path="/RedeemBottle2">
+                        {" "}
+                        <Redeem_Bottle2_Link></Redeem_Bottle2_Link>{" "}
+                    </Route>
+                    
                     <Route exact path="/DepositNFT">
                         {" "}
                         <DepositNFT_Link></DepositNFT_Link>{" "}
@@ -54,6 +59,10 @@ function App() {
                     <Route exact path="/redemption">
                         {" "}
                         <Redemption_Link></Redemption_Link>{" "}
+                        </Route>
+                    <Route exact path="/WithdrawNft2">
+                        {" "}
+                        <Withdrawnft2_Link></Withdrawnft2_Link>{" "}
                     </Route>
                 </Switch>
             </div>
@@ -75,6 +84,9 @@ function Withdraw_Link() {
 function Redeem_Bottle_Link() {
   return <RedeemBottle/>;
 }
+function Redeem_Bottle2_Link() {
+  return <Redeembottle_2/>;
+}
 function DepositNFT_Link() {
   return <DepositNFT/>;
 }
@@ -87,4 +99,8 @@ function UpdateStatus_Link() {
 function Redemption_Link(){
   return <Redemption/>
 }
+function Withdrawnft2_Link() {
+  return <Withdrawnft2/>;
+}
+
 export default App;
