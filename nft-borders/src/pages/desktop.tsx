@@ -15,11 +15,11 @@ function goDepositNFT(){
 function goProgressUpdate(){
     window.location.assign("#/ProgressUpdate")
 }
-    return(<div className="Desktop">  
+    return(<div className="Desktop main-layout inner_page">  
  <Header showButtonConnect={true}></Header>
 
 
-                       
+                       <div className="content" >
                           
                                 <div className="col-12">
 <p className="paraWelcome"> Welcome,</p>
@@ -32,8 +32,8 @@ function goProgressUpdate(){
                                             <div className="col-5"> <img className="imgbottle"src="bottle.png"/></div>
                                             <div className="col-7">
                                                 <p className="para1837 paramargin">1837</p>
-                                                <p className="paraBottle"> Bottle no.1283</p>
-                                                <p className="paraBottle paraBottleMargin" onClick={goProgressUpdate}> View progress details</p>
+                                                <p className="paramargin"> Bottle no.1283</p>
+                                                <p className=" paraBottleMargin" onClick={goProgressUpdate}> View progress details</p>
                                             </div>
                                             </div>
                                         </div>
@@ -49,6 +49,7 @@ function goProgressUpdate(){
 
 
                                    
+                                    </div>
                                     </div>
                                     
                                    

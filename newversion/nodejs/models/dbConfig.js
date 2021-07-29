@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost:27017/nft", {
+mongoose.connect("mongodb://localhost:27017/nft1", {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });

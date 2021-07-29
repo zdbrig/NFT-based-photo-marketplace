@@ -77,17 +77,21 @@ function Signup1(props:any) {
             </button>
   </Modal.Footer>
       </Modal>
-            <div className="title">
-                NFT Invitation
+            <div >
+               <h1 className="title">NFT Invitation </h1> 
             </div>
-            <div className="paragraph">
+            <div className="col-12" >
+            <div className="  row paragraph">
                 <p> You’ve been invited to join the 1837 NFT platform! Please insert the email address you used to purchase a bottle previously with. A verification will be sent to you.</p>
             </div>
-            <div className="input">
-                <input className="inputEmail" type="text" placeholder="Email address " value={email} onChange={handleChange} />
-            </div>
-            <div className="divButton">
+            
+            <div className=" row divInput">
+                <input className=" row inputEmail" type="text" placeholder="Example@email.com"  value={email} onChange={handleChange} />
+                </div>
+            <div className=" row divButton">
                 <button onClick={() => { invitationTo() }}> Next </button>
+            </div>
+           
             </div>
         </div>
         </>
