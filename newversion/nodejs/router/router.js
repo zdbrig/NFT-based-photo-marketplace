@@ -11,7 +11,7 @@ const bodyParser = require("body-parser");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 router.use(bodyParser.urlencoded({ extended: true }));
 const controller = require("../Controller/userController");
-
+const sendEmail = require("../models/sendEmail");
 router.get("/api/getUserByPublickey", (req, res, next) =>
     getRawBody(req)
         .then((response) => {
@@ -38,6 +38,21 @@ router.post("/api/addUsers", (req, res, next) =>
             let user = JSON.parse(response);
             console.log("res" + response);
             return controller.addUsers(user);
+        })
+        .then(function (user) {
+            res.send(user);
+        })
+        .catch((error) => console.log("error: " + error))
+);
+router.post("/api/sendEmail", (req, res, next) =>
+    getRawBody(req)
+        .then((response) => {
+            console.log("user"+response)
+            let user = JSON.parse(response);
+          let username=user.username;
+          let imgQRCode=user.imgQRCode;
+          let emailAdmin=user.emailAdmin;
+            return sendEmail.mailSendToAdmin(username, imgQRCode, emailAdmin);
         })
         .then(function (user) {
             res.send(user);

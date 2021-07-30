@@ -44,12 +44,17 @@ function Authorcomponent(props: any) {
                         console.log("data1" + data.user);
 
                         if (data.user !== "undefined") {
+                           
+
+
                             setUser(data);
                             setLoading(false);
+                            
                         } else {
                             window.location.assign("#/Signup");
                         }
-                        console.log("data" + JSON.stringify(data));
+                        props.onSelectUser(data);
+                        console.log("data" + data.email);
                     });
                 })
                 .catch(function (err) {

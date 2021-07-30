@@ -8,6 +8,6 @@ const app = express();
 const routerUser = require("./router/router");
 app.use("/", routerUser);
 app.use(express.json());
-app.listen(3002, () => {
-    console.log("le serveur est lancé sur le port 3002");
+app.listen(3003, () => {
+    console.log("le serveur est lancé sur le port 3003");
 });

@@ -7,9 +7,10 @@ import photoNft1 from "../contract/contracts/PhotoNFT.json";
 // import photoNft from "../../../../build/contracts/PhotoNFT.json";
 import ipfs from "../component/Ipfs/ipfsApi";
 import Web3 from "web3";
-
+import ModalQRCode from "../component/Modal/modalQRCode";
 import { Modal } from "reactstrap";
 import "./Create.css";
+import { setupMaster } from "cluster";
 
 function Create() {
     const [photo, setPhoto] = useState<any>();
@@ -26,6 +27,7 @@ function Create() {
     const [photoNFTMarketplace, setPhotoNFTMarketplace] = useState<any>();
     const [PHOTO_NFT_MARKETPLACE, setPHOTO_NFT_MARKETPLACE] = useState<any>();
     const [buffer, setBuffer] = useState<any>();
+    const [user, setUser] = useState<any>();
     const [ipfsHash, setIpfsHash] = useState<any>();
     const [buttonActive, setButtonActive] = useState(true);
     const [disabledAuction, setDisableAuction] = useState(true);
@@ -42,8 +44,9 @@ function Create() {
     const [networkModal, setModalNetwork] = useState(false);
     const [addressAuction, setAddressAuction] = useState(false);
     const [redevance, setRedevance] = useState(0);
-
+    const [showModalQRCode, setShowModalQRCode] = useState(true);
     const toggleNetwork = () => setModalNetwork(false);
+    const toggleQRCode = () => setModalNetwork(false);
     const handleClick = (active: any) => {
         setActiveItem(active);
     };
@@ -51,6 +54,7 @@ function Create() {
         setShowModalAuction(false);
     };
     const toggle = () => setLoading(false);
+    
     function OnchangPhoto(event: any) {
         event.preventDefault();
 
@@ -92,6 +96,127 @@ function Create() {
         setPrice(e.target.value);
     }
 
+    // const createItem = async () => {
+    //     ipfs.files.add(buffer, (error: any, result: any) => {
+    //         // In case of fail to upload to IPFS
+    //         if (error) {
+    //             console.error(error);
+    //             return;
+    //         }
+    //         const photoPrice = web3.utils.toWei(price, "ether");
+    //         // In case of successful to upload to IPFS
+
+    //         setIpfsHash(result[0].hash);
+    //         setLoading(true);
+    //         photoNFTFactory.methods
+    //             .createNewPhotoNFT(
+    //                 namePhoto,
+    //                 description,
+    //                 photoPrice,
+    //                 result[0].hash,
+    //                 selectedOption,
+    //                 redevance
+    //             )
+    //             .send({ from: accounts[0] })
+    //             .once("receipt", (receipt: any) => {
+    //                 console.log("=== receipt ===", receipt);
+
+    //                 const PHOTO_NFT =
+    //                     receipt.events.PhotoNFTCreated.returnValues.photoNFT;
+    //                 console.log("=== PHOTO_NFT ===", PHOTO_NFT);
+
+    //                 // let PhotoNFT = {};
+
+    //                 // PhotoNFT = photoNft.abi;
+    //                 // console.log("=== PHOTO_NFT ===", PhotoNFT);
+    //                 // let photoNFT = new web3.eth.Contract(PhotoNFT, PHOTO_NFT);
+    //                 /// Get instance by using created photoNFT address
+    //                 // let PhotoNFT = {};
+    //                 // PhotoNFT = photoNft;
+    //                 let photoNFT = new web3.eth.Contract(
+    //                     //@ts-ignore
+    //                     photoNft1.abi,
+    //                     PHOTO_NFT
+    //                 );
+    //                 console.log("=== photoNFT ===", photoNFT);
+    //                 const photoId = 1; /// [Note]: PhotoID is always 1. Because each photoNFT is unique.
+    //                 console.log("photoId" + photoId);
+    //                 photoNFT.methods
+    //                     .ownerOf(photoId)
+    //                     .call()
+    //                     .then((owner: any) =>
+    //                         console.log("=== owner of photoId 1 ===", owner)
+    //                     );
+    //                 photoNFT.methods
+    //                     .approve(PHOTO_NFT_MARKETPLACE, photoId)
+    //                     .send({ from: accounts[0] })
+    //                     .once("receipt", (receipt: any) => {
+    //                         /// Put on sale (by a seller who is also called as owner)
+    //                         photoNFTMarketplace.methods
+    //                             .openTradeWhenCreateNewPhotoNFT(
+    //                                 PHOTO_NFT,
+    //                                 photoId,
+    //                                 photoPrice
+    //                             )
+    //                             .send({ from: accounts[0] })
+    //                             .once("receipt", (receipt: any) => {
+    //                                 setPhotoNft(PHOTO_NFT);
+    //                                 console.log("xx");
+    //                             })
+    //                             .then((rest: any) => {
+    //                                 if (selectedOption === "InstantSalePrice") {
+    //                                     // localStorage.setItem(
+    //                                     //     "typeAchat",
+    //                                     //     selectedOption
+    //                                     // );
+    //                                     localStorage.setItem(
+    //                                         "nftPhoto",
+    //                                         PHOTO_NFT
+    //                                     );
+    //                                     window.location.assign("#/Activity");
+    //                                 }
+    //                                 if (selectedOption === "PutOnSale") {
+    //                                     localStorage.setItem(
+    //                                         "nftPhoto",
+    //                                         PHOTO_NFT
+    //                                     );
+    //                                     setLoading(false);
+
+    //                                     setShowModalAuction(true);
+
+    //                                     // setShowAuction(true);
+    //                                 } // window.location.assign("#/Activity");
+    //                             });
+    //                     });
+    //             });
+    //     });
+    // };
+
+
+
+    async function sendEmail() {
+       
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                username: user.username,
+                emailAdmin: user.email,
+                imgQRCode: photoNft,
+            }),
+        };
+        try {
+            fetch("/api/sendEmail", requestOptions)
+                .then((response) => response.text())
+
+                .then((data) => {
+                    setShowModalQRCode(true);
+                   
+                });
+        } catch (err) {
+            alert(err);
+        }
+    }
     const createItem = async () => {
         ipfs.files.add(buffer, (error: any, result: any) => {
             // In case of fail to upload to IPFS
@@ -104,13 +229,15 @@ function Create() {
 
             setIpfsHash(result[0].hash);
             setLoading(true);
-            photoNFTFactory.methods
-                .createNewPhotoNFT(
+            console.log(photoNFTFactory)
+            console.log(user.email)
+          
+            photoNFTFactory.methods.createNewPhotoNFT(
                     namePhoto,
                     description,
                     photoPrice,
                     result[0].hash,
-                    selectedOption,
+                    user.email,
                     redevance
                 )
                 .send({ from: accounts[0] })
@@ -160,28 +287,11 @@ function Create() {
                                     console.log("xx");
                                 })
                                 .then((rest: any) => {
-                                    if (selectedOption === "InstantSalePrice") {
-                                        // localStorage.setItem(
-                                        //     "typeAchat",
-                                        //     selectedOption
-                                        // );
-                                        localStorage.setItem(
-                                            "nftPhoto",
-                                            PHOTO_NFT
-                                        );
-                                        window.location.assign("#/Activity");
-                                    }
-                                    if (selectedOption === "PutOnSale") {
-                                        localStorage.setItem(
-                                            "nftPhoto",
-                                            PHOTO_NFT
-                                        );
-                                        setLoading(false);
-
-                                        setShowModalAuction(true);
-
-                                        // setShowAuction(true);
-                                    } // window.location.assign("#/Activity");
+                                    sendEmail()
+                                   
+                                    setLoading(false);
+                                   
+                                    
                                 });
                         });
                 });
@@ -245,7 +355,7 @@ function Create() {
 
             console.log("id" + networkId);
             const networkType = await web3.eth.net.getNetworkType();
-            console.log("type" + networkType);
+            console.log("type" + accounts);
             let balance =
                 accounts.length > 0
                     ? await web3.eth.getBalance(accounts[0])
@@ -400,10 +510,17 @@ function Create() {
     function changeRedevance(e: any) {
         setRedevance(e.target.value);
     }
+    function handleSelectUser(user:any){
+        setUser(user)
+
+        console.log("user"+user.email)
+    }
     return (
         <div>
             <Header onClickActive={handleClick} account={accountMetamask} />
             <>
+
+            <ModalQRCode isOpen={showModalQRCode} toggle={toggleQRCode} nftPhoto={photoNft}/>
                 <Modal
                     isOpen={loading}
                     toggle={toggle}
@@ -508,7 +625,7 @@ function Create() {
                 <div className="container">
                     <div className="row row--grid">
                         <div className="col-12 col-xl-3">
-                            <Author account={accountMetamask} />
+                            <Author account={accountMetamask} onSelectUser={handleSelectUser}/>
                         </div>
                         <div className="col-12 col-xl-9">
                             <div className="main__title main__title--create">

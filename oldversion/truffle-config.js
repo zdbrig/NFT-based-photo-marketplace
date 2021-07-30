@@ -24,7 +24,8 @@ module.exports = {
             provider: () =>
                 new HDWalletProvider(
                     mnemonic,
-                    "https://kovan.infura.io/v3/" + process.env.INFURA_KEY
+                    // "https://kovan.infura.io/v3/" + process.env.INFURA_KEY
+                    "https://kovan.infura.io/v3/7bbcfc57507b43118e076c41019e69d8" 
                 ),
             network_id: 42, // Ropsten's id
             gas: 5500000, // Ropsten has a lower block limit than mainnet

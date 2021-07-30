@@ -155,25 +155,25 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"payee\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"weiAmount\",\"type\":\"uint256\"}],\"name\":\"Deposited\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"}],\"name\":\"PrimaryTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"payee\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"weiAmount\",\"type\":\"uint256\"}],\"name\":\"Withdrawn\",\"type\":\"event\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"payee\",\"type\":\"address\"}],\"name\":\"deposit\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"payee\",\"type\":\"address\"}],\"name\":\"depositsOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"primary\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"}],\"name\":\"transferPrimary\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address payable\",\"name\":\"payee\",\"type\":\"address\"}],\"name\":\"withdraw\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"payee\",\"type\":\"address\"}],\"name\":\"withdrawalAllowed\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Base abstract escrow to only allow withdrawal if a condition is met.Intended usage: See Escrow.sol. Same usage guidelines apply here.\",\"methods\":{\"deposit(address)\":{\"details\":\"Stores the sent amount as credit to be withdrawn.\",\"params\":{\"payee\":\"The destination address of the funds.\"}},\"primary()\":{\"return\":\"the address of the primary.\"},\"transferPrimary(address)\":{\"details\":\"Transfers contract to a new primary.\",\"params\":{\"recipient\":\"The address of new primary.\"}},\"withdrawalAllowed(address)\":{\"details\":\"Returns whether an address is allowed to withdraw their funds. To be implemented by derived contracts.\",\"params\":{\"payee\":\"The destination address of the funds.\"}}},\"title\":\"ConditionalEscrow\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"/home/amal/Documents/nftcontaract/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/payment/escrow/ConditionalEscrow.sol\":\"ConditionalEscrow\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/amal/Documents/nftcontaract/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/math/SafeMath.sol\":{\"keccak256\":\"0x965012d27b4262d7a41f5028cbb30c51ebd9ecd4be8fb30380aaa7a3c64fbc8b\",\"urls\":[\"bzz-raw://1eb493553b27efd46c231a836a83ce50d215639feb97b4aac9f301d0fd034ff5\",\"dweb:/ipfs/QmbMdvSXcqGKxeeYvzF3VrWpoHQyVzMXBhzhAokF2Gdymv\"]},\"/home/amal/Documents/nftcontaract/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/ownership/Secondary.sol\":{\"keccak256\":\"0xaf8e346aed4d07781d02ed118d6637c7190def5bafe2aa5c374bdbff137e5a14\",\"urls\":[\"bzz-raw://551c1bf8d65c1e44683c89ae5275542a918a1a9df0934bda8fd165a26f803952\",\"dweb:/ipfs/QmVSDTUh4kmPVaj1EZWcJG4jx11a59wXY1bWqcUrpoWQ2M\"]},\"/home/amal/Documents/nftcontaract/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/payment/escrow/ConditionalEscrow.sol\":{\"keccak256\":\"0x4152bc0de7885125b91c1523533baef2b71ff35e7e0293735af28ede20af2e3b\",\"urls\":[\"bzz-raw://1d1e9a1fd9c3166f3311d67885edc2e28df9f67790b9ee6546f5c273d717ecec\",\"dweb:/ipfs/QmdVSW41vmirmzT9tqYHS3DEyXn7Th8KK5sbTeDzfaiSMm\"]},\"/home/amal/Documents/nftcontaract/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/payment/escrow/Escrow.sol\":{\"keccak256\":\"0xa595351c39e37511ac79d02b9e8e7e9f9169edb48e45507756d6818f6300bb85\",\"urls\":[\"bzz-raw://b2a8ee1f89d72b6b2022a87e1f878cb2a2a61748a6c53e288170953aeb00ff05\",\"dweb:/ipfs/QmSjHBUSPrbwzNk1gsSTwbxknSgy8bKwhHTHY3eNvLZx6R\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"payee\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"weiAmount\",\"type\":\"uint256\"}],\"name\":\"Deposited\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"}],\"name\":\"PrimaryTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"payee\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"weiAmount\",\"type\":\"uint256\"}],\"name\":\"Withdrawn\",\"type\":\"event\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"payee\",\"type\":\"address\"}],\"name\":\"deposit\",\"outputs\":[],\"payable\":true,\"stateMutability\":\"payable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"payee\",\"type\":\"address\"}],\"name\":\"depositsOf\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[],\"name\":\"primary\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address\",\"name\":\"recipient\",\"type\":\"address\"}],\"name\":\"transferPrimary\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":false,\"inputs\":[{\"internalType\":\"address payable\",\"name\":\"payee\",\"type\":\"address\"}],\"name\":\"withdraw\",\"outputs\":[],\"payable\":false,\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"constant\":true,\"inputs\":[{\"internalType\":\"address\",\"name\":\"payee\",\"type\":\"address\"}],\"name\":\"withdrawalAllowed\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Base abstract escrow to only allow withdrawal if a condition is met.Intended usage: See Escrow.sol. Same usage guidelines apply here.\",\"methods\":{\"deposit(address)\":{\"details\":\"Stores the sent amount as credit to be withdrawn.\",\"params\":{\"payee\":\"The destination address of the funds.\"}},\"primary()\":{\"return\":\"the address of the primary.\"},\"transferPrimary(address)\":{\"details\":\"Transfers contract to a new primary.\",\"params\":{\"recipient\":\"The address of new primary.\"}},\"withdrawalAllowed(address)\":{\"details\":\"Returns whether an address is allowed to withdraw their funds. To be implemented by derived contracts.\",\"params\":{\"payee\":\"The destination address of the funds.\"}}},\"title\":\"ConditionalEscrow\"},\"userdoc\":{\"methods\":{}}},\"settings\":{\"compilationTarget\":{\"project:/contracts/openzeppelin-solidity/contracts/payment/escrow/ConditionalEscrow.sol\":\"ConditionalEscrow\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/openzeppelin-solidity/contracts/math/SafeMath.sol\":{\"keccak256\":\"0x965012d27b4262d7a41f5028cbb30c51ebd9ecd4be8fb30380aaa7a3c64fbc8b\",\"urls\":[\"bzz-raw://1eb493553b27efd46c231a836a83ce50d215639feb97b4aac9f301d0fd034ff5\",\"dweb:/ipfs/QmbMdvSXcqGKxeeYvzF3VrWpoHQyVzMXBhzhAokF2Gdymv\"]},\"project:/contracts/openzeppelin-solidity/contracts/ownership/Secondary.sol\":{\"keccak256\":\"0xaf8e346aed4d07781d02ed118d6637c7190def5bafe2aa5c374bdbff137e5a14\",\"urls\":[\"bzz-raw://551c1bf8d65c1e44683c89ae5275542a918a1a9df0934bda8fd165a26f803952\",\"dweb:/ipfs/QmVSDTUh4kmPVaj1EZWcJG4jx11a59wXY1bWqcUrpoWQ2M\"]},\"project:/contracts/openzeppelin-solidity/contracts/payment/escrow/ConditionalEscrow.sol\":{\"keccak256\":\"0x4152bc0de7885125b91c1523533baef2b71ff35e7e0293735af28ede20af2e3b\",\"urls\":[\"bzz-raw://1d1e9a1fd9c3166f3311d67885edc2e28df9f67790b9ee6546f5c273d717ecec\",\"dweb:/ipfs/QmdVSW41vmirmzT9tqYHS3DEyXn7Th8KK5sbTeDzfaiSMm\"]},\"project:/contracts/openzeppelin-solidity/contracts/payment/escrow/Escrow.sol\":{\"keccak256\":\"0xa595351c39e37511ac79d02b9e8e7e9f9169edb48e45507756d6818f6300bb85\",\"urls\":[\"bzz-raw://b2a8ee1f89d72b6b2022a87e1f878cb2a2a61748a6c53e288170953aeb00ff05\",\"dweb:/ipfs/QmSjHBUSPrbwzNk1gsSTwbxknSgy8bKwhHTHY3eNvLZx6R\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.5.0;\n\nimport \"./Escrow.sol\";\n\n/**\n * @title ConditionalEscrow\n * @dev Base abstract escrow to only allow withdrawal if a condition is met.\n * @dev Intended usage: See Escrow.sol. Same usage guidelines apply here.\n */\ncontract ConditionalEscrow is Escrow {\n    /**\n    * @dev Returns whether an address is allowed to withdraw their funds. To be\n    * implemented by derived contracts.\n    * @param payee The destination address of the funds.\n    */\n    function withdrawalAllowed(address payee) public view returns (bool);\n\n    function withdraw(address payable payee) public {\n        require(withdrawalAllowed(payee));\n        super.withdraw(payee);\n    }\n}\n",
-  "sourcePath": "/home/amal/Documents/nftcontaract/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/payment/escrow/ConditionalEscrow.sol",
+  "sourcePath": "/Users/amal/Documents/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/payment/escrow/ConditionalEscrow.sol",
   "ast": {
-    "absolutePath": "/home/amal/Documents/nftcontaract/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/payment/escrow/ConditionalEscrow.sol",
+    "absolutePath": "project:/contracts/openzeppelin-solidity/contracts/payment/escrow/ConditionalEscrow.sol",
     "exportedSymbols": {
       "ConditionalEscrow": [
-        4203
+        4256
       ]
     },
-    "id": 4204,
+    "id": 4257,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 4174,
+        "id": 4227,
         "literals": [
           "solidity",
           "^",
@@ -184,12 +184,12 @@
         "src": "0:23:27"
       },
       {
-        "absolutePath": "/home/amal/Documents/nftcontaract/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/payment/escrow/Escrow.sol",
+        "absolutePath": "project:/contracts/openzeppelin-solidity/contracts/payment/escrow/Escrow.sol",
         "file": "./Escrow.sol",
-        "id": 4175,
+        "id": 4228,
         "nodeType": "ImportDirective",
-        "scope": 4204,
-        "sourceUnit": 4302,
+        "scope": 4257,
+        "sourceUnit": 4355,
         "src": "25:22:27",
         "symbolAliases": [],
         "unitAlias": ""
@@ -200,33 +200,33 @@
             "arguments": null,
             "baseName": {
               "contractScope": null,
-              "id": 4176,
+              "id": 4229,
               "name": "Escrow",
               "nodeType": "UserDefinedTypeName",
-              "referencedDeclaration": 4301,
+              "referencedDeclaration": 4354,
               "src": "266:6:27",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_Escrow_$4301",
+                "typeIdentifier": "t_contract$_Escrow_$4354",
                 "typeString": "contract Escrow"
               }
             },
-            "id": 4177,
+            "id": 4230,
             "nodeType": "InheritanceSpecifier",
             "src": "266:6:27"
           }
         ],
         "contractDependencies": [
-          3833,
-          4301
+          3886,
+          4354
         ],
         "contractKind": "contract",
         "documentation": "@title ConditionalEscrow\n@dev Base abstract escrow to only allow withdrawal if a condition is met.\n@dev Intended usage: See Escrow.sol. Same usage guidelines apply here.",
         "fullyImplemented": false,
-        "id": 4203,
+        "id": 4256,
         "linearizedBaseContracts": [
-          4203,
-          4301,
-          3833
+          4256,
+          4354,
+          3886
         ],
         "name": "ConditionalEscrow",
         "nodeType": "ContractDefinition",
@@ -234,22 +234,22 @@
           {
             "body": null,
             "documentation": "@dev Returns whether an address is allowed to withdraw their funds. To be\nimplemented by derived contracts.\n@param payee The destination address of the funds.",
-            "id": 4184,
+            "id": 4237,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "withdrawalAllowed",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 4180,
+              "id": 4233,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4179,
+                  "id": 4232,
                   "name": "payee",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4184,
+                  "scope": 4237,
                   "src": "498:13:27",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -258,7 +258,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 4178,
+                    "id": 4231,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "498:7:27",
@@ -275,15 +275,15 @@
               "src": "497:15:27"
             },
             "returnParameters": {
-              "id": 4183,
+              "id": 4236,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4182,
+                  "id": 4235,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4184,
+                  "scope": 4237,
                   "src": "534:4:27",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -292,7 +292,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 4181,
+                    "id": 4234,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "534:4:27",
@@ -307,7 +307,7 @@
               ],
               "src": "533:6:27"
             },
-            "scope": 4203,
+            "scope": 4256,
             "src": "471:69:27",
             "stateMutability": "view",
             "superFunction": null,
@@ -315,7 +315,7 @@
           },
           {
             "body": {
-              "id": 4201,
+              "id": 4254,
               "nodeType": "Block",
               "src": "594:81:27",
               "statements": [
@@ -328,11 +328,11 @@
                         "arguments": [
                           {
                             "argumentTypes": null,
-                            "id": 4191,
+                            "id": 4244,
                             "name": "payee",
                             "nodeType": "Identifier",
                             "overloadedDeclarations": [],
-                            "referencedDeclaration": 4186,
+                            "referencedDeclaration": 4239,
                             "src": "630:5:27",
                             "typeDescriptions": {
                               "typeIdentifier": "t_address_payable",
@@ -347,18 +347,18 @@
                               "typeString": "address payable"
                             }
                           ],
-                          "id": 4190,
+                          "id": 4243,
                           "name": "withdrawalAllowed",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 4184,
+                          "referencedDeclaration": 4237,
                           "src": "612:17:27",
                           "typeDescriptions": {
                             "typeIdentifier": "t_function_internal_view$_t_address_$returns$_t_bool_$",
                             "typeString": "function (address) view returns (bool)"
                           }
                         },
-                        "id": 4192,
+                        "id": 4245,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -380,21 +380,21 @@
                           "typeString": "bool"
                         }
                       ],
-                      "id": 4189,
+                      "id": 4242,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
-                        7129,
-                        7130
+                        7182,
+                        7183
                       ],
-                      "referencedDeclaration": 7129,
+                      "referencedDeclaration": 7182,
                       "src": "604:7:27",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_require_pure$_t_bool_$returns$__$",
                         "typeString": "function (bool) pure"
                       }
                     },
-                    "id": 4193,
+                    "id": 4246,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -408,7 +408,7 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 4194,
+                  "id": 4247,
                   "nodeType": "ExpressionStatement",
                   "src": "604:33:27"
                 },
@@ -418,11 +418,11 @@
                     "arguments": [
                       {
                         "argumentTypes": null,
-                        "id": 4198,
+                        "id": 4251,
                         "name": "payee",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 4186,
+                        "referencedDeclaration": 4239,
                         "src": "662:5:27",
                         "typeDescriptions": {
                           "typeIdentifier": "t_address_payable",
@@ -439,32 +439,32 @@
                       ],
                       "expression": {
                         "argumentTypes": null,
-                        "id": 4195,
+                        "id": 4248,
                         "name": "super",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 7227,
+                        "referencedDeclaration": 7280,
                         "src": "647:5:27",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_super$_ConditionalEscrow_$4203",
+                          "typeIdentifier": "t_super$_ConditionalEscrow_$4256",
                           "typeString": "contract super ConditionalEscrow"
                         }
                       },
-                      "id": 4197,
+                      "id": 4250,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
                       "lValueRequested": false,
                       "memberName": "withdraw",
                       "nodeType": "MemberAccess",
-                      "referencedDeclaration": 4300,
+                      "referencedDeclaration": 4353,
                       "src": "647:14:27",
                       "typeDescriptions": {
                         "typeIdentifier": "t_function_internal_nonpayable$_t_address_payable_$returns$__$",
                         "typeString": "function (address payable)"
                       }
                     },
-                    "id": 4199,
+                    "id": 4252,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -478,29 +478,29 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 4200,
+                  "id": 4253,
                   "nodeType": "ExpressionStatement",
                   "src": "647:21:27"
                 }
               ]
             },
             "documentation": null,
-            "id": 4202,
+            "id": 4255,
             "implemented": true,
             "kind": "function",
             "modifiers": [],
             "name": "withdraw",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 4187,
+              "id": 4240,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 4186,
+                  "id": 4239,
                   "name": "payee",
                   "nodeType": "VariableDeclaration",
-                  "scope": 4202,
+                  "scope": 4255,
                   "src": "564:21:27",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -509,7 +509,7 @@
                     "typeString": "address payable"
                   },
                   "typeName": {
-                    "id": 4185,
+                    "id": 4238,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "564:15:27",
@@ -526,19 +526,19 @@
               "src": "563:23:27"
             },
             "returnParameters": {
-              "id": 4188,
+              "id": 4241,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "594:0:27"
             },
-            "scope": 4203,
+            "scope": 4256,
             "src": "546:129:27",
             "stateMutability": "nonpayable",
-            "superFunction": 4300,
+            "superFunction": 4353,
             "visibility": "public"
           }
         ],
-        "scope": 4204,
+        "scope": 4257,
         "src": "236:441:27"
       }
     ],
@@ -546,10 +546,10 @@
   },
   "legacyAST": {
     "attributes": {
-      "absolutePath": "/home/amal/Documents/nftcontaract/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/payment/escrow/ConditionalEscrow.sol",
+      "absolutePath": "project:/contracts/openzeppelin-solidity/contracts/payment/escrow/ConditionalEscrow.sol",
       "exportedSymbols": {
         "ConditionalEscrow": [
-          4203
+          4256
         ]
       }
     },
@@ -563,41 +563,41 @@
             ".0"
           ]
         },
-        "id": 4174,
+        "id": 4227,
         "name": "PragmaDirective",
         "src": "0:23:27"
       },
       {
         "attributes": {
-          "SourceUnit": 4302,
-          "absolutePath": "/home/amal/Documents/nftcontaract/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/payment/escrow/Escrow.sol",
+          "SourceUnit": 4355,
+          "absolutePath": "project:/contracts/openzeppelin-solidity/contracts/payment/escrow/Escrow.sol",
           "file": "./Escrow.sol",
-          "scope": 4204,
+          "scope": 4257,
           "symbolAliases": [
             null
           ],
           "unitAlias": ""
         },
-        "id": 4175,
+        "id": 4228,
         "name": "ImportDirective",
         "src": "25:22:27"
       },
       {
         "attributes": {
           "contractDependencies": [
-            3833,
-            4301
+            3886,
+            4354
           ],
           "contractKind": "contract",
           "documentation": "@title ConditionalEscrow\n@dev Base abstract escrow to only allow withdrawal if a condition is met.\n@dev Intended usage: See Escrow.sol. Same usage guidelines apply here.",
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            4203,
-            4301,
-            3833
+            4256,
+            4354,
+            3886
           ],
           "name": "ConditionalEscrow",
-          "scope": 4204
+          "scope": 4257
         },
         "children": [
           {
@@ -609,15 +609,15 @@
                 "attributes": {
                   "contractScope": null,
                   "name": "Escrow",
-                  "referencedDeclaration": 4301,
+                  "referencedDeclaration": 4354,
                   "type": "contract Escrow"
                 },
-                "id": 4176,
+                "id": 4229,
                 "name": "UserDefinedTypeName",
                 "src": "266:6:27"
               }
             ],
-            "id": 4177,
+            "id": 4230,
             "name": "InheritanceSpecifier",
             "src": "266:6:27"
           },
@@ -632,7 +632,7 @@
                 null
               ],
               "name": "withdrawalAllowed",
-              "scope": 4203,
+              "scope": 4256,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "public"
@@ -644,7 +644,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "payee",
-                      "scope": 4184,
+                      "scope": 4237,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address",
@@ -658,17 +658,17 @@
                           "stateMutability": "nonpayable",
                           "type": "address"
                         },
-                        "id": 4178,
+                        "id": 4231,
                         "name": "ElementaryTypeName",
                         "src": "498:7:27"
                       }
                     ],
-                    "id": 4179,
+                    "id": 4232,
                     "name": "VariableDeclaration",
                     "src": "498:13:27"
                   }
                 ],
-                "id": 4180,
+                "id": 4233,
                 "name": "ParameterList",
                 "src": "497:15:27"
               },
@@ -678,7 +678,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 4184,
+                      "scope": 4237,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -691,22 +691,22 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 4181,
+                        "id": 4234,
                         "name": "ElementaryTypeName",
                         "src": "534:4:27"
                       }
                     ],
-                    "id": 4182,
+                    "id": 4235,
                     "name": "VariableDeclaration",
                     "src": "534:4:27"
                   }
                 ],
-                "id": 4183,
+                "id": 4236,
                 "name": "ParameterList",
                 "src": "533:6:27"
               }
             ],
-            "id": 4184,
+            "id": 4237,
             "name": "FunctionDefinition",
             "src": "471:69:27"
           },
@@ -720,9 +720,9 @@
                 null
               ],
               "name": "withdraw",
-              "scope": 4203,
+              "scope": 4256,
               "stateMutability": "nonpayable",
-              "superFunction": 4300,
+              "superFunction": 4353,
               "visibility": "public"
             },
             "children": [
@@ -732,7 +732,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "payee",
-                      "scope": 4202,
+                      "scope": 4255,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "address payable",
@@ -746,17 +746,17 @@
                           "stateMutability": "payable",
                           "type": "address payable"
                         },
-                        "id": 4185,
+                        "id": 4238,
                         "name": "ElementaryTypeName",
                         "src": "564:15:27"
                       }
                     ],
-                    "id": 4186,
+                    "id": 4239,
                     "name": "VariableDeclaration",
                     "src": "564:21:27"
                   }
                 ],
-                "id": 4187,
+                "id": 4240,
                 "name": "ParameterList",
                 "src": "563:23:27"
               },
@@ -767,7 +767,7 @@
                   ]
                 },
                 "children": [],
-                "id": 4188,
+                "id": 4241,
                 "name": "ParameterList",
                 "src": "594:0:27"
               },
@@ -799,14 +799,14 @@
                                 }
                               ],
                               "overloadedDeclarations": [
-                                7129,
-                                7130
+                                7182,
+                                7183
                               ],
-                              "referencedDeclaration": 7129,
+                              "referencedDeclaration": 7182,
                               "type": "function (bool) pure",
                               "value": "require"
                             },
-                            "id": 4189,
+                            "id": 4242,
                             "name": "Identifier",
                             "src": "604:7:27"
                           },
@@ -836,11 +836,11 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 4184,
+                                  "referencedDeclaration": 4237,
                                   "type": "function (address) view returns (bool)",
                                   "value": "withdrawalAllowed"
                                 },
-                                "id": 4190,
+                                "id": 4243,
                                 "name": "Identifier",
                                 "src": "612:17:27"
                               },
@@ -850,26 +850,26 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 4186,
+                                  "referencedDeclaration": 4239,
                                   "type": "address payable",
                                   "value": "payee"
                                 },
-                                "id": 4191,
+                                "id": 4244,
                                 "name": "Identifier",
                                 "src": "630:5:27"
                               }
                             ],
-                            "id": 4192,
+                            "id": 4245,
                             "name": "FunctionCall",
                             "src": "612:24:27"
                           }
                         ],
-                        "id": 4193,
+                        "id": 4246,
                         "name": "FunctionCall",
                         "src": "604:33:27"
                       }
                     ],
-                    "id": 4194,
+                    "id": 4247,
                     "name": "ExpressionStatement",
                     "src": "604:33:27"
                   },
@@ -903,7 +903,7 @@
                               "isPure": false,
                               "lValueRequested": false,
                               "member_name": "withdraw",
-                              "referencedDeclaration": 4300,
+                              "referencedDeclaration": 4353,
                               "type": "function (address payable)"
                             },
                             "children": [
@@ -913,16 +913,16 @@
                                   "overloadedDeclarations": [
                                     null
                                   ],
-                                  "referencedDeclaration": 7227,
+                                  "referencedDeclaration": 7280,
                                   "type": "contract super ConditionalEscrow",
                                   "value": "super"
                                 },
-                                "id": 4195,
+                                "id": 4248,
                                 "name": "Identifier",
                                 "src": "647:5:27"
                               }
                             ],
-                            "id": 4197,
+                            "id": 4250,
                             "name": "MemberAccess",
                             "src": "647:14:27"
                           },
@@ -932,41 +932,41 @@
                               "overloadedDeclarations": [
                                 null
                               ],
-                              "referencedDeclaration": 4186,
+                              "referencedDeclaration": 4239,
                               "type": "address payable",
                               "value": "payee"
                             },
-                            "id": 4198,
+                            "id": 4251,
                             "name": "Identifier",
                             "src": "662:5:27"
                           }
                         ],
-                        "id": 4199,
+                        "id": 4252,
                         "name": "FunctionCall",
                         "src": "647:21:27"
                       }
                     ],
-                    "id": 4200,
+                    "id": 4253,
                     "name": "ExpressionStatement",
                     "src": "647:21:27"
                   }
                 ],
-                "id": 4201,
+                "id": 4254,
                 "name": "Block",
                 "src": "594:81:27"
               }
             ],
-            "id": 4202,
+            "id": 4255,
             "name": "FunctionDefinition",
             "src": "546:129:27"
           }
         ],
-        "id": 4203,
+        "id": 4256,
         "name": "ContractDefinition",
         "src": "236:441:27"
       }
     ],
-    "id": 4204,
+    "id": 4257,
     "name": "SourceUnit",
     "src": "0:678:27"
   },
@@ -975,8 +975,8 @@
     "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.4.1",
-  "updatedAt": "2021-07-07T11:56:39.570Z",
+  "schemaVersion": "3.4.2",
+  "updatedAt": "2021-07-28T12:56:13.560Z",
   "devdoc": {
     "details": "Base abstract escrow to only allow withdrawal if a condition is met.Intended usage: See Escrow.sol. Same usage guidelines apply here.",
     "methods": {

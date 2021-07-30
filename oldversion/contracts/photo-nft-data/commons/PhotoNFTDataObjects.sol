@@ -8,15 +8,17 @@ contract PhotoNFTDataObjects {
     struct Photo {  /// [Key]: index of array
         PhotoNFT photoNFT;
         // string photoNFTName;
+        string addresEmail;
         string photoNFTSymbol;
         address ownerAddress;
         uint photoPrice;
         string ipfsHashOfPhoto;
-        string  typeOfSale;
+        // string  typeOfSale;
         uint redevance;
          address seller;
         string status;  /// "Open" or "Cancelled"
         uint256 reputation;
+        
     }
 
 }

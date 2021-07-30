@@ -20,9 +20,11 @@ contract PhotoNFT is ERC721Full {
         string memory _tokenURI, // [Note]: TokenURI is URL include ipfs hash
         
         uint photoPrice,
-        string memory typeOfSale,
+        // string memory typeOfSale,
+           string memory  adressEmail,
         uint redevance,
         address seller
+     
         //add typeBuy
     ) 
         public 

@@ -23,25 +23,25 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"interfaceId\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md\",\"methods\":{\"supportsInterface(bytes4)\":{\"details\":\"Interface identification is specified in ERC-165. This function uses less than 30,000 gas.\",\"params\":{\"interfaceId\":\"The interface identifier, as specified in ERC-165\"}}},\"title\":\"IERC165\"},\"userdoc\":{\"methods\":{\"supportsInterface(bytes4)\":{\"notice\":\"Query if a contract implements an interface\"}}}},\"settings\":{\"compilationTarget\":{\"/home/amal/Documents/nftcontaract/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/introspection/IERC165.sol\":\"IERC165\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/amal/Documents/nftcontaract/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/introspection/IERC165.sol\":{\"keccak256\":\"0xbbb6159006ae3639daea09f7d63987816d6cf3a99f52af919363e025d3abf3b8\",\"urls\":[\"bzz-raw://35e7d742ee71461779df12a0ab1ad4701144d98eb6401182838c8daf40b008dd\",\"dweb:/ipfs/QmY4t7pxcX2cfk6VsGJWZLBgoKMpRctY8X1HPxykLjptSi\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.5.16+commit.9c3226ce\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"constant\":true,\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"interfaceId\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"payable\":false,\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md\",\"methods\":{\"supportsInterface(bytes4)\":{\"details\":\"Interface identification is specified in ERC-165. This function uses less than 30,000 gas.\",\"params\":{\"interfaceId\":\"The interface identifier, as specified in ERC-165\"}}},\"title\":\"IERC165\"},\"userdoc\":{\"methods\":{\"supportsInterface(bytes4)\":{\"notice\":\"Query if a contract implements an interface\"}}}},\"settings\":{\"compilationTarget\":{\"project:/contracts/openzeppelin-solidity/contracts/introspection/IERC165.sol\":\"IERC165\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/openzeppelin-solidity/contracts/introspection/IERC165.sol\":{\"keccak256\":\"0xbbb6159006ae3639daea09f7d63987816d6cf3a99f52af919363e025d3abf3b8\",\"urls\":[\"bzz-raw://35e7d742ee71461779df12a0ab1ad4701144d98eb6401182838c8daf40b008dd\",\"dweb:/ipfs/QmY4t7pxcX2cfk6VsGJWZLBgoKMpRctY8X1HPxykLjptSi\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "sourceMap": "",
   "deployedSourceMap": "",
   "source": "pragma solidity ^0.5.0;\n\n/**\n * @title IERC165\n * @dev https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md\n */\ninterface IERC165 {\n    /**\n     * @notice Query if a contract implements an interface\n     * @param interfaceId The interface identifier, as specified in ERC-165\n     * @dev Interface identification is specified in ERC-165. This function\n     * uses less than 30,000 gas.\n     */\n    function supportsInterface(bytes4 interfaceId) external view returns (bool);\n}\n",
-  "sourcePath": "/home/amal/Documents/nftcontaract/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/introspection/IERC165.sol",
+  "sourcePath": "/Users/amal/Documents/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/introspection/IERC165.sol",
   "ast": {
-    "absolutePath": "/home/amal/Documents/nftcontaract/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/introspection/IERC165.sol",
+    "absolutePath": "project:/contracts/openzeppelin-solidity/contracts/introspection/IERC165.sol",
     "exportedSymbols": {
       "IERC165": [
-        3379
+        3432
       ]
     },
-    "id": 3380,
+    "id": 3433,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 3371,
+        "id": 3424,
         "literals": [
           "solidity",
           "^",
@@ -57,9 +57,9 @@
         "contractKind": "interface",
         "documentation": "@title IERC165\n@dev https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md",
         "fullyImplemented": false,
-        "id": 3379,
+        "id": 3432,
         "linearizedBaseContracts": [
-          3379
+          3432
         ],
         "name": "IERC165",
         "nodeType": "ContractDefinition",
@@ -67,22 +67,22 @@
           {
             "body": null,
             "documentation": "@notice Query if a contract implements an interface\n@param interfaceId The interface identifier, as specified in ERC-165\n@dev Interface identification is specified in ERC-165. This function\nuses less than 30,000 gas.",
-            "id": 3378,
+            "id": 3431,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
             "name": "supportsInterface",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 3374,
+              "id": 3427,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3373,
+                  "id": 3426,
                   "name": "interfaceId",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3378,
+                  "scope": 3431,
                   "src": "432:18:19",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -91,7 +91,7 @@
                     "typeString": "bytes4"
                   },
                   "typeName": {
-                    "id": 3372,
+                    "id": 3425,
                     "name": "bytes4",
                     "nodeType": "ElementaryTypeName",
                     "src": "432:6:19",
@@ -107,15 +107,15 @@
               "src": "431:20:19"
             },
             "returnParameters": {
-              "id": 3377,
+              "id": 3430,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 3376,
+                  "id": 3429,
                   "name": "",
                   "nodeType": "VariableDeclaration",
-                  "scope": 3378,
+                  "scope": 3431,
                   "src": "475:4:19",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -124,7 +124,7 @@
                     "typeString": "bool"
                   },
                   "typeName": {
-                    "id": 3375,
+                    "id": 3428,
                     "name": "bool",
                     "nodeType": "ElementaryTypeName",
                     "src": "475:4:19",
@@ -139,14 +139,14 @@
               ],
               "src": "474:6:19"
             },
-            "scope": 3379,
+            "scope": 3432,
             "src": "405:76:19",
             "stateMutability": "view",
             "superFunction": null,
             "visibility": "external"
           }
         ],
-        "scope": 3380,
+        "scope": 3433,
         "src": "120:363:19"
       }
     ],
@@ -154,10 +154,10 @@
   },
   "legacyAST": {
     "attributes": {
-      "absolutePath": "/home/amal/Documents/nftcontaract/NFT-based-photo-marketplace/oldversion/contracts/openzeppelin-solidity/contracts/introspection/IERC165.sol",
+      "absolutePath": "project:/contracts/openzeppelin-solidity/contracts/introspection/IERC165.sol",
       "exportedSymbols": {
         "IERC165": [
-          3379
+          3432
         ]
       }
     },
@@ -171,7 +171,7 @@
             ".0"
           ]
         },
-        "id": 3371,
+        "id": 3424,
         "name": "PragmaDirective",
         "src": "0:23:19"
       },
@@ -187,10 +187,10 @@
           "documentation": "@title IERC165\n@dev https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md",
           "fullyImplemented": false,
           "linearizedBaseContracts": [
-            3379
+            3432
           ],
           "name": "IERC165",
-          "scope": 3380
+          "scope": 3433
         },
         "children": [
           {
@@ -204,7 +204,7 @@
                 null
               ],
               "name": "supportsInterface",
-              "scope": 3379,
+              "scope": 3432,
               "stateMutability": "view",
               "superFunction": null,
               "visibility": "external"
@@ -216,7 +216,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "interfaceId",
-                      "scope": 3378,
+                      "scope": 3431,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bytes4",
@@ -229,17 +229,17 @@
                           "name": "bytes4",
                           "type": "bytes4"
                         },
-                        "id": 3372,
+                        "id": 3425,
                         "name": "ElementaryTypeName",
                         "src": "432:6:19"
                       }
                     ],
-                    "id": 3373,
+                    "id": 3426,
                     "name": "VariableDeclaration",
                     "src": "432:18:19"
                   }
                 ],
-                "id": 3374,
+                "id": 3427,
                 "name": "ParameterList",
                 "src": "431:20:19"
               },
@@ -249,7 +249,7 @@
                     "attributes": {
                       "constant": false,
                       "name": "",
-                      "scope": 3378,
+                      "scope": 3431,
                       "stateVariable": false,
                       "storageLocation": "default",
                       "type": "bool",
@@ -262,32 +262,32 @@
                           "name": "bool",
                           "type": "bool"
                         },
-                        "id": 3375,
+                        "id": 3428,
                         "name": "ElementaryTypeName",
                         "src": "475:4:19"
                       }
                     ],
-                    "id": 3376,
+                    "id": 3429,
                     "name": "VariableDeclaration",
                     "src": "475:4:19"
                   }
                 ],
-                "id": 3377,
+                "id": 3430,
                 "name": "ParameterList",
                 "src": "474:6:19"
               }
             ],
-            "id": 3378,
+            "id": 3431,
             "name": "FunctionDefinition",
             "src": "405:76:19"
           }
         ],
-        "id": 3379,
+        "id": 3432,
         "name": "ContractDefinition",
         "src": "120:363:19"
       }
     ],
-    "id": 3380,
+    "id": 3433,
     "name": "SourceUnit",
     "src": "0:484:19"
   },
@@ -296,8 +296,8 @@
     "version": "0.5.16+commit.9c3226ce.Emscripten.clang"
   },
   "networks": {},
-  "schemaVersion": "3.4.1",
-  "updatedAt": "2021-07-07T11:56:39.551Z",
+  "schemaVersion": "3.4.2",
+  "updatedAt": "2021-07-28T12:56:13.546Z",
   "devdoc": {
     "details": "https://github.com/ethereum/EIPs/blob/master/EIPS/eip-165.md",
     "methods": {

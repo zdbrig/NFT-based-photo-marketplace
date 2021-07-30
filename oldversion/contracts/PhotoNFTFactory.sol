@@ -31,19 +31,19 @@ contract PhotoNFTFactory is PhotoNFTFactoryStorages {
     /**
      * @notice - Create a new photoNFT when a seller (owner) upload a photo onto IPFS
      */
-    function createNewPhotoNFT(string memory nftName, string memory nftSymbol, uint photoPrice, string memory ipfsHashOfPhoto, string memory typeOfSale,uint redevance) public returns (bool) {
+    function createNewPhotoNFT(string memory nftName, string memory nftSymbol, uint photoPrice, string memory ipfsHashOfPhoto, string memory addresEmail,uint redevance) public returns (bool) {
         address owner = msg.sender;  
         /// [Note]: Initial owner of photoNFT is msg.sender
         address seller = msg.sender;
         string memory tokenURI = getTokenURI(ipfsHashOfPhoto);  /// [Note]: IPFS hash + URL
-        PhotoNFT photoNFT = new PhotoNFT(owner, nftName, nftSymbol, tokenURI, photoPrice, typeOfSale,redevance,seller);
+        PhotoNFT photoNFT = new PhotoNFT(owner, nftName, nftSymbol, tokenURI, photoPrice, addresEmail, redevance, seller);
         photoAddresses.push(address(photoNFT));
 
         /// Save metadata of a photoNFT created
-        photoNFTData.saveMetadataOfPhotoNFT(photoAddresses, photoNFT,  nftSymbol, msg.sender, photoPrice, ipfsHashOfPhoto, typeOfSale,redevance, seller);
+        photoNFTData.saveMetadataOfPhotoNFT(photoAddresses, photoNFT,  nftSymbol, msg.sender, photoPrice, ipfsHashOfPhoto, addresEmail,redevance, seller);
         photoNFTData.updateStatus(photoNFT, "Open");
 
-        emit PhotoNFTCreated(msg.sender, photoNFT, nftName, nftSymbol, photoPrice, ipfsHashOfPhoto, typeOfSale,redevance,seller);
+        emit PhotoNFTCreated(msg.sender, photoNFT, nftName, nftSymbol, photoPrice, ipfsHashOfPhoto, addresEmail,redevance,seller);
     }
 
 
