@@ -5,7 +5,14 @@ import Header from "../component/header/header"
 import './updateStatus.css'
 
 function UpdateStatus(props: any) {
-
+    const [valueData,setValueData]=useState("");
+    const [details,setDetails]=useState("");
+    function handleChange(event:any) {
+        setDetails(event.target.value);
+    }
+    function handleChangeDate(event:any) {
+        setValueData(event.target.value);
+    }
     return (
         <div>
             <Header showButtonConnect={false}></Header>
@@ -14,16 +21,20 @@ function UpdateStatus(props: any) {
                 <div className="row formUpdate">
                     <div className="align-items-end col-12">
                         <div className="">
-                            <input className="row input1" placeholder="Date" type="data" />
+                            <input className="row input1" placeholder="Date" type="date" value={valueData} onChange={handleChangeDate}/>
+                            
                         </div>
                         <div className="row">
-                            <textarea className="input2" rows={5}
-                                cols={100}>
-                                Bonjour, voici du texte dans une zone de texte
-                            </textarea>
+                            <textarea className="input2" rows={7}
+                                cols={100} placeholder="Details" 
+                                 value={details} onChange={handleChange}/>
+                               
 
 
                         </div>
+                        <div className="divButton">
+                <button > Submit </button>
+                </div>
                     </div>
 
                 </div>
