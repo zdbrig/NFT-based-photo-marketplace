@@ -3,6 +3,12 @@ import React ,{ useState, useEffect } from "react";
  import Header from "../component/header/header" 
  import "./redeembottle.css"
 function Redeembottle(){
+    const [nameUser, setName] = useState("");
+    const [city, setCity] = useState("");
+    const [firstLine, setFirstLine] = useState("");
+    const [codePost, setCodePost] = useState("");
+    const [secondLine, setsecondLine] = useState("");
+    const [country, setCountry] = useState("");
     function submitDetailsBottle(){
         window.location.assign("#/RedeemBottle2")
  
@@ -11,6 +17,16 @@ function Redeembottle(){
         window.location.assign("#/desktop")
  
      }
+    function handleUserInput (e:any) {
+        const name = e.target.name;
+        const value = e.target.value;
+        var partialState = {};
+        //  partialState[name] = value;
+
+        // setName(partialState);
+       
+                      
+      }
 
     return<div className="Redeembottle">  
  <Header showButtonConnect={true}></Header>
@@ -30,8 +46,8 @@ function Redeembottle(){
 <div className="col-12 ">
    
     <div className="form-group row divForm">
-        <div className="col-sm-6" ><input className="inputform " placeholder="name"></input></div>
-        <div className="col-sm-6"><input className="inputform "placeholder="City"></input></div>
+        <div className="col-sm-6" ><input className="inputform " placeholder="name" name="nameUser"></input></div>
+        <div className="col-sm-6"><input className="inputform "placeholder="City" name="city"></input></div>
         
     </div>
     <div className="form-group row divForm">

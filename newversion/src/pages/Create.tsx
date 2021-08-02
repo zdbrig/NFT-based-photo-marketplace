@@ -44,7 +44,7 @@ function Create() {
     const [networkModal, setModalNetwork] = useState(false);
     const [addressAuction, setAddressAuction] = useState(false);
     const [redevance, setRedevance] = useState(0);
-    const [showModalQRCode, setShowModalQRCode] = useState(true);
+    const [showModalQRCode, setShowModalQRCode] = useState(false);
     const toggleNetwork = () => setModalNetwork(false);
     const toggleQRCode = () => setModalNetwork(false);
     const handleClick = (active: any) => {
@@ -194,8 +194,8 @@ function Create() {
 
 
 
-    async function sendEmail() {
-       
+    async function sendEmail(photoNft:any) {
+       console.log("numnft"+photoNft)
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -287,7 +287,8 @@ function Create() {
                                     console.log("xx");
                                 })
                                 .then((rest: any) => {
-                                    sendEmail()
+                                    
+                                    sendEmail(PHOTO_NFT )
                                    
                                     setLoading(false);
                                    
