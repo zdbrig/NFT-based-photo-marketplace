@@ -9,21 +9,21 @@ function UpdateStatus(props: any) {
     return (
         <div>
             <Header showButtonConnect={false}></Header>
-            <div className="updateStatus">
-                <p className="title">Update Status</p>
-                <div className="formUpdate">
-<div className="align-items-end">
-    <div>
-                    <input className="input1" placeholder="Date" type="data"/>
-                    </div>
-<div>
-                    <textarea className="input2" rows={5}
-          cols={100}>
-                        Bonjour, voici du texte dans une zone de texte
-                    </textarea>
+            <div className="col-12 updateStatus">
+                <p className=" row title">Update Status</p>
+                <div className="row formUpdate">
+                    <div className="align-items-end col-12">
+                        <div className="">
+                            <input className="row input1" placeholder="Date" type="data" />
+                        </div>
+                        <div className="row">
+                            <textarea className="input2" rows={5}
+                                cols={100}>
+                                Bonjour, voici du texte dans une zone de texte
+                            </textarea>
 
-                    
-                    </div>
+
+                        </div>
                     </div>
 
                 </div>
