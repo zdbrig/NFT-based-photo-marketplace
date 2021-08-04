@@ -10,9 +10,13 @@ import generatePDF from "../api/reportGenerator";
 import './redemption.css'
 
 function Redemption(props: any) {
-const [tickets, setTickets] = useState([{"title":"k","request":"k"},{"title":"kk","request":"kk"},{"name":"kkk","request":"kkk"}]);
+const [tickets, setTickets] = useState([]);
 
+function handlerList(data:any){
+    setTickets(data)
 
+    console.log(data)
+}
     return (
         <div>
             <Header showButtonConnect={false}></Header>
@@ -54,7 +58,7 @@ const [tickets, setTickets] = useState([{"title":"k","request":"k"},{"title":"kk
                 </div>
             </div>
             <div className="col-md-11 redemption">
-                <DataTableTransations/>
+            <DataTableTransations listData={handlerList}/>
                     
                 </div>
 

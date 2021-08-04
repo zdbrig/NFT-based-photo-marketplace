@@ -22,7 +22,7 @@ class dataTableRedeem extends React.Component {
        
 
 
-        //this.loadRedeem()
+        this.loadRedeem()
         $(".dataTables_length.bs-select label").html(
             $(".dataTables_length.bs-select label").children()
         );
@@ -32,50 +32,16 @@ class dataTableRedeem extends React.Component {
     
     
     loadRedeem = () => {
-        /*var { redeemList } = this.state;
+         var { redeemList } = this.state;
         
         var ret = [];
         var self = this;
         var querytosend = `{ 
-            mints{
-                id
-                timestamp
-                sender
-                amount0
-                amount1
-                pair{
-                    token0{symbol name}
-                    token1{symbol name}
-                } 
-              }
-              burns{
-                id
-                timestamp
-                sender
-                amount0
-                amount1
-                pair{
-                    token0{symbol name}
-                    token1{symbol name} 
-                }
-              }
-              swaps{
-                id
-                sender
-                totalValue
-                pair{
-                    token0{symbol name}
-                    token1{symbol name}
-                }
-                amount0In
-                amount1In
-                amount0Out
-                amount1Out
-                timestamp
-              }            
+            listeReedems{id photoNft name city firstLine secondLine codePostal country timesTmp blockNumber}
+                         
           }`;
         //console.log(querytosend)
-        fetch('https://graph.novafinance.app/subgraphs/name/NovaFi/NovaFi', {
+        fetch('https://api.thegraph.com/subgraphs/name/zouaouik/nftdetailsreedem', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json;charset=UTF-8',
@@ -87,56 +53,37 @@ class dataTableRedeem extends React.Component {
         })
             .then(response => response.json())
             .then(data => {
-                //console.log('data:', data);
-                data.data.mints.map(mint => {
-                    const unixTimestamp = mint.timestamp
-                    const milliseconds = unixTimestamp * 1000 // 1575909015000
-                    const dateObject = new Date(milliseconds)
-                    const humanDateFormat = dateObject.toLocaleDateString() //2019-12-9 10:30:15
-                    if((mint.pair.token0.name.toUpperCase() !="UNKNOWN NAME")&&(mint.pair.token1.name.toUpperCase() !="UNKNOWN NAME")){
-                        if((mint.pair.token0.name.toUpperCase()=="ETH")||(mint.pair.token1.name.toUpperCase()=="ETH")){
-                        var transation = {"id":mint.id, "title": "Add " + mint.pair.token0.name.toUpperCase() + " and " + mint.pair.token1.name.toUpperCase(), "token0":Number.parseFloat(Web3.utils.fromWei(mint.amount0,'ether')).toFixed(3)  + " " + mint.pair.token0.symbol, "token1":Number.parseFloat(Web3.utils.fromWei(mint.amount1,'ether')).toFixed(3) + " " + mint.pair.token1.symbol, "sender": self.formAccount(mint.sender), "date": humanDateFormat, "totleValue": " -- " }
-                        retM.push(transation);
-                        }else{
-                                var transation = {"id":mint.id, "title": "Add " + mint.pair.token0.name.toUpperCase() + " and " + mint.pair.token1.name.toUpperCase(), "token0":Number.parseFloat(mint.amount0/1000000000000000000).toFixed(3) + " " + mint.pair.token0.symbol, "token1": Number.parseFloat(mint.amount1/1000000000000000000).toFixed(3) + " " + mint.pair.token1.symbol, "sender": self.formAccount(mint.sender), "date": humanDateFormat, "totleValue": " -- " }
-                                retM.push(transation);
-                        }
-                    }
-
+                console.log('data:', data.data.listeReedems);
+                data.data.listeReedems.map(element=>{
+                    var transation = {"id":element.id,"photoNFT":element.photoNft, "name":  element.name , "address":element.codePostal+" "+element.city+", "+element.firstLine+", "+element.secondLine+" "+ element.country}
+                ret.push(transation)
                 })
-              
-               
-
-               
-                self.setState({ redeemList: ret}, () => {
-                    
+                           
+                 self.setState({ redeemList: ret}, () => {
+                    this.props.listData(ret)
                     self.renderData();
-                })
+                }) 
 
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
-*/
+
     }
   
 
 
     renderData = () => {
-        let { dataToShow, transationsList } = this.state;
-        let data = transationsList;
+        let { dataToShow, redeemList } = this.state;
+        let data = redeemList;
         data.map((elemnt, index) => {
-            elemnt.map((item, i) => {
                 dataToShow.push({
-                    all:(
-                        <a href={this.state.LinkName+item.id.substring(0,item.id.length-2)} target="_blank">{item.title}</a>
-                      ),
-                    totalValue: item.totleValue,
-                    token0: item.token0,
-                    token1: item.token1,
-                    account: item.sender,
-                    date: item.date,
-                });
+                    name: elemnt.name,
+                    shipment: elemnt.address,
+                    send:(<button className="sendButton">Send</button>),
+                    complete:(<button className="completeButton">Move to Redeemed </button>)
+                    
+                
             })
 
         });
@@ -144,12 +91,7 @@ class dataTableRedeem extends React.Component {
     render() {
         const data = {
             columns: [
-                {
-                    label: "ALL",
-                    field: "all",
-                    sort: "asc",
-                    width: 270
-                },
+                
                 {
                     label: "NAME",
                     field: "name",
@@ -164,7 +106,7 @@ class dataTableRedeem extends React.Component {
                 },
                 {
                     label: "SEND SHIPMENT INSTRUCTIONS",
-                    field: "send shipment instructions",
+                    field: "send",
                     sort: "asc",
                     width: 100
                 },

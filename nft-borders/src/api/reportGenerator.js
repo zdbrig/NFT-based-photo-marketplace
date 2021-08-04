@@ -7,15 +7,16 @@ const generatePDF = tickets => {
     const doc = new jsPDF();
   
     // define the columns we want and their titles
-    const tableColumn = ["Name", "Shipment"];
+    const tableColumn = ["Photo NFT","Name", "Shipment Address"];
     // define an empty array of rows
     const tableRows = [];
   
     // for each ticket pass all its data into an array
     tickets.forEach(ticket => {
       const ticketData = [
-        ticket.title,
-        ticket.request,
+        ticket.photoNFT,
+        ticket.name,
+        ticket.address,
         
       ];
       // push each tickcet's info into a row
