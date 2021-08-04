@@ -14,8 +14,15 @@ import Redemption from "./pages/redemption"
 import Withdrawnft2 from "./pages/withdrawnft_2"
 import Redeembottle_2 from './pages/redeembottle_2';
 import ProgressUpdate from "./pages/progresupdate"
+import { persistStore, persistReducer } from "redux-persist";
+import { Provider } from "react-redux";
+import store from "./redux/store";
+import { PersistGate } from "redux-persist/integration/react";
+let persistor = persistStore(store);
 function App() {
   return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
     <HashRouter>
             <div>
                 <Switch>
@@ -72,6 +79,9 @@ function App() {
                 </Switch>
             </div>
         </HashRouter>
+        </PersistGate>
+    </Provider>
+
   );
 }
 function Sigup_1Link() {

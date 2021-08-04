@@ -6,6 +6,8 @@ import { unlockAccount } from "../../api/web3";
 import Web3 from "web3";
 import ModalNetworkNotSupported from "../../component/modals/ModalNetworkNotSupported";
 import nftlogo from "../../images/Nova_Pattern_Logo_Colour_overBlack.svg";
+import {user} from "../../redux/actions"
+import store from '../../redux/store';
 function Header(props: any) {
      // @ts-ignore
      const { ethereum } = window;
@@ -38,6 +40,7 @@ async function connectWithMetamask(){
              
               
               setAccount(data.account);
+              store.dispatch(user(data.account));
               console.log("data"+data.account)
 
 
@@ -70,8 +73,8 @@ async function connectWithMetamask(){
 function namenetwork(netId: number) {
     if (netId == 1) {
       setNetName("Main");
-    } else if (netId == 4) {
-      setNetName("Rinkeby");
+    } else if (netId == 42) {
+      setNetName("kovan");
       setShowInput(true)
     } else if (netId == 0) {
       setNetName("Loading");
