@@ -3,6 +3,7 @@ import { addDetailsRedeem } from "../api/web3";
 import Swal from "sweetalert2";
  import Header from "../component/header/header" 
  import "./redeembottle.css"
+ import store from "../redux/store";
 function Redeembottle(){
     const [nameUser, setName] = useState("");
     const [city, setCity] = useState("");
@@ -10,9 +11,9 @@ function Redeembottle(){
     const [codePost, setCodePost] = useState("");
     const [secondLine, setSecondLine] = useState("");
     const [country, setCountry] = useState("");
-
+    const detailsNFT = store.getState().detailsNFT;
      function handleChangeName(e:any){
-         console.log()
+        
          setName(e.target.value)
      }
      function handleChangeCity(e:any){
@@ -31,30 +32,43 @@ function Redeembottle(){
         setCountry(e.target.value)
     }
     function submitDetailsBottle(){
+        if (
+            !nameUser ||
+            !city||
+            !firstLine ||
+            !codePost||
+            !secondLine||
+            !country
+          ) {
+            Swal.fire({
+              icon: "error",
+              title: "Error...",
+              text: "Please Enter the delivery details for your bottle!",
+            });
+          }
+          else{
         console.log(nameUser+city+firstLine+codePost+secondLine+country)
+        const photoNFT=detailsNFT.detailsNft.photoNft
+        console.log("photoNFT"+photoNFT)
 
-        addDetailsRedeem("0x349f6296B9F4c88d98a71D59796265072DfbB21f", nameUser,city,firstLine,codePost,secondLine,country,(isSuccess:any,error:any) => {
+        addDetailsRedeem(detailsNFT.detailsNft.photoNft, nameUser,city,firstLine,codePost,secondLine,country,(isSuccess:any,error:any) => {
             if (error) {
               console.log("error" + error);
             
               Swal.fire({
                 icon: "error",
                 title: "Error...",
-                text: "An error occurred while adding the prescription!",
+                text: "An error occurred while adding  the delivery details for your bottle!",
               });
             } else if (isSuccess) {
           
     
-              Swal.fire(
-                "Succès!",
-                "Prescription a été ajouté avec succès!",
-                "success"
-              );
+            window.location.assign("#/RedeemBottle2")
          } });
-            
+        }
           
         
-        // window.location.assign("#/RedeemBottle2")
+       
     }
      
      function goPageDesktop(){
