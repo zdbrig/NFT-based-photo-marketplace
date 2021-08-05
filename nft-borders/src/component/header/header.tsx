@@ -33,7 +33,8 @@ function Header(props: any) {
              // history.push("/ConnectAccount");
             } else {
                 setShowInput(true)
-                connectWithMetamask()
+                setAccount(formAccount1(accounts));
+                //connectWithMetamask()
               //setaccount(formAccount(accounts))
             }
           });
@@ -88,6 +89,15 @@ function Header(props: any) {
     function formAccount(x: String) {
 
         var str = x;
+        
+        var res1 = str.substring(0, 6);
+        var res2 = str.substring(str.length - 4, str.length);
+        var res = (res1.concat('...', res2));
+        return (res)
+    }
+    function formAccount1(x: String) {
+
+        var str = x[0];
         
         var res1 = str.substring(0, 6);
         var res2 = str.substring(str.length - 4, str.length);
@@ -159,13 +169,11 @@ function Header(props: any) {
             <ModalNetworkNotSupported isOpen={modalnetwork} toggle={togglenetwork} />
             <div className="row">
                 <div className="col-6 logo"> <img src={nftlogo} alt="logo nova" className="logo" /></div>
-                {!showInput ?
-                    (<div className="col-6 "> {showConnect ? <button className="buttonConnect" onClick={connectWithMetamask}>  Connect</button> : null} </div>) : (
-                        <button className="col-3 buttonConnect ">
+                {showConnect ? (!showInput ?<button className="buttonConnect" onClick={connectWithMetamask}>  Connect</button>: <button className="col-3 buttonConnect ">
 
 <i className="fa fa-circle text-success"></i> {account}
-                        </button>
-                    )}
+                        </button>) : null}
+                
             </div>
         </div>)
 }
