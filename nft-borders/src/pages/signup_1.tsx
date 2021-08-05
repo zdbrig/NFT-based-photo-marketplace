@@ -6,7 +6,7 @@ import Header from "../component/header/header"
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Signup1(props:any) {
-    let history = useHistory();
+   let history = useHistory();
     const [email, setEmail] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [timer, setTimer] = useState(0);
@@ -36,7 +36,7 @@ function Signup1(props:any) {
                     history.push({
                         pathname:"/signup",
                         state: { email: email }
-                    }); 
+                    });  
                     }else{
                         history.push("/desktop");
                         
@@ -73,7 +73,7 @@ function Signup1(props:any) {
         <Modal.Body style={{textAlign:"center"}}>Please enter a valid email address</Modal.Body>
         <Modal.Footer style={{alignSelf:"center"}}>
             <button  style={{color:"blue",backgroundColor:"transparent",border:"none"}} onClick={closeModal}>
-            OK
+            OK 
             </button>
   </Modal.Footer>
       </Modal>

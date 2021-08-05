@@ -6,83 +6,107 @@ import { unlockAccount } from "../../api/web3";
 import Web3 from "web3";
 import ModalNetworkNotSupported from "../../component/modals/ModalNetworkNotSupported";
 import nftlogo from "../../images/Nova_Pattern_Logo_Colour_overBlack.svg";
-import {user} from "../../redux/actions"
+import { user } from "../../redux/actions"
 import store from '../../redux/store';
 function Header(props: any) {
-     // @ts-ignore
-     const { ethereum } = window;
-     const web3 = new Web3(ethereum);
-  const { call } = useAsync(unlockAccount);
+    // @ts-ignore
+    const { ethereum } = window;
+    const web3 = new Web3(ethereum);
+    const { call } = useAsync(unlockAccount);
     const [showConnect, setShowConnect] = useState(props.showButtonConnect)
     const [modal, setModal] = useState(false);
     const [netName, setNetName] = useState("");
     const [modalnetwork, setModalNetwork] = useState(false);
-    const [showInput, setShowInput ] = useState(false);
-    const [account, setAccount ] = useState("");
+    const [showInput, setShowInput] = useState(false);
+    const [account, setAccount] = useState("");
     const toggle = () => setModal(!modal);
     const togglenetwork = () => setModalNetwork(true);
     useEffect(() => {
-        console.log(showConnect)
+        //console.log(showConnect)
+        web3.eth.getAccounts(function (err: any, accounts: any) {
+            if (err != null) {
+              console.error("An error occurred: " + err);
+            } else if (accounts.length == 0) {
+              console.log("User is not logged in to MetaMask");
+              setShowInput(false)
+              //store.dispatch(setLoadFromPage(pageFrom))
+             // history.push("/ConnectAccount");
+            } else {
+                setShowInput(true)
+                connectWithMetamask()
+              //setaccount(formAccount(accounts))
+            }
+          });
     });
 
-async function connectWithMetamask(){
-    if (!ethereum) {
-       setModal(true)
-    }  
-   
+    async function connectWithMetamask() {
+        if (!ethereum) {
+            setModal(true)
+        }
+
         else {
             const { error, data } = await call(null);
             if (error) {
             }
             if (data) {
-              const netId = await web3.eth.net.getId();
-              namenetwork(netId);
-             
-              
-              setAccount(data.account);
-              store.dispatch(user(data.account));
-              console.log("data"+data.account)
+                const netId = await web3.eth.net.getId();
+                namenetwork(netId);
+
+
+                setAccount(formAccount(data.account));
+
+                store.dispatch(user(data.account));
+               // console.log("data" + data.account)
 
 
 
-              
 
 
 
-            //   store.dispatch(setNetworkId(netId));
-            //   console.log("netid" + netId);
-      
-            //   store.dispatch(setAccount(data.account));
-            //   store.dispatch(setTypeWallet(WalletsTypes.METAMASK));
-            //   setWalletType(WalletsTypes.METAMASK);
-            //   if (fromPage != "" && fromPage != "ConnectAccount") {
-            //     history.push("/" + fromPage);
-            //     store.dispatch(setLoadFromPage(""));
-            //   } else {
-            //     // history.push("/Navigation");
-            //     history.push("/nova/DashboardAssetsdata");
-            //   }
-            // }
-          }
+
+                //   store.dispatch(setNetworkId(netId));
+                //   console.log("netid" + netId);
+
+                //   store.dispatch(setAccount(data.account));
+                //   store.dispatch(setTypeWallet(WalletsTypes.METAMASK));
+                //   setWalletType(WalletsTypes.METAMASK);
+                //   if (fromPage != "" && fromPage != "ConnectAccount") {
+                //     history.push("/" + fromPage);
+                //     store.dispatch(setLoadFromPage(""));
+                //   } else {
+                //     // history.push("/Navigation");
+                //     history.push("/nova/DashboardAssetsdata");
+                //   }
+                // }
+            }
         }
-      
 
-   
 
-}
-function namenetwork(netId: number) {
-    if (netId == 1) {
-      setNetName("Main");
-    } else if (netId == 42) {
-      setNetName("kovan");
-      setShowInput(true)
-    } else if (netId == 0) {
-      setNetName("Loading");
-    } else {
-      togglenetwork();
-      setNetName("Unknow");
+
+
     }
-  }
+    function formAccount(x: String) {
+
+        var str = x;
+        
+        var res1 = str.substring(0, 6);
+        var res2 = str.substring(str.length - 4, str.length);
+        var res = (res1.concat('...', res2));
+        return (res)
+    }
+    function namenetwork(netId: number) {
+        if (netId == 1) {
+            setNetName("Main");
+        } else if (netId == 42) {
+            setNetName("kovan");
+            //setShowInput(true)
+        } else if (netId == 0) {
+            setNetName("Loading");
+        } else {
+            togglenetwork();
+            setNetName("Unknow");
+        }
+    }
     return (
         <div className="header">
             <>
@@ -134,11 +158,14 @@ function namenetwork(netId: number) {
             </>
             <ModalNetworkNotSupported isOpen={modalnetwork} toggle={togglenetwork} />
             <div className="row">
-                <div className="col-6 logo"> <img src={nftlogo} alt="logo nova" className="logo" /> </div>
-                {!showInput?
-               ( <div className="col-6 "> {showConnect? <button className="buttonConnect" onClick={connectWithMetamask}>  Connect</button>:null} </div>):(
-                <div className="col-6 ">  <input value= {account}/>  </div>    
-               )}
+                <div className="col-6 logo"> <img src={nftlogo} alt="logo nova" className="logo" /></div>
+                {!showInput ?
+                    (<div className="col-6 "> {showConnect ? <button className="buttonConnect" onClick={connectWithMetamask}>  Connect</button> : null} </div>) : (
+                        <button className="col-3 buttonConnect ">
+
+<i className="fa fa-circle text-success"></i> {account}
+                        </button>
+                    )}
             </div>
         </div>)
 }
