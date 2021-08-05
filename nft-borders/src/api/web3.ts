@@ -9,7 +9,7 @@ export async function unlockAccount() {
   return unlockAccountImpl();
 }
 const user = store.getState().user;
-console
+console.log(user.address)
 export async function addDetailsRedeem(
   photoNFT:any,
    

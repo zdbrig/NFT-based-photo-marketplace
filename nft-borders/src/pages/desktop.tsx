@@ -1,6 +1,9 @@
 import React, { useState,useEffect} from "react";
 import "./desktop.css"
  import Header from "../component/header/header" 
+import { detailsNFT } from "../redux/actions";
+
+import store from '../redux/store';
 function Desktop(props:any){
     const [detailsNft, setDetailsNft] = useState<any>([]);;
     const [nameNFT, setNameNFT] = useState("");
@@ -51,6 +54,7 @@ function getDetailsNFT() {
             setNameNFT(data.data.allPhotoNFTs[0].nftName)
             setImageNFT(data.data.allPhotoNFTs[0].ipfsHashOfPhoto)
             console.log("name"+data.data.allPhotoNFTs[0].nftName)
+            store.dispatch(detailsNFT(data.data.allPhotoNFTs[0]));
             setDetailsNft(data.data.allPhotoNFTs)
             detailsNft.push(data.data.allPhotoNFTs);
             setDetailsNft([...detailsNft]);
