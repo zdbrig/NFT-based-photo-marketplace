@@ -15,7 +15,8 @@ userDao.addUsers = (user) => {
         new users({
             //publicKey: user.publicKey,
             email: user.email,
-            password: user.password
+            password: user.password,
+            role: user.role,
             //lastname: user.lastname,
             //username: user.username,
             //photo: user.photo,

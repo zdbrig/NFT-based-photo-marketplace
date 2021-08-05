@@ -33,7 +33,8 @@ function Signup2(props:any) {
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 email: email,
-                password: pwd
+                password: pwd,
+                role:"roles"
             }),
         };
         try {

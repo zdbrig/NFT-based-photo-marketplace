@@ -31,16 +31,19 @@ function Signup1(props:any) {
 
                 // Examine the text in the response
                 response.json().then(function (data) {
-                   // console.log(data)
+                    console.log(data)
                    if(data.res==null){
                     history.push({
                         pathname:"/signup",
                         state: { email: email }
                     });  
-                    }else{
-                        history.push("/desktop");
+                    }else if(data.res.role=="admin"){
                         
-                    }
+                        history.push("/superAdmin");
+                        }else{
+                        history.push("/desktop");
+                        }
+                    
                 });
             })
             .catch(function (err) {
