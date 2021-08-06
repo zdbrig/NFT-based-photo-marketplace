@@ -11,9 +11,10 @@ function ProgressUpdate(){
      }
   
 useEffect(()=>{
-    var test = new Date(parseInt(detailsNFT.detailsNft.timesTmp));
-    test.getFullYear();
-    console.log(test)
+    var test = parseInt(detailsNFT.detailsNft.timesTmp)
+    var date = new Date(test *1000);
+alert(date); //après ça dépends du format de sortie sur tu veux...
+    
 })
     return<div className="progressUpdate">  
  <Header showButtonConnect={true}></Header>

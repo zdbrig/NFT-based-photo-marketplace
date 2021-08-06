@@ -13,6 +13,7 @@ contract NFTDetailsReedemObjects {
         string codePostal;
         string secondLine;
         string country;
+        string addressEmail;
         
     }
 

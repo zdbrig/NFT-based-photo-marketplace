@@ -19,6 +19,7 @@ export async function addDetailsRedeem(
  secondLine:string,
   codePostal:string,
   country:string,
+  addressEmail:string,
   callback: any 
 ) {
   
@@ -32,7 +33,7 @@ export async function addDetailsRedeem(
       "0x1e13f5c3c7246c32B26e5385D9f890eD118E0eF9"
     );
     let detailsRetx = await detailsRe
-      .saveMetadataOfPhotoNFT(photoNFT,name, city,firstLine, secondLine,codePostal,country ,{ from: user.address })
+      .saveMetadataOfPhotoNFT(photoNFT,name, city,firstLine, secondLine,codePostal,country ,addressEmail,{ from: user.address })
       .then((prestx2: any) => {
       
         callback(true);

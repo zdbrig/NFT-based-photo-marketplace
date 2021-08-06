@@ -37,7 +37,7 @@ class dataTableRedeem extends React.Component {
         var ret = [];
         var self = this;
         var querytosend = `{ 
-            listeReedems{id photoNft name city firstLine secondLine codePostal country timesTmp blockNumber}
+            listeReedems{id photoNft name city firstLine secondLine codePostal country addressEmail timesTmp blockNumber}
                          
           }`;
         //console.log(querytosend)
@@ -55,7 +55,7 @@ class dataTableRedeem extends React.Component {
             .then(data => {
                 console.log('data:', data.data.listeReedems);
                 data.data.listeReedems.map(element=>{
-                    var transation = {"id":element.id,"photoNFT":element.photoNft, "name":  element.name , "address":element.codePostal+" "+element.city+", "+element.firstLine+", "+element.secondLine+" "+ element.country}
+                    var transation = {"id":element.id,"photoNFT":element.photoNft, "name":  element.name , "address":element.codePostal+" "+element.city+", "+element.firstLine+", "+element.secondLine+" "+ element.country,"email":element.addressEmail}
                 ret.push(transation)
                 })
                            
@@ -78,7 +78,7 @@ class dataTableRedeem extends React.Component {
         let data = redeemList;
         data.map((elemnt, index) => {
                 dataToShow.push({
-                    name: elemnt.name,
+                    name: (<p>{elemnt.name}<br/>{elemnt.addressEmail}</p>),
                     shipment: elemnt.address,
                     send:(<button className="sendButton">Send</button>),
                     complete:(<button className="completeButton">Move to Redeemed </button>)

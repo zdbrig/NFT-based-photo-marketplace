@@ -13,7 +13,7 @@ contract NFTDetailsReedem is NFTDetailsReedemStorages{
     address[] public photoAddresses;
 
     constructor() public {}
-     event DetailsRedeem(  PhotoNFT photoNft ,string name,string city ,string firstLine ,string secondLine,string codePostal,string country);  
+     event DetailsRedeem(  PhotoNFT photoNft ,string name,string city ,string firstLine ,string secondLine,string codePostal,string country,string addressEmail);  
 
     /**
      * @notice - Save metadata of a photoNFT
@@ -21,13 +21,14 @@ contract NFTDetailsReedem is NFTDetailsReedemStorages{
     function saveMetadataOfPhotoNFT(
         //address[] memory _photoAddresses, 
         PhotoNFT _photoNFT, 
-        // string memory _photoNFTName, 
+        
         string memory _name, 
         string memory _city, 
         string memory _firstLine, 
         string memory _secondLine,
         string memory _codePostal,
-        string memory _country
+        string memory _country,
+        string memory _addressEmail
        
        
     ) public returns (bool) {
@@ -42,12 +43,13 @@ contract NFTDetailsReedem is NFTDetailsReedemStorages{
         
      codePostal:_codePostal,
         secondLine: _secondLine,
-        country:_country
+        country:_country,
+        addressEmail:_addressEmail
         });
         allDetailsReedem.push(detailsReedem);
 
  
-emit DetailsRedeem(_photoNFT, _name, _city,  _firstLine, _codePostal, _secondLine, _country);    
+emit DetailsRedeem(_photoNFT, _name, _city,  _firstLine, _codePostal, _secondLine, _country, _addressEmail);    
     }
 
   

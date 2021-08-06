@@ -51,7 +51,7 @@ function Redeembottle(){
         const photoNFT=detailsNFT.detailsNft.photoNft
         console.log("photoNFT"+photoNFT)
 
-        addDetailsRedeem(detailsNFT.detailsNft.photoNft, nameUser,city,firstLine,codePost,secondLine,country,(isSuccess:any,error:any) => {
+        addDetailsRedeem(detailsNFT.detailsNft.photoNft, nameUser,city,firstLine,codePost,secondLine,country,"fathallahamal86@gmail.com",(isSuccess:any,error:any) => {
             if (error) {
               console.log("error" + error);
             
