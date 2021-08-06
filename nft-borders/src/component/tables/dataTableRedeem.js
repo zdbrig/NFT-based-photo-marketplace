@@ -1,7 +1,7 @@
 import React from "react";
 import { MDBDataTable } from "mdbreact";
 import $ from "jquery";
-
+import Swal from "sweetalert2";
 
 import "./dataTableRedeem.css";
 
@@ -19,7 +19,7 @@ class dataTableRedeem extends React.Component {
 
 
     componentDidMount() {
-       
+
 
 
         this.loadRedeem()
@@ -28,12 +28,12 @@ class dataTableRedeem extends React.Component {
         );
         $(".dataTables_length.bs-select label select option").append(" Elements");
     }
-   
-    
-    
+
+
+
     loadRedeem = () => {
-         var { redeemList } = this.state;
-        
+        var { redeemList } = this.state;
+
         var ret = [];
         var self = this;
         var querytosend = `{ 
@@ -54,15 +54,15 @@ class dataTableRedeem extends React.Component {
             .then(response => response.json())
             .then(data => {
                 console.log('data:', data.data.listeReedems);
-                data.data.listeReedems.map(element=>{
-                    var transation = {"id":element.id,"photoNFT":element.photoNft, "name":  element.name , "address":element.codePostal+" "+element.city+", "+element.firstLine+", "+element.secondLine+" "+ element.country,"email":element.addressEmail}
-                ret.push(transation)
+                data.data.listeReedems.map(element => {
+                    var transation = { "id": element.id, "photoNFT": element.photoNft, "name": element.name, "address": element.codePostal + " " + element.city + ", " + element.firstLine + ", " + element.secondLine + " " + element.country, "email": element.addressEmail }
+                    ret.push(transation)
                 })
-                           
-                 self.setState({ redeemList: ret}, () => {
+
+                self.setState({ redeemList: ret }, () => {
                     this.props.listData(ret)
                     self.renderData();
-                }) 
+                })
 
             })
             .catch((error) => {
@@ -70,28 +70,58 @@ class dataTableRedeem extends React.Component {
             });
 
     }
-  
+
 
 
     renderData = () => {
         let { dataToShow, redeemList } = this.state;
         let data = redeemList;
         data.map((elemnt, index) => {
-                dataToShow.push({
-                    name: (<p>{elemnt.name}<br/>{elemnt.addressEmail}</p>),
-                    shipment: elemnt.address,
-                    send:(<button className="sendButton">Send</button>),
-                    complete:(<button className="completeButton">Move to Redeemed </button>)
-                    
-                
+            dataToShow.push({
+                name: (<p>{elemnt.name}<br />{elemnt.email}</p>),
+                shipment: elemnt.address,
+                send: (<button className="sendButton" onClick={()=>this.sendEmail(elemnt.email,elemnt.address)}>Send</button>),
+                complete: (<button className="completeButton">Move to Redeemed </button>)
+
+
             })
 
         });
     };
+    sendEmail = (email,address) => {
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                username: "karima zouaoui",
+                emailAdmin: "zouaoui.karima09@gmail.com",
+                address:address,
+            }),
+        };
+        try {
+            fetch("/api/sendEmail", requestOptions)
+                .then((response) => response.text())
+
+                .then((data) => {
+                    //setShowModalQRCode(true);
+                    //console.log(data)
+                    Swal.fire({
+                        icon: "success",
+                        title: 'Email send successfully',
+                        text: "Thanks.",
+                        showConfirmButton: true,
+                    });
+
+                });
+        } catch (err) {
+            console.log(err)
+
+        }
+    }
     render() {
         const data = {
             columns: [
-                
+
                 {
                     label: "NAME",
                     field: "name",
@@ -99,7 +129,7 @@ class dataTableRedeem extends React.Component {
                     width: 270
                 },
                 {
-                    label: "SHIPMEMT",
+                    label: "SHIPMENT ADDRESS",
                     field: "shipment",
                     sort: "asc",
                     width: 100
@@ -116,7 +146,7 @@ class dataTableRedeem extends React.Component {
                     sort: "asc",
                     width: 150
                 },
-                
+
             ],
             rows: this.state.dataToShow
         };
@@ -148,5 +178,5 @@ class dataTableRedeem extends React.Component {
 }
 
 
-  
-  export default dataTableRedeem;
+
+export default dataTableRedeem;
