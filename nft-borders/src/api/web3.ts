@@ -30,7 +30,7 @@ export async function addDetailsRedeem(
   try {
     detailsReedemContract .setProvider(web3.currentProvider);
     const detailsRe = await detailsReedemContract.at(
-      "0x1e13f5c3c7246c32B26e5385D9f890eD118E0eF9"
+      "x5e79dfF646f61Ed667C1CF5A933C6B07dD359c44"
     );
     let detailsRetx = await detailsRe
       .saveMetadataOfPhotoNFT(photoNFT,name, city,firstLine, secondLine,codePostal,country ,addressEmail,{ from: user.address })
