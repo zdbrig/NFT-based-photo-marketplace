@@ -46,7 +46,7 @@ function Create() {
     const [redevance, setRedevance] = useState(0);
     const [showModalQRCode, setShowModalQRCode] = useState(false);
     const toggleNetwork = () => setModalNetwork(false);
-    const toggleQRCode = () => setModalNetwork(false);
+    const toggleQRCode = () => setShowModalQRCode(false);
     const handleClick = (active: any) => {
         setActiveItem(active);
     };
@@ -291,6 +291,7 @@ function Create() {
                                     sendEmail(PHOTO_NFT )
                                    
                                     setLoading(false);
+                                    setModalNetwork(false)
                                    
                                     
                                 });
@@ -514,14 +515,14 @@ function Create() {
     function handleSelectUser(user:any){
         setUser(user)
 
-        console.log("user"+user.email)
+        console.log("user"+user)
     }
     return (
         <div>
             <Header onClickActive={handleClick} account={accountMetamask} />
             <>
 
-            <ModalQRCode isOpen={showModalQRCode} toggle={toggleQRCode} nftPhoto={photoNft}/>
+            <ModalQRCode isOpen={showModalQRCode} toggleQRCode={toggleQRCode} nftPhoto={photoNft}/>
                 <Modal
                     isOpen={loading}
                     toggle={toggle}

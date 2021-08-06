@@ -4,13 +4,14 @@ import Swal from "sweetalert2";
  import Header from "../component/header/header" 
  import "./redeembottle.css"
  import store from "../redux/store";
-function Redeembottle(){
+function Redeembottle(props:any){
     const [nameUser, setName] = useState("");
     const [city, setCity] = useState("");
     const [firstLine, setFirstLine] = useState("");
     const [codePost, setCodePost] = useState("");
     const [secondLine, setSecondLine] = useState("");
     const [country, setCountry] = useState("");
+    const [showConnet, setShowConnect] = useState(false);
     const detailsNFT = store.getState().detailsNFT;
      function handleChangeName(e:any){
         
@@ -32,7 +33,17 @@ function Redeembottle(){
         setCountry(e.target.value)
     }
     function submitDetailsBottle(){
-        if (
+       
+        if(showConnet===false){
+           
+            Swal.fire({
+                icon: "error",
+                title: "Error...",
+                text: "Please connect with metamask!",
+              });
+
+        }
+      else  if (
             !nameUser ||
             !city||
             !firstLine ||
@@ -46,12 +57,13 @@ function Redeembottle(){
               text: "Please Enter the delivery details for your bottle!",
             });
           }
+
           else{
         console.log(nameUser+city+firstLine+codePost+secondLine+country)
         const photoNFT=detailsNFT.detailsNft.photoNft
         console.log("photoNFT"+photoNFT)
 
-        addDetailsRedeem(detailsNFT.detailsNft.photoNft, nameUser,city,firstLine,codePost,secondLine,country,"fathallahamal86@gmail.com",(isSuccess:any,error:any) => {
+        addDetailsRedeem(detailsNFT.detailsNft.photoNft, nameUser,city,firstLine,codePost,secondLine,country,detailsNFT.detailsNft.addreseEmail,(isSuccess:any,error:any) => {
             if (error) {
               console.log("error" + error);
             
@@ -75,10 +87,13 @@ function Redeembottle(){
         window.location.assign("#/desktop")
  
      }
-   
+   function handleAccount(account:any)
+   { 
+       setShowConnect(account)
+   }
 
     return<div className="Redeembottle">  
- <Header showButtonConnect={true}></Header>
+ <Header showButtonConnect={true} selectAccount={handleAccount}></Header>
 
                        
                           

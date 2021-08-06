@@ -44,7 +44,9 @@ contract PhotoNFT is ERC721Full {
         _mint(to, newPhotoId);
         _setTokenURI(newPhotoId, tokenURI);
     }
-
+function withdraw(uint256 tokenId) public {
+    _burn(tokenId);
+}
 
     ///--------------------------------------
     /// Getter methods

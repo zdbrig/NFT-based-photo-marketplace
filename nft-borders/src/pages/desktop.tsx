@@ -62,9 +62,11 @@ function getDetailsNFT() {
            console.log(JSON.stringify(detailsNft))
         });
     }
-        
+  function  handleAccount(){
+      
+  }   
     return(<div className="Desktop main-layout inner_page">  
- <Header showButtonConnect={true}></Header>
+ <Header showButtonConnect={true} selectAccount={handleAccount}></Header>
 
 
                        <div className="content" >
