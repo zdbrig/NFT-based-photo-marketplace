@@ -55,14 +55,10 @@ class dataTableRedeem extends React.Component {
             .then(data => {
                 console.log('data:', data.data.listeReedems);
                 data.data.listeReedems.map(element => {
-                    var transation = { "id": element.id, "photoNFT": element.photoNft, "name": element.name, "address": element.codePostal + " " + element.city + ", " + element.firstLine + ", " + element.secondLine + " " + element.country, "email": element.addressEmail }
-                    ret.push(transation)
+                    this.getReddemById(element)
                 })
 
-                self.setState({ redeemList: ret }, () => {
-                    this.props.listData(ret)
-                    self.renderData();
-                })
+
 
             })
             .catch((error) => {
@@ -80,22 +76,115 @@ class dataTableRedeem extends React.Component {
             dataToShow.push({
                 name: (<p>{elemnt.name}<br />{elemnt.email}</p>),
                 shipment: elemnt.address,
-                send: (<button className="sendButton" onClick={()=>this.sendEmail(elemnt.email,elemnt.address)}>Send</button>),
-                complete: (<button className="completeButton">Move to Redeemed </button>)
+                send: (<button className="sendButton" onClick={() => this.sendEmail(elemnt.email, elemnt.address)}>Send</button>),
+                complete: (<button className="completeButton" onClick={() => this.moveRedeemed(elemnt.id, elemnt.name, elemnt.address)}>Move to Redeemed </button>)
 
 
             })
 
         });
     };
-    sendEmail = (email,address) => {
+    moveRedeemed = (id, name, address) => {
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Move to redeem!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+          }).then((result) => {
+            if (result.value) {
+              this.saveRedeeme(id, name, address)
+            }
+          })
+              
+       
+    }
+    getReddemById = (element) => {
+        let ret = [];
+        let self = this;
+        fetch("/api/getRedeemById?idRedeemed=" + element.id)
+            .then(function (response) {
+                if (response.status !== 200) {
+                    console.log(
+                        "Looks like there was a problem. Status Code: " +
+                        response.status
+                    );
+                    return;
+                }
+
+                // Examine the text in the response
+                response.json().then(function (data) {
+                    console.log(data)
+                    if (data.res == null) {
+                        console.log("res =null")
+                        // this.loadRedeem()
+                        var transation = { "id": element.id, "photoNFT": element.photoNft, "name": element.name, "address": element.codePostal + " " + element.city + ", " + element.firstLine + ", " + element.secondLine + " " + element.country, "email": element.addressEmail }
+                        ret.push(transation)
+
+                    } else {
+                        console.log("res !=null")
+                    }
+                    self.setState({ redeemList: ret }, () => {
+                        self.props.listData(ret)
+                        self.renderData();
+                    })
+                });
+            })
+            .catch(function (err) {
+                console.log("getRedeemById", err);
+            });
+    }
+    saveRedeeme = (id, name, address) => {
+        
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                idRedeemed: id,
+                name: name,
+                address: address
+            }),
+        };
+        try {
+            fetch("/api/addRedeemeds", requestOptions)
+                .then((response) => response.text())
+
+                .then((data) => {
+                    Swal.fire({
+                        title: 'Moved!',
+                        text: "Your Bottle has been moved.",
+                        icon: 'success',
+                        showCancelButton: true,
+                      }).then((result) => {
+                        if (result.value) {
+                            window.location.reload();
+                        }
+                      })
+                   
+                   
+                    console.log(data)
+                    // history.push("/desktop");
+                });
+        } catch (err) {
+            Swal.fire({
+                title: 'ERROR',
+                text: err,
+                icon: 'error',
+                showCancelButton: true,
+              })
+            console.log(err);
+        }
+    }
+    sendEmail = (email, address) => {
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 username: "karima zouaoui",
                 emailAdmin: "zouaoui.karima09@gmail.com",
-                address:address,
+                address: address,
             }),
         };
         try {

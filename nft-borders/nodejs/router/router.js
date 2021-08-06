@@ -11,9 +11,10 @@ const bodyParser = require("body-parser");
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
 router.use(bodyParser.urlencoded({ extended: true }));
 const controller = require("../Controller/userController");
+const redeemController = require("../Controller/redeemedController");
 const sendEmail = require("../models/sendEmail");
 
- router.get("/api/getUserByEmail", (req, res, next) =>
+router.get("/api/getUserByEmail", (req, res, next) =>
     getRawBody(req)
         .then((response) => {
             let email = req.query.email;
@@ -25,16 +26,16 @@ const sendEmail = require("../models/sendEmail");
             res.send(assets)
         })
         .catch((error) => console.log("error: " + error))
-); 
+);
 router.post("/api/sendEmail", (req, res, next) =>
     getRawBody(req)
         .then((response) => {
-            console.log("user"+response)
+            console.log("user" + response)
             let user = JSON.parse(response);
-            let username=user.username;
-            let emailAdmin=user.emailAdmin;
-            let address=user.address;
-            return sendEmail.mailSendToAdmin(username, emailAdmin,address);
+            let username = user.username;
+            let emailAdmin = user.emailAdmin;
+            let address = user.address;
+            return sendEmail.mailSendToAdmin(username, emailAdmin, address);
         })
         .then(function (user) {
             res.send(user);
@@ -50,6 +51,31 @@ router.post("/api/addUsers", (req, res, next) =>
         })
         .then(function (user) {
             res.send(user);
+        })
+        .catch((error) => console.log("error: " + error))
+);
+router.get("/api/getRedeemById", (req, res, next) =>
+    getRawBody(req)
+        .then((response) => {
+            let idRedeemed = req.query.idRedeemed;
+            return redeemController.getRedeemed(idRedeemed);
+        })
+
+        .then((assets) => {
+            console.log(assets.res);
+            res.send(assets)
+        })
+        .catch((error) => console.log("error: " + error))
+);
+router.post("/api/addRedeemeds", (req, res, next) =>
+    getRawBody(req)
+        .then((response) => {
+            let redeem = JSON.parse(response);
+            console.log("res" + response);
+            return redeemController.addRedeemeds(redeem);
+        })
+        .then(function (redeem) {
+            res.send(redeem);
         })
         .catch((error) => console.log("error: " + error))
 );
