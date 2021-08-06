@@ -45,7 +45,7 @@ function Authorcomponent(props: any) {
 
                         if (data.user !== "undefined") {
                            
-
+                            console.log("data" + data.email);
 
                             setUser(data);
                             setLoading(false);
@@ -159,7 +159,7 @@ function Authorcomponent(props: any) {
     }
     return (
         <div className="author author--page">
-            <>
+            {/* <>
                 {" "}
                 <Modal
                     isOpen={loading}
@@ -175,7 +175,7 @@ function Authorcomponent(props: any) {
                         <img src="loading.gif" alt="" />
                     </div>
                 </Modal>
-            </>
+            </> */}
             {renderUser()}
         </div>
     );

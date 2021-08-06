@@ -62,9 +62,14 @@ function Signup1(props:any) {
     
     function openModal(){setIsOpen(true)};
     function closeModal(){setIsOpen(false)};
+    function handleAccount(account:any)
+    { 
+       
+    }
+ 
     return (
         <>
-        <Header showButtonConnect={false}></Header>
+        <Header showButtonConnect={false} selectAccount={handleAccount}></Header>
         <div className="pageInvitation">
            <Modal show={isOpen}>
         <Modal.Header >

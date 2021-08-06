@@ -29,11 +29,13 @@ function Header(props: any) {
             } else if (accounts.length == 0) {
               console.log("User is not logged in to MetaMask");
               setShowInput(false)
+              props.selectAccount(false)
               //store.dispatch(setLoadFromPage(pageFrom))
              // history.push("/ConnectAccount");
             } else {
                 setShowInput(true)
                 setAccount(formAccount1(accounts));
+                props.selectAccount(true)
                 //connectWithMetamask()
               //setaccount(formAccount(accounts))
             }
@@ -57,7 +59,7 @@ function Header(props: any) {
                 setAccount(formAccount(data.account));
 
                 store.dispatch(user(data.account));
-               // console.log("data" + data.account)
+               
 
 
 
@@ -65,20 +67,7 @@ function Header(props: any) {
 
 
 
-                //   store.dispatch(setNetworkId(netId));
-                //   console.log("netid" + netId);
-
-                //   store.dispatch(setAccount(data.account));
-                //   store.dispatch(setTypeWallet(WalletsTypes.METAMASK));
-                //   setWalletType(WalletsTypes.METAMASK);
-                //   if (fromPage != "" && fromPage != "ConnectAccount") {
-                //     history.push("/" + fromPage);
-                //     store.dispatch(setLoadFromPage(""));
-                //   } else {
-                //     // history.push("/Navigation");
-                //     history.push("/nova/DashboardAssetsdata");
-                //   }
-                // }
+               
             }
         }
 

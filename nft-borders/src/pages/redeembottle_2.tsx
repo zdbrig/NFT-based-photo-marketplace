@@ -10,8 +10,12 @@ function Redeembottle_2(){
         window.location.assign("#/desktop")
  
      }
+     function handleAccount(account:any)
+     { 
+        
+     }
     return<div className="Redeembottle2">  
- <Header showButtonConnect={true}></Header>
+ <Header showButtonConnect={true} selectAccount={handleAccount}></Header>
 
                        
                           
