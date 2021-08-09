@@ -43,7 +43,7 @@ export async function addDetailsRedeem(
       });
     
   } catch (error) {
-    callback(error, null);
+    callback(error);
     console.log(error);
     console.log("error while read message");
   }

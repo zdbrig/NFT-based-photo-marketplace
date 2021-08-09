@@ -6,9 +6,13 @@ function WithdrawNFT_2(){
     function goPagePrevious(){
         window.location.assign("#/withdrawNFT")
     }
+    function handleAccount(account:any)
+    { 
+     
+    }
     
     return<div className="WithdrawNFT2">  
- <Header showButtonConnect={true}></Header>
+ <Header showButtonConnect={true} selectAccount={handleAccount}></Header>
 
 
                        
