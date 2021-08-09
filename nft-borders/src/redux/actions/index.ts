@@ -6,7 +6,7 @@ export const detailsNFT = (detailsNft: any) => ({
   type: "DETAILSNFT",
   detailsNft,
 });
-export const emailUser= (ddressEmail: any) => ({
+export const emailUser= (addressEmail: any) => ({
   type: "ADRESSEMAIL",
-  ddressEmail,
+  addressEmail,
 });

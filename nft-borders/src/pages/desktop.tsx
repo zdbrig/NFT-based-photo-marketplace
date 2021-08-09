@@ -2,7 +2,7 @@ import React, { useState,useEffect} from "react";
 import "./desktop.css"
  import Header from "../component/header/header" 
 import { detailsNFT } from "../redux/actions";
-
+import Swal from "sweetalert2";
 import store from '../redux/store';
 function Desktop(props:any){
     const [detailsNft, setDetailsNft] = useState<any>([]);;
@@ -28,10 +28,12 @@ useEffect(() => {
 
 
 function getDetailsNFT() {
-    let addressEmail="fathallahamal86@gmail.com"
+    const email = store.getState().emailUser;
+    // const addressEmail= "fathallahaml86@gmail.com"
+    
     let ret: Array<any> = [];
     var querytosend = `{
-        allPhotoNFTs(where:{addreseEmail:"${addressEmail}"}){
+        allPhotoNFTs(where:{addreseEmail:"${email.addressEmail}"}){
             id owner photoNft photoPrice ipfsHashOfPhoto timesTmp blockNumber nftName nftSymbol addreseEmail
           }
       }`;
@@ -51,6 +53,16 @@ function getDetailsNFT() {
     )
         .then((response) => response.json())
         .then((data) => {
+            if(data.data.allPhotoNFTs.length===0){
+
+ Swal.fire({
+                icon: "error",
+                title: "Error...",
+                text: "you have to create an nft by this email please!",
+              });
+
+            }
+            else{
             setNameNFT(data.data.allPhotoNFTs[0].nftName)
             setImageNFT(data.data.allPhotoNFTs[0].ipfsHashOfPhoto)
             console.log("name"+data.data.allPhotoNFTs[0].nftName)
@@ -60,10 +72,10 @@ function getDetailsNFT() {
             setDetailsNft([...detailsNft]);
                 console.log("ret1" + data.data.allPhotoNFTs);
            console.log(JSON.stringify(detailsNft))
-        });
+          }  });
     }
   function  handleAccount(){
-      
+
   }   
     return(<div className="Desktop main-layout inner_page">  
  <Header showButtonConnect={true} selectAccount={handleAccount}></Header>
