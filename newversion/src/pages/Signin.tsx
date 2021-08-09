@@ -79,6 +79,7 @@ function Signin() {
                 setNetId(netId);
 
                 const accounts = await web3.eth.getAccounts();
+                console.log("accounts => "+JSON.stringify(accounts))
                 getUserByPublicKey(accounts[0]);
                 setAccount(accounts[0]);
                 // window.location.assign("#/home");

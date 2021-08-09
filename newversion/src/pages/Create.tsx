@@ -218,6 +218,9 @@ function Create() {
         }
     }
     const createItem = async () => {
+        setTimeout(()=> setLoading(true),50);
+        setTimeout(()=>setButtonActive(true),100);
+       
         ipfs.files.add(buffer, (error: any, result: any) => {
             // In case of fail to upload to IPFS
             if (error) {
@@ -228,7 +231,6 @@ function Create() {
             // In case of successful to upload to IPFS
 
             setIpfsHash(result[0].hash);
-            setLoading(true);
             console.log(photoNFTFactory)
             console.log(user.email)
           
@@ -295,8 +297,16 @@ function Create() {
                                    
                                     
                                 });
-                        });
-                });
+                        })
+                        
+                })
+                .on('error', function(error:any){ 
+                     setLoading(false);
+                     setButtonActive(false)
+                 })
+
+                
+                
         });
     };
     useEffect(() => {
@@ -317,11 +327,7 @@ function Create() {
         } else {
             window.location.assign("#/Signin");
         }
-        if (description && price && namePhoto && selectedOption) {
-            setButtonActive(false);
-        } else {
-            setButtonActive(true);
-        }
+       
         if (endingPrice && duration) {
             setDisableAuction(false);
         } else {
@@ -329,13 +335,13 @@ function Create() {
         }
     });
 
-    // useEffect(() => {
-    //     if (endingPrice && duration) {
-    //         setDisableAuction(false);
-    //     } else {
-    //         setDisableAuction(true);
-    //     }
-    // }, [endingPrice, duration]);
+    useEffect(() => {
+        if (description && price && namePhoto && selectedOption) {
+            setButtonActive(false);
+        } else {
+            setButtonActive(true);
+        }
+    }, [description, price,namePhoto,selectedOption]);
     useEffect(() => {
         connect();
         connectAuction();
@@ -793,7 +799,7 @@ function Create() {
                                     <div className="col-12">
                                         <div className="sign__group sign__group--row">
                                             <ul className="sign__radio sign__radio--single">
-                                                <li>
+                                               {/*} <li>
                                                     <input
                                                         id="type1"
                                                         type="radio"
@@ -810,7 +816,7 @@ function Create() {
                                                     <label htmlFor="type1">
                                                         Put on sale
                                                     </label>
-                                                </li>
+                                                </li>*/}
                                                 <li>
                                                     <input
                                                         id="type2"

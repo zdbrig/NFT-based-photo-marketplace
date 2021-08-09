@@ -32,6 +32,7 @@ function Signup() {
                     setModalNetwork(true);
                 } else {
                     const accoun = web3.eth.getAccounts().then((acco: any) => {
+                        console.log("acco =>"+acco)
                         setPublicKey(acco[0]);
                     });
                 }
