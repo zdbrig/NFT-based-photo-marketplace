@@ -35,9 +35,14 @@ function UpdateStatus(props: any) {
             showConfirmButton: true,
         });
     }
+    function handleAccount(account:any)
+{ 
+    
+}
     return (
         <div>
-            <Header showButtonConnect={false}></Header>
+    <Header showButtonConnect={false} selectAccount={handleAccount}></Header>
+            
             <div className="col-12 updateStatus">
                 <p className=" row title">Update Status</p>
                 <div className="row formUpdate">
