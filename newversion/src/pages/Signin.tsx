@@ -4,6 +4,7 @@ import Footer from "../component/Footer/Footer";
 import Web3 from "web3";
 import useAsync from "../component/useAsync";
 import { unlockAccount } from "../Api/web3";
+import { Modal } from "reactstrap";
 function Signin() {
     const [activeItem, setActiveItem] = useState(false);
 
@@ -28,6 +29,9 @@ function Signin() {
     const handleClick = (active: any) => {
         setActiveItem(active);
     };
+
+
+    
     function getUserByPublicKey(publicKey: any) {
         fetch("/api/getUserByPublickey?publicKey=" + publicKey, {
             method: "GET",
@@ -67,7 +71,7 @@ function Signin() {
     async function onClickConnectMetamask() {
         setModalConnect(false);
         if (!ethereum) {
-            toggle();
+         setModal(true)
         } else {
             const { error, data } = await call(null);
             if (error) {
@@ -88,6 +92,53 @@ function Signin() {
     }
     return (
         <div>
+            <>
+                <Modal isOpen={modal} toggle={toggle}>
+                    <div
+                        className="modal-"
+                        style={{ background: "#0d151f", padding: "22px" }}
+                    >
+                        <p
+                            className="modal-"
+                            style={{
+                                color: "wheat",
+                                textAlign: "center",
+                                fontSize: "20px",
+                                fontWeight: 700,
+                            }}
+                        >
+                            {" "}
+                            Metamask extension not installed
+                        </p>
+                        <p
+                            className="modal-link"
+                            style={{
+                                color: "wheat",
+                                textAlign: "center",
+                                fontSize: "20px",
+                                fontWeight: 700,
+                            }}
+                        >
+                            {" "}
+                            Download it{" "}
+                            <a
+                                style={{
+                                    color: "#6f42c1",
+                                    fontSize: "16px",
+                                    fontWeight: "bolder",
+                                }}
+                                href="https://metamask.io/download.html"
+                                target="_blank"
+                            >
+                                here!
+                            </a>{" "}
+                        </p>
+                        <div style={{ textAlign: "center" }}>
+                            <img src="img/metamask.png" width="15%" />{" "}
+                        </div>
+                    </div>
+                </Modal>
+            </>
             <main className="main">
                 <div className="container">
                     <div className="row row--grid">
