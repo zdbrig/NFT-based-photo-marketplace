@@ -5,6 +5,7 @@ import Web3 from "web3";
 import useAsync from "../component/useAsync";
 import { unlockAccount } from "../Api/web3";
 import { Modal } from "reactstrap";
+import "./Signin.css";
 function Signin() {
     const [activeItem, setActiveItem] = useState(false);
 
@@ -122,7 +123,7 @@ function Signin() {
         }
     }
     return (
-        <div>
+        <div className="Signin">
             <>
                 <Modal isOpen={modal} toggle={toggle}>
                     <div
@@ -224,8 +225,8 @@ function Signin() {
                                         {/* <a href="#/Home" className="sign__logo">
                                             <img src="img/logo.svg" alt="" />
                                         </a> */}
-                                        <span />
-                                        Nft Marketplace Sqoin
+                                        <p className="titleNft" >  Nft Marketplace Sqoin </p>
+                                      
                                         {/* <div className="sign__group">
                                             <input
                                                 type="text"
