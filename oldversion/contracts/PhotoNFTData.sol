@@ -44,7 +44,8 @@ contract PhotoNFTData is PhotoNFTDataStorages {
             redevance: _redevance,
             seller: seller,
             status: "Open",
-            reputation: 0
+            statusPhoto:"mint"
+            // reputation: 0
             
         });
         photos.push(photo);
@@ -78,7 +79,14 @@ contract PhotoNFTData is PhotoNFTDataStorages {
         photo.status = _newStatus;  
     }
 
+  function updateStatusPhoto(PhotoNFT _photoNFT, string memory _newStatus) public returns (bool) {
+        /// Identify photo's index
+        uint photoIndex = getPhotoIndex(_photoNFT);
 
+        /// Update metadata of a photoNFT of photo
+        Photo storage photo = photos[photoIndex];
+        photo.status = _newStatus;  
+    }
     ///-----------------
     /// Getter methods
     ///-----------------

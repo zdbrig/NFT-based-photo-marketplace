@@ -33,12 +33,17 @@ function Header(props: any) {
               //store.dispatch(setLoadFromPage(pageFrom))
              // history.push("/ConnectAccount");
             } else {
+                web3.eth.net.getId(function (err: any, id: any) {
+               
+                console.log("net"+id)
+                namenetwork(id)
+                if(id===42){
                 setShowInput(true)
                 setAccount(formAccount1(accounts));
                 props.selectAccount(true)
                 //connectWithMetamask()
               //setaccount(formAccount(accounts))
-            }
+            }} )}
           });
     });
 
@@ -53,7 +58,7 @@ function Header(props: any) {
             }
             if (data) {
                 const netId = await web3.eth.net.getId();
-                namenetwork(netId);
+                
 
 
                 setAccount(formAccount(data.account));

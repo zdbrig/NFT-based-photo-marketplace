@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Header from "../component/Header/Header";
 import Footer from "../component/Footer/Footer";
 import Web3 from "web3";
@@ -67,7 +67,37 @@ function Signin() {
                 console.log("Fetch Error :-S", err);
             });
     }
-
+    function namenetwork(netId: number) {
+        if (netId == 1) {
+            setNetName("Main");
+        } else if (netId == 42) {
+            setNetName("kovan");
+            //setShowInput(true)
+        } else if (netId == 0) {
+            setNetName("Loading");
+        } else {
+            togglenetwork();
+            setNetName("Unknow");
+        }
+    }
+    useEffect(() => {
+        //console.log(showConnect)
+        web3.eth.getAccounts(function (err: any, accounts: any) {
+            if (err != null) {
+              console.error("An error occurred: " + err);
+            } else if (accounts.length == 0) {
+              console.log("User is not logged in to MetaMask");
+             
+              //store.dispatch(setLoadFromPage(pageFrom))
+             // history.push("/ConnectAccount");
+            } else {
+                web3.eth.net.getId(function (err: any, id: any) {
+               
+                console.log("net"+id)
+                namenetwork(id)
+              } )}
+          });
+    });
     async function onClickConnectMetamask() {
         setModalConnect(false);
         if (!ethereum) {
@@ -80,6 +110,7 @@ function Signin() {
                 localStorage.setItem("wallettype", "metamask");
                 setWalletType("metamask");
                 const netId = await web3.eth.net.getId();
+                namenetwork(netId);
                 setNetId(netId);
 
                 const accounts = await web3.eth.getAccounts();
@@ -139,6 +170,35 @@ function Signin() {
                     </div>
                 </Modal>
             </>
+            <Modal
+                isOpen={modalnetwork}
+                toggle={togglenetwork}
+                wrapClassName="modalLoadingWrap"
+                modalClassName="modalLoadingModal"
+                backdropClassName="modalLoadingBackdrop"
+                contentClassName="modalLoadingContent"
+            >
+                <div className="modal-header headerModal">
+                    <h2 className="modal-title" id="exampleModalLabel">
+                        Wrong Network
+                    </h2>
+                    <button
+                        type="button"
+                        className="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                        
+                    >
+                        <span aria-hidden="true" className="spanx">
+                            &times;
+                        </span>
+                    </button>
+                </div>
+
+                <div className="modal-body">
+                    <h5>Network not supported</h5>
+                </div>
+            </Modal>{" "}
             <main className="main">
                 <div className="container">
                     <div className="row row--grid">
