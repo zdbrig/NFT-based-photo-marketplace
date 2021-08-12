@@ -34,7 +34,7 @@ function Signup2(props:any) {
             body: JSON.stringify({
                 email: email,
                 password: pwd,
-                role:"roles"
+                role:"user"
             }),
         };
         try {

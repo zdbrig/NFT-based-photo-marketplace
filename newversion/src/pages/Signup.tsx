@@ -5,6 +5,7 @@ import Footer from "../component/Footer/Footer";
 import { Modal } from "reactstrap";
 import "./Signup.css";
 import Web3 from "web3";
+import Swal from "sweetalert2"
 function Signup() {
     const [activeItem, setActiveItem] = useState(false);
     const [username, setUserName] = useState("");
@@ -48,6 +49,17 @@ function Signup() {
     });
 
     async function clickSingup() {
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!re.test(email)) {
+            Swal.fire({
+                icon: "error",
+                title: "Error...",
+                text: "email Invalid!",
+              });
+          
+            
+        } 
+else{
         console.log(publicKey);
         const requestOptions = {
             method: "POST",
@@ -67,7 +79,7 @@ function Signup() {
                 });
         } catch (err) {
             alert(err);
-        }
+        }}
     }
 
     return (
