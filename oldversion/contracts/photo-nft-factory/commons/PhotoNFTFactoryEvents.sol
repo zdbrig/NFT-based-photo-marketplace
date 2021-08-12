@@ -14,7 +14,8 @@ contract PhotoNFTFactoryEvents {
         string ipfsHashOfPhoto,
         string addresEmail,
         uint redevance,
-        address seller
+        address seller,
+        string statusPhoto
       
     );
 

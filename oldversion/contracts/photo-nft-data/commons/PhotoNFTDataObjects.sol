@@ -15,9 +15,10 @@ contract PhotoNFTDataObjects {
         string ipfsHashOfPhoto;
         // string  typeOfSale;
         uint redevance;
-         address seller;
+        address seller;
         string status;  /// "Open" or "Cancelled"
-        uint256 reputation;
+        string statusPhoto;
+        // uint256 reputation;
         
     }
 

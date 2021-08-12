@@ -13,6 +13,7 @@ import { PhotoNFTData } from "./PhotoNFTData.sol";
  * @notice - This is the factory contract for a NFT of photo
  */
 contract PhotoNFTFactory is PhotoNFTFactoryStorages {
+     event withdrawNFT (PhotoNFT photoNFT,string status);
     using SafeMath for uint256;
     using Strings for string;    
 
@@ -42,9 +43,18 @@ contract PhotoNFTFactory is PhotoNFTFactoryStorages {
         /// Save metadata of a photoNFT created
         photoNFTData.saveMetadataOfPhotoNFT(photoAddresses, photoNFT,  nftSymbol, msg.sender, photoPrice, ipfsHashOfPhoto, addresEmail,redevance, seller);
         photoNFTData.updateStatus(photoNFT, "Open");
+        string memory statusPhoto="mint";
+        photoNFTData.updateStatusPhoto(photoNFT, statusPhoto);
+        
 
-        emit PhotoNFTCreated(msg.sender, photoNFT, nftName, nftSymbol, photoPrice, ipfsHashOfPhoto, addresEmail,redevance,seller);
+        emit PhotoNFTCreated(msg.sender, photoNFT, nftName, nftSymbol, photoPrice, ipfsHashOfPhoto, addresEmail,redevance,seller,statusPhoto);
     }
+
+function withdraw(PhotoNFT photoNFT) public {
+    string memory status="burn";
+    photoNFTData.updateStatusPhoto(photoNFT,status);
+    emit withdrawNFT (photoNFT, status);
+}
 
 
     ///-----------------

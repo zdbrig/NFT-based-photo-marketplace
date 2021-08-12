@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Header from "../component/Header/Header";
 import Footer from "../component/Footer/Footer";
 import Web3 from "web3";
 import useAsync from "../component/useAsync";
 import { unlockAccount } from "../Api/web3";
+import { Modal } from "reactstrap";
+import "./Signin.css";
 function Signin() {
     const [activeItem, setActiveItem] = useState(false);
 
@@ -28,6 +30,9 @@ function Signin() {
     const handleClick = (active: any) => {
         setActiveItem(active);
     };
+
+
+    
     function getUserByPublicKey(publicKey: any) {
         fetch("/api/getUserByPublickey?publicKey=" + publicKey, {
             method: "GET",
@@ -63,11 +68,41 @@ function Signin() {
                 console.log("Fetch Error :-S", err);
             });
     }
-
+    function namenetwork(netId: number) {
+        if (netId == 1) {
+            setNetName("Main");
+        } else if (netId == 42) {
+            setNetName("kovan");
+            //setShowInput(true)
+        } else if (netId == 0) {
+            setNetName("Loading");
+        } else {
+            togglenetwork();
+            setNetName("Unknow");
+        }
+    }
+    useEffect(() => {
+        //console.log(showConnect)
+        web3.eth.getAccounts(function (err: any, accounts: any) {
+            if (err != null) {
+              console.error("An error occurred: " + err);
+            } else if (accounts.length == 0) {
+              console.log("User is not logged in to MetaMask");
+             
+              //store.dispatch(setLoadFromPage(pageFrom))
+             // history.push("/ConnectAccount");
+            } else {
+                web3.eth.net.getId(function (err: any, id: any) {
+               
+                console.log("net"+id)
+                namenetwork(id)
+              } )}
+          });
+    });
     async function onClickConnectMetamask() {
         setModalConnect(false);
         if (!ethereum) {
-            toggle();
+         setModal(true)
         } else {
             const { error, data } = await call(null);
             if (error) {
@@ -76,6 +111,7 @@ function Signin() {
                 localStorage.setItem("wallettype", "metamask");
                 setWalletType("metamask");
                 const netId = await web3.eth.net.getId();
+                namenetwork(netId);
                 setNetId(netId);
 
                 const accounts = await web3.eth.getAccounts();
@@ -87,7 +123,83 @@ function Signin() {
         }
     }
     return (
-        <div>
+        <div className="Signin">
+            <>
+                <Modal isOpen={modal} toggle={toggle}>
+                    <div
+                        className="modal-"
+                        style={{ background: "#0d151f", padding: "22px" }}
+                    >
+                        <p
+                            className="modal-"
+                            style={{
+                                color: "wheat",
+                                textAlign: "center",
+                                fontSize: "20px",
+                                fontWeight: 700,
+                            }}
+                        >
+                            {" "}
+                            Metamask extension not installed
+                        </p>
+                        <p
+                            className="modal-link"
+                            style={{
+                                color: "wheat",
+                                textAlign: "center",
+                                fontSize: "20px",
+                                fontWeight: 700,
+                            }}
+                        >
+                            {" "}
+                            Download it{" "}
+                            <a
+                                style={{
+                                    color: "#6f42c1",
+                                    fontSize: "16px",
+                                    fontWeight: "bolder",
+                                }}
+                                href="https://metamask.io/download.html"
+                                target="_blank"
+                            >
+                                here!
+                            </a>{" "}
+                        </p>
+                        <div style={{ textAlign: "center" }}>
+                            <img src="img/metamask.png" width="15%" />{" "}
+                        </div>
+                    </div>
+                </Modal>
+            </>
+            <Modal
+                isOpen={modalnetwork}
+                toggle={togglenetwork}
+                wrapClassName="modalLoadingWrap"
+                modalClassName="modalLoadingModal"
+                backdropClassName="modalLoadingBackdrop"
+                contentClassName="modalLoadingContent"
+            >
+                <div className="modal-header headerModal">
+                    <h2 className="modal-title" id="exampleModalLabel">
+                        Wrong Network
+                    </h2>
+                    <button
+                        type="button"
+                        className="close"
+                        data-dismiss="modal"
+                        aria-label="Close"
+                        
+                    >
+                        <span aria-hidden="true" className="spanx">
+                            &times;
+                        </span>
+                    </button>
+                </div>
+
+                <div className="modal-body">
+                    <h5>Network not supported</h5>
+                </div>
+            </Modal>{" "}
             <main className="main">
                 <div className="container">
                     <div className="row row--grid">
@@ -113,8 +225,8 @@ function Signin() {
                                         {/* <a href="#/Home" className="sign__logo">
                                             <img src="img/logo.svg" alt="" />
                                         </a> */}
-                                        <span />
-                                        Nft Marketplace Sqoin
+                                        <p className="titleNft" >  Nft Marketplace Sqoin </p>
+                                      
                                         {/* <div className="sign__group">
                                             <input
                                                 type="text"

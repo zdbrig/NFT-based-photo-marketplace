@@ -62,7 +62,7 @@ export async function withdrawNft(
   try {
     detailsReedemContract .setProvider(web3.currentProvider);
     const detailsRe = await detailsReedemContract.at(
-      "0x40C5B579431ADEee0256e18802601A2416a69535"
+      "0x475514Fe705519C589151b332Cd0b81A6654E486"
     );
     let detailsRetx = await detailsRe
       .withdraw( idToken,{ from: user.address })
