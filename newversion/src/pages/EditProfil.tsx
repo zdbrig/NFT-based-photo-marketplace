@@ -3,6 +3,7 @@ import Header from "../component/Header/Header";
 import Web3 from "web3";
 import Footer from "../component/Footer/Footer";
 import ipfs from "../component/Ipfs/ipfsApi";
+
 var base64Img = require("base64-img-promise");
 var fs = require("fs");
 function EditProfil() {
@@ -11,8 +12,9 @@ function EditProfil() {
     const [email, setEmail] = useState<any>();
     const [publicKey, setPublicKey] = useState<any>();
     const [user, setUser] = useState<any>();
+    const [activeItem, setActiveItem] = useState(false);
     const [ipfsPhoto, setipfsPhoto] = useState<any>();
-
+  
     useEffect(() => {
         if (localStorage.getItem("wallettype") === "metamask") {
             //@ts-ignore
@@ -121,8 +123,15 @@ function EditProfil() {
     function changeEmail(event: any) {
         setEmail(event.taget.value);
     }
+    const handleClick = (active: any) => {
+        setActiveItem(active);
+    };
     return (
         <div>
+             <Header
+                onClickActive={handleClick}
+                account={publicKey}
+            ></Header>
             <main className="main">
                 <div className="container">
                     <div className="row row--grid">

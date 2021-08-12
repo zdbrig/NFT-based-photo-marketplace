@@ -114,7 +114,7 @@ function Signup() {
                                         {/* <a href="#/Home" className="sign__logo">
                                             <img src="img/logo.svg" alt="" />
                                         </a> */}
-                                        <h2> Create An account </h2>
+                                        <h2> Create An Account </h2>
 
                                         {/* <label className="eth">
                                             {" "}
