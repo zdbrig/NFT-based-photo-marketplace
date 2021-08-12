@@ -4,7 +4,9 @@ import './signup_1.css'
 import Modal from "react-bootstrap/Modal";
 import Header from "../component/header/header" 
 import "bootstrap/dist/css/bootstrap.min.css";
+import store from "../redux/store"
 
+import { emailUser } from "../redux/actions"
 function Signup1(props:any) {
    let history = useHistory();
     const [email, setEmail] = useState("");
@@ -13,7 +15,7 @@ function Signup1(props:any) {
     const [startTime, setStartTime] = useState(0);
     const [endTime, setEndTime] = useState(0);
     const [title, setTitle]=useState("");
-    
+ 
     function handleChange(event: any) {
         //console.log(event.target.value)
         setEmail(event.target.value);
@@ -57,6 +59,8 @@ function Signup1(props:any) {
             openModal()
             
         } else {
+            console.log(email)
+            store.dispatch(emailUser(email));
             getUserByEmail(email)
             console.log("email valid")
         }

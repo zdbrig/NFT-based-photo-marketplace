@@ -12,10 +12,13 @@ function navigateToUpdate(){
 function navigateToDetails(){
     history.push("/redemption");
 }
-
+function handleAccount(account:any)
+{ 
+    
+}
 return(
     <>
-    <Header showButtonConnect={false}></Header>
+    <Header showButtonConnect={false} selectAccount={handleAccount}></Header>
        
       
     <div className="row justify-content-around custom-line">

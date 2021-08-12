@@ -17,9 +17,13 @@ function handlerList(data:any){
 
     console.log(data)
 }
+function handleAccount(account:any)
+{ 
+    
+}
     return (
         <div>
-            <Header showButtonConnect={false}></Header>
+            <Header showButtonConnect={false} selectAccount={handleAccount}></Header>
             <div className="row redemption">
 
                 <p className=" col-6 title">Redemption Details</p>

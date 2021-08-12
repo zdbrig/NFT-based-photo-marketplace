@@ -203,7 +203,7 @@ function Header(props: any) {
                     if (data.user !== "undefined") {
                         window.location.assign("#/Create");
                     } else {
-                        window.location.assign("#/Singup");
+                        window.location.assign("#/Signup");
                     }
                     console.log("data" + JSON.stringify(data));
                 });
