@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
  import Header from "../component/header/header" 
  import "./redeembottle.css"
  import store from "../redux/store";
- import ModalWaiting from "../component/modals/ModalWaiting";
+ import ModalWaiting from "../component/modals/ModalWaitingTransaction";
 function Redeembottle(props:any){
     const [nameUser, setName] = useState("");
     const [city, setCity] = useState("");
@@ -15,6 +15,7 @@ function Redeembottle(props:any){
     const [showConnet, setShowConnect] = useState(false);
     const [loading, setLoading] = useState(false);
     const [activeButton, setActiveButton] = useState(false);
+    
     const detailsNFT = store.getState().detailsNFT;
     const toggle = () => setLoading(false);
      function handleChangeName(e:any){
@@ -65,15 +66,16 @@ function Redeembottle(props:any){
 
           else{
             setActiveButton(true)
-            setLoading(false)
+            
         console.log(nameUser+city+firstLine+codePost+secondLine+country)
         const photoNFT=detailsNFT.detailsNft.photoNft
         console.log("photoNFT"+photoNFT)
 
-        addDetailsRedeem(detailsNFT.detailsNft.photoNft, nameUser,city,firstLine,codePost,secondLine,country,detailsNFT.detailsNft.addreseEmail,(error:any,isSuccess:any) => {
+        addDetailsRedeem(detailsNFT.detailsNft.photoNft, nameUser,city,firstLine,codePost,secondLine,country,detailsNFT.detailsNft.addreseEmail,(isSuccess:any,error:any) => {
             console.log("issuccess"+JSON.stringify(isSuccess)) 
             console.log("error"+JSON.stringify(error)) 
             if (error) {
+                setLoading(false)
                 setActiveButton(false)
               console.log("error" + error);
               
