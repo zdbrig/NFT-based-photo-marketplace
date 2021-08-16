@@ -6,7 +6,7 @@ const emailUser = (state = { addressEmail: "" }, action: any) => {
         case "ADRESSEMAIL":
           
 
-            return { address: action.addressEmail };
+            return { addressEmail: action.addressEmail };
 
 
 

@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal } from "reactstrap";
-import "../ModalWaiting/ModalWaiting.css";
-export default function ModalNetworkNotSupported({ isOpen, toggle }: any) {
+import "./ModalWaiting.css";
+export default function ModalWaiting({ isOpen, toggle }: any) {
   return (
     <Modal isOpen={isOpen} toggle={toggle}>
       <div className="ModalNetworkNotSupported customModal">
@@ -11,7 +11,7 @@ export default function ModalNetworkNotSupported({ isOpen, toggle }: any) {
             toggle();
           }}
         ></i>
-        <h3 className="message">Network not supported</h3>
+        <h3 className="message">Waiting</h3>
       </div>
     </Modal>
   );

@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
  import Header from "../component/header/header" 
  import "./redeembottle.css"
  import store from "../redux/store";
+ import ModalWaiting from "../component/modals/ModalWaitingTransaction";
 function Redeembottle(props:any){
     const [nameUser, setName] = useState("");
     const [city, setCity] = useState("");
@@ -12,7 +13,11 @@ function Redeembottle(props:any){
     const [secondLine, setSecondLine] = useState("");
     const [country, setCountry] = useState("");
     const [showConnet, setShowConnect] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [activeButton, setActiveButton] = useState(false);
+    
     const detailsNFT = store.getState().detailsNFT;
+    const toggle = () => setLoading(false);
      function handleChangeName(e:any){
         
          setName(e.target.value)
@@ -33,9 +38,9 @@ function Redeembottle(props:any){
         setCountry(e.target.value)
     }
     function submitDetailsBottle(){
-       
+        setLoading(true) 
         if(showConnet===false){
-           
+            setLoading(false) 
             Swal.fire({
                 icon: "error",
                 title: "Error...",
@@ -51,6 +56,7 @@ function Redeembottle(props:any){
             !secondLine||
             !country
           ) {
+            setLoading(false) 
             Swal.fire({
               icon: "error",
               title: "Error...",
@@ -59,22 +65,29 @@ function Redeembottle(props:any){
           }
 
           else{
+            setActiveButton(true)
+            
         console.log(nameUser+city+firstLine+codePost+secondLine+country)
         const photoNFT=detailsNFT.detailsNft.photoNft
         console.log("photoNFT"+photoNFT)
 
         addDetailsRedeem(detailsNFT.detailsNft.photoNft, nameUser,city,firstLine,codePost,secondLine,country,detailsNFT.detailsNft.addreseEmail,(isSuccess:any,error:any) => {
+            console.log("issuccess"+JSON.stringify(isSuccess)) 
+            console.log("error"+JSON.stringify(error)) 
             if (error) {
+                setLoading(false)
+                setActiveButton(false)
               console.log("error" + error);
-            
+              
               Swal.fire({
                 icon: "error",
                 title: "Error...",
                 text: "An error occurred while adding  the delivery details for your bottle!",
               });
             } else if (isSuccess) {
-          
-    
+                setActiveButton(false)
+                setLoading(false)
+                
             window.location.assign("#/RedeemBottle2")
          } });
         }
@@ -94,8 +107,7 @@ function Redeembottle(props:any){
 
     return<div className="Redeembottle">  
  <Header showButtonConnect={true} selectAccount={handleAccount}></Header>
-
-                       
+ <ModalWaiting isOpen={loading} toggle={toggle} ></ModalWaiting>               
                           
                        <div className="col-12">
 <p className="paraDeposit"> Redeem Bottle</p>
@@ -124,7 +136,7 @@ function Redeembottle(props:any){
         <div className="col-sm-6"><input className="inputform "placeholder="Country" onChange={ handleChangeCountry}></input></div>
         
     </div>
-    <div className="divButton" > <button  type ="button" onClick={submitDetailsBottle}>Submit</button></div>
+    <div className="divButton" > <button  type ="button" onClick={submitDetailsBottle} disabled={activeButton}>Submit</button></div>
 </div>
 
 </form>
