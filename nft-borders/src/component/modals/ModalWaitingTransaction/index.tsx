@@ -1,18 +1,27 @@
 import React from "react";
 import { Modal } from "reactstrap";
  import "../ModalWaiting/ModalWaiting.css";
-export default function ModalWaitingTransaction({ isOpen, toggle }: any) {
+ import { Button, Spinner } from 'react-bootstrap'
+ import 'bootstrap/dist/css/bootstrap.min.css';
+export default function ModalWaitingTransaction({ isOpen }: any) {
   return (
     <Modal
     isOpen={isOpen}
-    toggle={toggle}
+    // toggle={toggle}
     
 >
     <div className="ModalNetworkNotSupported customModal">
-        <p className="modalPara">
-            {" "}
-            Waiting for validation of the transaction
-        </p>
+        
+        <Button  disabled>
+                    <Spinner
+                    as="span"
+                    variant="light"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                    animation="border"/>
+                      Loading...
+                </Button>
         <img src="loading.gif" alt="" />
     </div>
 </Modal>  

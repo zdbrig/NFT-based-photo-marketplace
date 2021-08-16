@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import Header from "../component/header/header" 
 import "bootstrap/dist/css/bootstrap.min.css";
 import store from "../redux/store"
-
+import Swal from "sweetalert2";
 import { emailUser } from "../redux/actions"
 function Signup1(props:any) {
    let history = useHistory();
@@ -34,23 +34,77 @@ function Signup1(props:any) {
                 // Examine the text in the response
                 response.json().then(function (data) {
                     console.log(data)
-                   if(data.res==null){
+                   /* if(data.res==null){
                     history.push({
                         pathname:"/signup",
                         state: { email: email }
+
                     });  
+
                     }else if(data.res.role=="admin"){
                         
                         history.push("/superAdmin");
                         }else{
-                        history.push("/desktop");
-                        }
+                            verifyNFT()
+                       
+                        } */
+                        verifyNFT(data.res)
                     
                 });
             })
             .catch(function (err) {
                 console.log("Fetch Error :-S", err);
             });
+    }
+    function verifyNFT(res:any){
+        var querytosend = `{
+            allPhotoNFTs(where:{addreseEmail:"${email}"}){
+                id owner photoNft photoPrice ipfsHashOfPhoto timesTmp blockNumber nftName nftSymbol addreseEmail statusPhoto} 
+              
+          }`;
+    
+    
+            fetch(
+                "https://api.thegraph.com/subgraphs/name/zouaouik/nftborder",
+                {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json;charset=UTF-8",
+                    },
+                    body: JSON.stringify({
+                        query: querytosend,
+                    }),
+                }
+            )
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data)
+                    if (data.data.allPhotoNFTs.length === 0) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error...",
+                            text: "you have to create an nft by this email please!",
+                        });
+                        
+    
+                    }
+                    else if(res==null){
+                        history.push({
+                            pathname:"/signup",
+                            state: { email: email }
+    
+                        });  
+    
+                        }else if(res.role=="admin"){
+                            
+                            history.push("/superAdmin");
+                            }else{
+                                history.push("/desktop");
+                            }
+                       
+                        
+                    
+                });
     }
     function invitationTo() {
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -73,10 +127,12 @@ function Signup1(props:any) {
     { 
        
     }
- 
+    function addressAccount(account:any){
+        console.log("address metmaske"+account)
+            }
     return (
         <>
-        <Header showButtonConnect={false} selectAccount={handleAccount}></Header>
+        <Header showButtonConnect={false} selectAccount={handleAccount} accountMetmaske={addressAccount}></Header>
         <div className="pageInvitation">
            <Modal show={isOpen}>
         <Modal.Header >

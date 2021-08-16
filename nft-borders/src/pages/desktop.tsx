@@ -12,7 +12,9 @@ function Desktop(props: any) {
     const [detailsNftBurned, setDetailsNftBurned] = useState<any>([]);;
     const [nameNFT, setNameNFT] = useState("");
     const [imageNFT, setImageNFT] = useState("");
+    const [account, setAccount] = useState("");
     const [loading, setLoading] = useState(true);
+    const [nameUser,setNameUser]=useState("")
     const toggle = () => setLoading(false);
     function goWithdraw(index:any) {
         store.dispatch(detailsNFT(detailsNft[index]));
@@ -33,14 +35,49 @@ function Desktop(props: any) {
     useEffect(() => {
 
         getPhotoBurned()
+    
+      
+    
+       
     }, []);
 
     useEffect(() => {
-
+        
         if (nameNFT && imageNFT) {
-            setLoading(false)
+            setLoading(false) 
         }
-    }, [imageNFT, nameNFT]);
+    }, [imageNFT, nameNFT,account]);
+    function getUserByPublicKey(email: any) {
+        fetch("/api/getUserByPublickey?email=" + email, {
+            method: "GET",
+            mode: "no-cors",
+            credentials: "same-origin",
+            headers: {
+                "Content-type": "application/json",
+                Authorization: "Bearer abc123def.abc123def.abc123def",
+            },
+        })
+            .then(function (response) {
+                if (response.status !== 200) {
+                    console.log(
+                        "Looks like there was a problem. Status Code: " +
+                            response.status
+                    );
+                    return;
+                }
+
+                // Examine the text in the response
+                response.json().then(function (data) {
+                    console.log("data" + data);
+
+                   setNameUser(data.username)
+                    console.log("data" + JSON.stringify(data));
+                });
+            })
+            .catch(function (err) {
+                console.log("Fetch Error :-S", err);
+            });
+    }
     function getAllPhotoNft(photoNftArray:any) {
         const email = store.getState().emailUser;
      
@@ -83,6 +120,8 @@ function Desktop(props: any) {
                     setLoading(false)
                     ret.push()
                    setDetailsNft(data.data.allPhotoNFTs)
+                   getUserByPublicKey(email.addressEmail)
+                
 
                  }
             });
@@ -130,14 +169,19 @@ function Desktop(props: any) {
     function handleAccount() {
 
     }
+    function addressAccount(account:any){
+        
+        setAccount(account)
+    }
     return (<div className="Desktop container">
-        <Header showButtonConnect={true} selectAccount={handleAccount}></Header>
+        <Header showButtonConnect={true} selectAccount={handleAccount} accountMetmaske={addressAccount}></Header>
         <ModalWaiting isOpen={loading} toggle={toggle} ></ModalWaiting>
 
         <div className="content" >
 
             <div className="col-12">
-                <p className="paraWelcome"> Welcome,</p>
+                <p className="paraWelcome"> Welcome <span className="styleName">{nameUser}</span>,</p>
+                
 
             </div>
             <div className="myBottle">
@@ -146,7 +190,7 @@ function Desktop(props: any) {
                     {/* {detailsNft.map((ele:any)=> */}
                     {detailsNft.map((bottle:any, index:any) =>
                         <div className="col-lg-4 col-sm-6 bottleCardContainer">
-                            <BottleCard imageNFT={bottle.ipfsHashOfPhoto} nameNFT={bottle.nftName} goProgressUpdate={goProgressUpdate} goWithdraw={goWithdraw} goReedemBottle={goReedemBottle} index={index} />
+                            <BottleCard imageNFT={bottle.ipfsHashOfPhoto} nameNFT={bottle.nftName} goProgressUpdate={goProgressUpdate} goWithdraw={goWithdraw} goReedemBottle={goReedemBottle} index={index} account={account}/>
                         </div>
                     )}
                 </div>

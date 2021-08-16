@@ -4,15 +4,17 @@ import React ,{ useState, useEffect } from "react";
  import  "./withdrawnft_2.css"
 function WithdrawNFT_2(){
     function goPagePrevious(){
-        window.location.assign("#/withdrawNFT")
+        window.location.assign("#/desktop")
     }
     function handleAccount(account:any)
     { 
      
     }
-    
+    function addressAccount(account:any){
+        console.log("address metmaske"+account)
+            }
     return<div className="WithdrawNFT2">  
- <Header showButtonConnect={true} selectAccount={handleAccount}></Header>
+ <Header showButtonConnect={true} selectAccount={handleAccount} accountMetmaske={addressAccount}></Header>
 
 
                        

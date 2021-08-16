@@ -56,10 +56,13 @@ function Withdrawnft(){
 
     }
   }
+  function addressAccount(account:any){
+    console.log("address metmaske"+account)
+  }
     return<div className="WithdrawNFT">  
- <Header showButtonConnect={true} selectAccount={handleAccount}></Header>
+ <Header showButtonConnect={true} selectAccount={handleAccount} accountMetmaske={addressAccount}></Header>
 
- <ModalWaiting isOpen={loading} toggle={toggle} ></ModalWaiting>
+ <ModalWaiting isOpen={loading}></ModalWaiting>
  
  <main className="main">
           

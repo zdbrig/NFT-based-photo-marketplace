@@ -1,6 +1,6 @@
 import React from 'react'
 import './BottleCard.css'
-export default function BottleCard({ imageNFT, nameNFT, goProgressUpdate, goWithdraw, goReedemBottle, index }: any) {
+export default function BottleCard({ imageNFT, nameNFT, goProgressUpdate, goWithdraw, goReedemBottle, index ,account}: any) {
 
     return (
         <div className="bottleCardComponent">
@@ -13,8 +13,19 @@ export default function BottleCard({ imageNFT, nameNFT, goProgressUpdate, goWith
                 <button className="btn viewButton" onClick={() => goProgressUpdate(index)}>View progress details</button>
             </div>
             <div className="bottleCardFooter">
-                <button className="btn actionButton"  onClick={() => goWithdraw(index)}>Withdraw NFT</button>
-                <button className="btn actionButton"onClick={() => goReedemBottle(index)} >Redeem Bottle</button>
+                {account.length===0 ?
+                <>
+                    <button className="btn actionButton" style={{background:"#585252ad"}} onClick={() => goWithdraw(index)} disabled>Withdraw NFT </button>
+                    <button className="btn actionButton" style={{background:"#585252ad"}} onClick={() => goReedemBottle(index)} disabled>Redeem Bottle</button>
+                </>
+                :
+                <>
+                    <button className="btn actionButton"  onClick={() => goWithdraw(index)}>Withdraw NFT</button>
+                    <button className="btn actionButton"onClick={() => goReedemBottle(index)} >Redeem Bottle</button>
+                </>
+               }
+               
+                
             </div>
         </div>
     )

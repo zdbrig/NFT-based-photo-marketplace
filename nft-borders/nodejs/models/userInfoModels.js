@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
-const userSchema = new Schema({
+const userInfoSchema = new Schema({
     // id: String,
     // name: String,
     publicKey: String,
@@ -12,7 +12,7 @@ const userSchema = new Schema({
     firstname: String,
     photo: String,
 });
-const users = mongoose.model("usersInfo", userSchema);
+const usersInfo = mongoose.model("usersInfo", userInfoSchema);
 // const UserModel = mongoose.model(
 //     "nft",
 //     {
@@ -36,4 +36,4 @@ const users = mongoose.model("usersInfo", userSchema);
 //     },
 //     "users"
 // );
-module.exports = users;
+module.exports = usersInfo;

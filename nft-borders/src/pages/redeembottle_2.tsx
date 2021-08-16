@@ -14,8 +14,11 @@ function Redeembottle_2(){
      { 
         
      }
+     function addressAccount(account:any){
+        console.log("address metmaske"+account)
+            }
     return<div className="Redeembottle2">  
- <Header showButtonConnect={true} selectAccount={handleAccount}></Header>
+ <Header showButtonConnect={true} selectAccount={handleAccount} accountMetmaske={addressAccount}></Header>
 
                        
                           

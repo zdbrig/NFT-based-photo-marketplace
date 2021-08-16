@@ -24,8 +24,11 @@ function handleAccount(account:any)
 { 
     
 }
+function addressAccount(account:any){
+    console.log("address metmaske"+account)
+        }
     return<div className="progressUpdate">  
- <Header showButtonConnect={true} selectAccount={handleAccount}></Header>
+ <Header showButtonConnect={true} selectAccount={handleAccount} accountMetmaske={addressAccount}></Header>
 
                        
                           

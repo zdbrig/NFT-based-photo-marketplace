@@ -24,6 +24,7 @@ function Header(props: any) {
     useEffect(() => {
         //console.log(showConnect)
         web3.eth.getAccounts(function (err: any, accounts: any) {
+            props.accountMetmaske(accounts);
             if (err != null) {
               console.error("An error occurred: " + err);
             } else if (accounts.length == 0) {
@@ -34,8 +35,8 @@ function Header(props: any) {
              // history.push("/ConnectAccount");
             } else {
                 web3.eth.net.getId(function (err: any, id: any) {
+                  
                
-                console.log("net"+id)
                 namenetwork(id)
                 if(id===42){
                 setShowInput(true)

@@ -21,9 +21,12 @@ function handleAccount(account:any)
 { 
     
 }
+function addressAccount(account:any){
+    console.log("address metmaske"+account)
+}
     return (
         <div>
-            <Header showButtonConnect={false} selectAccount={handleAccount}></Header>
+            <Header showButtonConnect={false} selectAccount={handleAccount} accountMetmaske={addressAccount}></Header>
             <div className="row redemption">
 
                 <p className=" col-6 title">Redemption Details</p>

@@ -104,9 +104,11 @@ function Redeembottle(props:any){
    { 
        setShowConnect(account)
    }
-
+   function addressAccount(account:any){
+    console.log("address metmaske"+account)
+        }
     return<div className="Redeembottle">  
- <Header showButtonConnect={true} selectAccount={handleAccount}></Header>
+ <Header showButtonConnect={true} selectAccount={handleAccount} accountMetmaske={addressAccount}></Header>
  <ModalWaiting isOpen={loading} toggle={toggle} ></ModalWaiting>               
                           
                        <div className="col-12">
