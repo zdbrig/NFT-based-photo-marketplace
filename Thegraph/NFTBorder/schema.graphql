@@ -1,0 +1,30 @@
+type AddedReputation  @entity {
+  id: ID!
+  count: BigInt!
+  tokenId: BigInt! # uint256
+  reputationCount: BigInt! # uint256
+  timesTmp:BigInt!
+  blockNumber:BigInt!
+}
+type AllPhotoNFT @entity{
+  id:ID!
+  owner:Bytes!
+  photoNft:Bytes!
+  nftName:String!
+  nftSymbol:String!
+  photoPrice:BigInt!
+  ipfsHashOfPhoto:String!
+  timesTmp:BigInt!
+  blockNumber:BigInt!
+  addreseEmail: String!
+  redevance:BigInt!
+  seller:Bytes!
+  statusPhoto:String!
+}
+type AllPhotoNFTBurned @entity{
+  id:ID!
+  photoNft:Bytes!
+  status:String!
+  timesTmp:BigInt!
+  blockNumber:BigInt!
+}

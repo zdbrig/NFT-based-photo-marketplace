@@ -1,0 +1,29 @@
+type ExampleEntity @entity {
+  id: ID!
+  count: BigInt!
+  tokenId: BigInt! # uint256
+  reputationCount: BigInt! # uint256
+}
+
+type AllPhotoNFT @entity{
+  id:ID!
+  owner:Bytes!
+  photoNft:Bytes!
+  nftName:String!
+  nftSymbol:String!
+  photoPrice:BigInt!
+  ipfsHashOfPhoto:String!
+  timesTmp:BigInt!
+  blockNumber:BigInt!
+  status:String!
+  addreseEmail: String!
+  redevance:BigInt!
+  seller:Bytes!
+}
+type mintPhotoNFT @entity{
+  id:ID!
+  from:Bytes!
+  to:Bytes!
+  tokenId:BigInt!
+  photoNft:String!
+}
