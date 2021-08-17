@@ -4,10 +4,10 @@ import "./redeembottle2.css"
 
 function Redeembottle_2(){
     function goPagePrevious(){
-        window.location.assign("#/RedeemBottle")
+        window.location.assign("#/desktop")
     }
     function goPageDesktop(){
-        window.location.assign("#/desktop")
+        window.location.assign("#/RedeemBottle")
  
      }
      function handleAccount(account:any)
