@@ -39,16 +39,7 @@ function Redeembottle(props:any){
     }
     function submitDetailsBottle(){
         setLoading(true) 
-        if(showConnet===false){
-            setLoading(false) 
-            Swal.fire({
-                icon: "error",
-                title: "Error...",
-                text: "Please connect with metamask!",
-              });
-
-        }
-      else  if (
+         if (
             !nameUser ||
             !city||
             !firstLine ||
@@ -71,7 +62,7 @@ function Redeembottle(props:any){
         const photoNFT=detailsNFT.detailsNft.photoNft
         console.log("photoNFT"+photoNFT)
 
-        addDetailsRedeem(detailsNFT.detailsNft.photoNft, nameUser,city,firstLine,codePost,secondLine,country,detailsNFT.detailsNft.addreseEmail,(isSuccess:any,error:any) => {
+        addDetailsRedeem(detailsNFT.detailsNft.photoNft, nameUser,city,firstLine,codePost,secondLine,country,detailsNFT.detailsNft.addreseEmail,(error:any,isSuccess:any) => {
             console.log("issuccess"+JSON.stringify(isSuccess)) 
             console.log("error"+JSON.stringify(error)) 
             if (error) {
@@ -82,7 +73,7 @@ function Redeembottle(props:any){
               Swal.fire({
                 icon: "error",
                 title: "Error...",
-                text: "An error occurred while adding  the delivery details for your bottle!",
+                text: error.message,
               });
             } else if (isSuccess) {
                 setActiveButton(false)
@@ -90,9 +81,9 @@ function Redeembottle(props:any){
                 
             window.location.assign("#/RedeemBottle2")
          } });
-        }
-          
         
+          
+        }
        
     }
      
@@ -130,7 +121,7 @@ function Redeembottle(props:any){
     </div>
     <div className="form-group row divForm">
         <div className="col-sm-6" ><input className="inputform " placeholder="First line" onChange={handleChangeFirstLine}></input></div>
-        <div className="col-sm-6"><input className="inputform "placeholder="Post/Zip Code" onChange={handleChangeCodePost}></input></div>
+        <div className="col-sm-6"><input className="inputform " type="number" placeholder="Post/Zip Code" onChange={handleChangeCodePost}></input></div>
         
     </div>
     <div className="form-group row divForm">

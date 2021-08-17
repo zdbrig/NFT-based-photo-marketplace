@@ -22,20 +22,10 @@ function Withdrawnft(){
     setShowConnect(account)
    }
   function withdrawNftBottle(){
-
-    if(!showConnet){
-        Swal.fire({
-            icon: "error",
-            title: "Error...",
-            text: "Please connect with metamask!",
-          });
-
-    }
-    else{
+ 
       setActiveWithdraw(true)
       setLoading(true)
-      withdrawNft(detailsNFT.detailsNft.photoNft,(isSuccess:any,error:any) => {
-       
+      withdrawNft(detailsNFT.detailsNft.photoNft,(error:any,isSuccess:any) => {
         console.log("issuccess"+JSON.stringify(isSuccess)) 
         console.log("error"+JSON.stringify(error)) 
         if (error) {
@@ -45,8 +35,9 @@ function Withdrawnft(){
           Swal.fire({
             icon: "error",
             title: "Error...",
-            text: "An error occurred while adding  the delivery details for your bottle!",
+            text: error.message,
           });
+          setActiveWithdraw(false)
         } else if (isSuccess) {
             
             
@@ -54,8 +45,10 @@ function Withdrawnft(){
             window.location.assign("#/WithdrawNft2")
      } });
 
-    }
+    
   }
+ 
+
   function addressAccount(account:any){
     console.log("address metmaske"+account)
   }

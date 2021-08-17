@@ -42,11 +42,11 @@ export async function addDetailsRedeem(
       .saveMetadataOfPhotoNFT(photoNFT,name, city,firstLine, secondLine,codePostal,country ,addressEmail,{ from: user.address })
       .then((prestx2: any) => {
       
-        callback(true);
+        callback(null,prestx2);
       });
     
   } catch (error) {
-    callback(error);
+    callback(error,null);
     console.log(error);
     console.log("error while read message");
   }
@@ -71,7 +71,7 @@ export async function withdrawNft(
       .withdraw( photoNFT,{ from: user.address })
       .then((prestx2: any) => {
       
-        callback(true);
+        callback(null,prestx2);
       });
     
   } catch (error) {
