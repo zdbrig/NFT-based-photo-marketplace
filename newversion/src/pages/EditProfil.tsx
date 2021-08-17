@@ -3,6 +3,10 @@ import Header from "../component/Header/Header";
 import Web3 from "web3";
 import Footer from "../component/Footer/Footer";
 import ipfs from "../component/Ipfs/ipfsApi";
+import { data } from "jquery";
+import Swal from "sweetalert2"
+import "./EditProfil.css";
+
 var base64Img = require("base64-img-promise");
 var fs = require("fs");
 function EditProfil() {
@@ -11,8 +15,11 @@ function EditProfil() {
     const [email, setEmail] = useState<any>();
     const [publicKey, setPublicKey] = useState<any>();
     const [user, setUser] = useState<any>();
+    const [activeItem, setActiveItem] = useState(false);
     const [ipfsPhoto, setipfsPhoto] = useState<any>();
-
+    const [activeEdit, setActiveEdit] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
+    
     useEffect(() => {
         if (localStorage.getItem("wallettype") === "metamask") {
             //@ts-ignore
@@ -31,6 +38,9 @@ function EditProfil() {
             window.location.assign("#/Signin");
         }
     });
+   
+
+   
     function changePhoto(event: any) {
         event.preventDefault();
 
@@ -55,6 +65,17 @@ function EditProfil() {
         };
     }
     function editProfil() {
+        var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!re.test(email)) {
+            Swal.fire({
+                icon: "error",
+                title: "Error...",
+                text: "email Invalid!",
+              });
+          
+            
+        } else {
+            setActiveEdit(true)
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -69,8 +90,10 @@ function EditProfil() {
         fetch("api/updateUsers?id=" + publicKey, requestOptions)
             .then((response) => response.text())
 
-            .then((data) => {});
-    }
+            .then((data) => {
+               
+            });
+    }}
 
     useEffect(() => {
         if (localStorage.getItem("wallettype") === "metamask") {
@@ -90,7 +113,7 @@ function EditProfil() {
             window.location.assign("#/Signin");
         }
     }, []);
-
+   
     function getUserByPublicKey(publicKey: any) {
         fetch("/api/getUserByPublickey?publicKey=" + publicKey)
             .then(function (response) {
@@ -108,7 +131,7 @@ function EditProfil() {
                     setEmail(data.email);
                     setPhoto(data.photo);
                     setUser(data);
-                    console.log("data" + JSON.stringify(data));
+                   
                 });
             })
             .catch(function (err) {
@@ -117,12 +140,31 @@ function EditProfil() {
     }
     function changeUsername(event: any) {
         setUserName(event.target.value);
+        setActiveEdit(false)
     }
+    
     function changeEmail(event: any) {
-        setEmail(event.taget.value);
-    }
+       
+         
+                setEmail(event.target.value);
+                setActiveEdit(false)
+                console.log("email valid")
+            
+    
+        }
+       
+    
+    const handleClick = (active: any) => {
+        setActiveItem(active);
+        
+    };
     return (
-        <div>
+        <div className="editProfil">
+             <Header
+                onClickActive={handleClick}
+                account={publicKey}
+            ></Header>
+             
             <main className="main">
                 <div className="container">
                     <div className="row row--grid">
@@ -202,9 +244,14 @@ function EditProfil() {
                                         </div> */}
 
                                         <button
-                                            className="sign__btn"
+                                             className={
+                                                activeEdit === false
+                                                    ? "sign__btn"
+                                                    : "btnItem"
+                                            }
                                             type="button"
                                             onClick={editProfil}
+                                            disabled={activeEdit}
                                         >
                                             Edit Profil
                                         </button>

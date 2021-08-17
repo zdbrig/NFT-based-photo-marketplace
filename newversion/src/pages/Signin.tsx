@@ -318,7 +318,7 @@ function Signin() {
                     </div>
                 </div>
             </main>
-            <Footer></Footer>
+            {/* <Footer></Footer> */}
         </div>
     );
 }

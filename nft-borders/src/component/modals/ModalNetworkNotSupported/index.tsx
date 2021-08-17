@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal } from "reactstrap";
-import "./ModalNetworkNotSupported.css";
+import "../ModalWaiting/ModalWaiting.css";
 export default function ModalNetworkNotSupported({ isOpen, toggle }: any) {
   return (
     <Modal isOpen={isOpen} toggle={toggle}>

@@ -34,7 +34,7 @@ function Signup2(props:any) {
             body: JSON.stringify({
                 email: email,
                 password: pwd,
-                role:"roles"
+                role:"user"
             }),
         };
         try {
@@ -60,9 +60,16 @@ function Signup2(props:any) {
             return true;
         }
     }
+    function handleAccount(account:any)
+    { 
+       
+    }
+    function addressAccount(account:any){
+        console.log("address metmaske"+account)
+            }
     return (
         <>
-        <Header showButtonConnect={false}></Header>
+        <Header showButtonConnect={false} selectAccount={handleAccount} accountMetmaske={addressAccount}></Header>
         <div className="pageSuccess">
             
             <div className="title">

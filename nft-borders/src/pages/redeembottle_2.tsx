@@ -4,18 +4,21 @@ import "./redeembottle2.css"
 
 function Redeembottle_2(){
     function goPagePrevious(){
-        window.location.assign("#/RedeemBottle")
+        window.location.assign("#/desktop")
     }
     function goPageDesktop(){
-        window.location.assign("#/desktop")
+        window.location.assign("#/RedeemBottle")
  
      }
      function handleAccount(account:any)
      { 
         
      }
+     function addressAccount(account:any){
+        console.log("address metmaske"+account)
+            }
     return<div className="Redeembottle2">  
- <Header showButtonConnect={true} selectAccount={handleAccount}></Header>
+ <Header showButtonConnect={true} selectAccount={handleAccount} accountMetmaske={addressAccount}></Header>
 
                        
                           

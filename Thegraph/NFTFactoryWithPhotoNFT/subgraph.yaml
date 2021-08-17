@@ -1,0 +1,52 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: PhotoNFTFactory
+    network: kovan
+    source:
+      address: "0xC00ba2Bc935b54Da68C6C84006016a6b8f0465b4"
+      abi: PhotoNFTFactory
+      startBlock: 23000000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - AddReputation
+        - PhotoNFTCreated
+      abis:
+        - name: PhotoNFTFactory
+          file: ./abis/PhotoNFTFactory.json
+      eventHandlers:
+        - event: AddReputation(uint256,uint256)
+          handler: handleAddReputation
+        - event: PhotoNFTCreated(address,address,string,string,uint256,string,string,uint256,address)
+          handler: handlePhotoNFTCreated
+      file: ./src/mapping.ts
+templates:
+  - name: PhotoNFT
+    kind: ethereum/contract
+    network: kovan
+    source:
+      abi: PhotoNFT
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      file: ./src/photoNFT.ts
+      entities:
+        - Approval
+        - ApprovalForAll
+        - Transfer
+      abis:
+        - name: PhotoNFT
+          file: ./abis/PhotoNFT.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer

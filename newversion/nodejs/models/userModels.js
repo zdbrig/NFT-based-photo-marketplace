@@ -12,7 +12,7 @@ const userSchema = new Schema({
     firstname: String,
     photo: String,
 });
-const users = mongoose.model("users", userSchema);
+const users = mongoose.model("usersInfo", userSchema);
 // const UserModel = mongoose.model(
 //     "nft",
 //     {
