@@ -17,9 +17,29 @@ const sendEmail = require("../models/sendEmail");
 
 router.get("/api/getUserByPublickey", (req, res, next) =>
     getRawBody(req)
+        .then((response) => {
+            let publicKey = req.query.publicKey;
+            return userInfocontroller.getUserByPublicKey(publicKey);
+        })
+
+        .then((assets) => {
+            console.log(assets.res);
+
+            if (assets.res !== null) {
+                console.log("iff");
+
+                res.send(assets.res);
+            } else {
+                res.send({ user: "undefined" });
+            }
+        })
+        .catch((error) => console.log("error: " + error))
+);
+router.get("/api/getUserInfoByEmail", (req, res, next) =>
+    getRawBody(req)
     .then((response) => {
-        let publicKey = req.query.publicKey;
-        return userInfocontroller.getUserByPublicKey(publicKey);
+        let email = req.query.email;
+        return userInfocontroller.getUser(email);
     })
 
     .then((assets) => {
