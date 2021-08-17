@@ -48,7 +48,7 @@ function Desktop(props: any) {
         }
     }, [imageNFT, nameNFT,account]);
     function getUserByPublicKey(email: any) {
-        fetch("/api/getUserByPublickey?email=" + email, {
+        fetch("/api/getUserInfoByEmail?email=" + email, {
             method: "GET",
             mode: "no-cors",
             credentials: "same-origin",
