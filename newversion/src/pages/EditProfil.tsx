@@ -87,7 +87,7 @@ function EditProfil() {
             }),
         };
 
-        fetch("api/updateUsers?id=" + publicKey, requestOptions)
+        fetch("api/updateUserInfo?id=" + publicKey, requestOptions)
             .then((response) => response.text())
 
             .then((data) => {

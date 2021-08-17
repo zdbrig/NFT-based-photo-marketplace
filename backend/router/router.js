@@ -18,8 +18,8 @@ const sendEmail = require("../models/sendEmail");
 router.get("/api/getUserByPublickey", (req, res, next) =>
     getRawBody(req)
     .then((response) => {
-        let email = req.query.email;
-        return userInfocontroller.getUser(email);
+        let publicKey = req.query.publicKey;
+        return userInfocontroller.getUserByPublicKey(publicKey);
     })
 
     .then((assets) => {
@@ -48,7 +48,7 @@ router.get("/api/getUserByEmail", (req, res, next) =>
     })
     .catch((error) => console.log("error: " + error))
 );
-router.post("/api/sendEmail", (req, res, next) =>
+router.post("/api/sendEmailAdmin", (req, res, next) =>
     getRawBody(req)
     .then((response) => {
         console.log("user" + response)
@@ -99,6 +99,50 @@ router.post("/api/addRedeemeds", (req, res, next) =>
         res.send(redeem);
     })
     .catch((error) => console.log("error: " + error))
+);
+
+router.post("/api/addUserInfo", (req, res, next) =>
+    getRawBody(req)
+    .then((response) => {
+        let user = JSON.parse(response);
+        console.log("res" + response);
+        return userInfocontroller.addUserInfo(user);
+    })
+    .then(function(user) {
+        res.send(user);
+    })
+    .catch((error) => console.log("error: " + error))
+);
+
+router.post("/api/sendEmail", (req, res, next) =>
+    getRawBody(req)
+        .then((response) => {
+            console.log("user"+response)
+            let user = JSON.parse(response);
+          let username=user.username;
+          let imgQRCode=user.imgQRCode;
+          let emailAdmin=user.emailAdmin;
+            return sendEmail.mailSendToUser(username, imgQRCode, emailAdmin);
+        })
+        .then(function (user) {
+            res.send(user);
+        })
+        .catch((error) => console.log("error: " + error))
+);
+router.post("/api/updateUserInfo", (req, res, next) =>
+    getRawBody(req)
+        .then((response) => {
+            let user = JSON.parse(response);
+            console.log("id" + req.query.id);
+            // var id = new ObjectId(request.params.id);
+            let id = req.query.id;
+            console.log("res" + id);
+            return userInfocontroller.updateUserInfo(id, user);
+        })
+        .then(function (user) {
+            res.send(user);
+        })
+        .catch((error) => console.log("error: " + error))
 );
 /* router.post("/api/updateUsers", (req, res, next) =>
     getRawBody(req)
