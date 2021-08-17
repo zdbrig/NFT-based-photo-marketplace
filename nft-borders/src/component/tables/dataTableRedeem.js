@@ -188,7 +188,7 @@ class dataTableRedeem extends React.Component {
             }),
         };
         try {
-            fetch("/api/sendEmail", requestOptions)
+            fetch("/api/sendEmailAdmin", requestOptions)
                 .then((response) => response.text())
 
                 .then((data) => {

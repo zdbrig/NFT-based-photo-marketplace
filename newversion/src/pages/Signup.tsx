@@ -71,7 +71,7 @@ else{
             }),
         };
         try {
-            fetch("api/addUsers", requestOptions)
+            fetch("api/addUserInfo", requestOptions)
                 .then((response) => response.text())
 
                 .then((data) => {

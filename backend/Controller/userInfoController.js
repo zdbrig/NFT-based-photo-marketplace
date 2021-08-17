@@ -1,15 +1,22 @@
 const express = require("express");
 
-const users = require("../models/userModels");
+const users = require("../models/userInfoModels");
 var userDao = {};
-userDao.getUser = (publicKey) =>
+userDao.getUser = (email) =>
     new Promise((resolve, reject) => {
-        users.findOne({ publicKey: publicKey }, (err, res) =>
+        users.findOne({ email }, (err, res) =>
             err ? reject(err) : resolve({ res })
         );
     });
 
-userDao.addUsers = (user) => {
+userDao.getUserByPublicKey = (publicKey) =>
+    new Promise((resolve, reject) => {
+        users.findOne({ publicKey }, (err, res) =>
+            err ? reject(err) : resolve({ res })
+        );
+    });
+
+userDao.addUserInfo = (user) => {
     console.log(user);
     new Promise((resolve, reject) => {
         new users({
@@ -22,7 +29,7 @@ userDao.addUsers = (user) => {
     });
 };
 
-userDao.updateUsers = (id, user) =>
+userDao.updateUserInfo = (id, user) =>
     new Promise((resolve, reject) => {
         console.log("update " + JSON.stringify(user)),
             console.log("id " + JSON.stringify(id)),
@@ -30,4 +37,12 @@ userDao.updateUsers = (id, user) =>
                 err ? reject(err) : resolve({ res: "ok" })
             );
     });
+/* userDao.updateUsers = (id, user) =>
+    new Promise((resolve, reject) => {
+        console.log("update " + JSON.stringify(user)),
+            console.log("id " + JSON.stringify(id)),
+            users.findOneAndUpdate({ publicKey: id }, { $set: user }, (err) =>
+                err ? reject(err) : resolve({ res: "ok" })
+            );
+    }); */
 module.exports = userDao;
