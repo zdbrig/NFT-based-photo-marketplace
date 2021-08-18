@@ -25,21 +25,24 @@ export async function addDetailsRedeem(
   codePostal:string,
   country:string,
   addressEmail:string,
+  account:any,
   callback: any 
 ) {
   const user = store.getState().user;
-  console.log("user"+user.address)
+  console.log("user"+user.address + " account "+account)
   // @ts-ignore
   const { ethereum } = window;
   const web3 = new Web3(ethereum);
 
   try {
+    const accounts = await web3.eth.getAccounts()
+    console.log(accounts)
     detailsReedemContract .setProvider(web3.currentProvider);
     const detailsRe = await detailsReedemContract.at(
       "0x8eAC8e359FE0B6611DdB84Fa7E1499c113F46Ab6"
     );
     let detailsRetx = await detailsRe
-      .saveMetadataOfPhotoNFT(photoNFT,name, city,firstLine, secondLine,codePostal,country ,addressEmail,{ from: user.address })
+      .saveMetadataOfPhotoNFT(photoNFT,name, city,firstLine, secondLine,codePostal,country ,addressEmail,{ from:accounts[0] })
       .then((prestx2: any) => {
       
         callback(null,prestx2);
@@ -54,21 +57,22 @@ export async function addDetailsRedeem(
 
 export async function withdrawNft(
   
-  photoNFT:any,  callback: any 
+  photoNFT:any,account:any,  callback: any 
 ) {
   const user = store.getState().user;
-  console.log("user"+user.address)
+  console.log("user"+user.address + " account "+account)
   // @ts-ignore
   const { ethereum } = window;
   const web3 = new Web3(ethereum);
 
   try {
+    const accounts = await web3.eth.getAccounts()
     nftFactoryContract.setProvider(web3.currentProvider);
     const detailsRe = await nftFactoryContract.at(
       "0x2f015cE10Cd76E4833c2A5e70894A9ff6f8fF6be"
     );
     let detailsRetx = await detailsRe
-      .withdraw( photoNFT,{ from: user.address })
+      .withdraw( photoNFT,{ from: accounts[0] })
       .then((prestx2: any) => {
       
         callback(null,prestx2);

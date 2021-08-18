@@ -12,6 +12,7 @@ function Redeembottle(props:any){
     const [codePost, setCodePost] = useState("");
     const [secondLine, setSecondLine] = useState("");
     const [country, setCountry] = useState("");
+    const [account, setAccount] = useState("");
     const [showConnet, setShowConnect] = useState(false);
     const [loading, setLoading] = useState(false);
     const [activeButton, setActiveButton] = useState(false);
@@ -60,9 +61,9 @@ function Redeembottle(props:any){
             
         console.log(nameUser+city+firstLine+codePost+secondLine+country)
         const photoNFT=detailsNFT.detailsNft.photoNft
-        console.log("photoNFT"+photoNFT)
+        console.log("photoNFT"+account)
 
-        addDetailsRedeem(detailsNFT.detailsNft.photoNft, nameUser,city,firstLine,codePost,secondLine,country,detailsNFT.detailsNft.addreseEmail,(error:any,isSuccess:any) => {
+        addDetailsRedeem(detailsNFT.detailsNft.photoNft, nameUser,city,firstLine,codePost,secondLine,country,detailsNFT.detailsNft.addreseEmail,account,(error:any,isSuccess:any) => {
             console.log("issuccess"+JSON.stringify(isSuccess)) 
             console.log("error"+JSON.stringify(error)) 
             if (error) {
@@ -96,7 +97,8 @@ function Redeembottle(props:any){
        setShowConnect(account)
    }
    function addressAccount(account:any){
-    console.log("address metmaske"+account)
+   // console.log("address metmaske"+account)
+    setAccount(account)
         }
     return<div className="Redeembottle">  
  <Header showButtonConnect={true} selectAccount={handleAccount} accountMetmaske={addressAccount}></Header>

@@ -10,6 +10,7 @@ function Withdrawnft(){
     const [showConnet, setShowConnect] = useState(false);
     const [activeWithdraw, setActiveWithdraw] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [account,setAccount]=useState("")
     const toggle = () => setLoading(false);
     const detailsNFT = store.getState().detailsNFT;
   
@@ -25,7 +26,7 @@ function Withdrawnft(){
  
       setActiveWithdraw(true)
       setLoading(true)
-      withdrawNft(detailsNFT.detailsNft.photoNft,(error:any,isSuccess:any) => {
+      withdrawNft(detailsNFT.detailsNft.photoNft,account,(error:any,isSuccess:any) => {
         console.log("issuccess"+JSON.stringify(isSuccess)) 
         console.log("error"+JSON.stringify(error)) 
         if (error) {
@@ -50,7 +51,8 @@ function Withdrawnft(){
  
 
   function addressAccount(account:any){
-    console.log("address metmaske"+account)
+   // console.log("address metmaske"+account)
+    setAccount(account)
   }
     return<div className="WithdrawNFT">  
  <Header showButtonConnect={true} selectAccount={handleAccount} accountMetmaske={addressAccount}></Header>
