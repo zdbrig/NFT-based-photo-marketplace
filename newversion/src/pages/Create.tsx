@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Header from "../component/Header/Header";
 import Footer from "../component/Footer/Footer";
+import Swal from 'sweetalert2'
+import { Button, Spinner } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Author from "../component/Authors/Authorcomponent";
 import { unlockAccountImpl } from "../Ethereum/Unlockaccount";
 import photoNft1 from "../contract/contracts/PhotoNFT.json";
@@ -32,6 +35,8 @@ function Create() {
     const [buttonActive, setButtonActive] = useState(true);
     const [disabledAuction, setDisableAuction] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [loading2, setLoading2] = useState(false);
+    const [loading3, setLoading3] = useState(false);
     const [activeItem, setActiveItem] = useState(false);
     const [showAuction, setShowAuction] = useState(false);
     const [showModalAuction, setShowModalAuction] = useState(false);
@@ -54,7 +59,7 @@ function Create() {
         setShowModalAuction(false);
     };
     const toggle = () => setLoading(false);
-    
+
     function OnchangPhoto(event: any) {
         event.preventDefault();
 
@@ -194,8 +199,8 @@ function Create() {
 
 
 
-    async function sendEmail(photoNft:any) {
-       console.log("numnft"+photoNft)
+    async function sendEmail(photoNft: any) {
+        console.log("numnft" + photoNft)
         const requestOptions = {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -211,16 +216,22 @@ function Create() {
 
                 .then((data) => {
                     setShowModalQRCode(true);
-                   
+
                 });
         } catch (err) {
             alert(err);
         }
     }
     const createItem = async () => {
-        setTimeout(()=> setLoading(true),50);
-        setTimeout(()=>setButtonActive(true),100);
-       
+        setTimeout(() => setLoading(true), 50);
+        setTimeout(() => setButtonActive(true), 100);
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
         ipfs.files.add(buffer, (error: any, result: any) => {
             // In case of fail to upload to IPFS
             if (error) {
@@ -233,22 +244,133 @@ function Create() {
             setIpfsHash(result[0].hash);
             console.log(photoNFTFactory)
             console.log(user.email)
-          
+
             photoNFTFactory.methods.createNewPhotoNFT(
-                    namePhoto,
-                    description,
-                    photoPrice,
-                    result[0].hash,
-                    user.email,
-                    redevance
-                )
+                namePhoto,
+                description,
+                photoPrice,
+                result[0].hash,
+                user.email,
+                redevance
+            )
                 .send({ from: accounts[0] })
                 .once("receipt", (receipt: any) => {
-                    console.log("=== receipt ===", receipt);
 
-                    const PHOTO_NFT =
-                        receipt.events.PhotoNFTCreated.returnValues.photoNFT;
-                    console.log("=== PHOTO_NFT ===", PHOTO_NFT);
+                    setLoading(false);
+                    swalWithBootstrapButtons.fire({
+                        title: 'Confirmation!',
+                        text: "Are you sure you want to pass transaction 2!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, confirm it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            /* swalWithBootstrapButtons.fire(
+                               'Deleted!',
+                               'Your file has been deleted.',
+                               'success'
+                             )*/setLoading2(true)
+                            console.log("=== receipt ===", receipt);
+
+                            console.log("parti 1");
+                            const PHOTO_NFT =
+                                receipt.events.PhotoNFTCreated.returnValues.photoNFT;
+                            console.log("=== PHOTO_NFT ===", PHOTO_NFT);
+                            let photoNFT = new web3.eth.Contract(
+                                //@ts-ignore
+                                photoNft1.abi,
+                                PHOTO_NFT
+                            );
+                            console.log("=== photoNFT ===", photoNFT);
+                            const photoId = 1; /// [Note]: PhotoID is always 1. Because each photoNFT is unique.
+                            console.log("photoId" + photoId);
+                            photoNFT.methods
+                                .ownerOf(photoId)
+                                .call()
+                                .then((owner: any) =>
+                                    console.log("=== owner of photoId 1 ===", owner)
+
+                                );
+
+                            photoNFT.methods
+                                .approve(PHOTO_NFT_MARKETPLACE, photoId)
+                                .send({ from: accounts[0] })
+                                .once("receipt", (receipt: any) => {
+                                    setLoading2(false)
+                                    swalWithBootstrapButtons.fire({
+                                        title: 'Confirmation!',
+                                        text: "Are you sure you want to pass transaction 3?",
+                                        icon: 'warning',
+                                        showCancelButton: true,
+                                        confirmButtonText: 'Yes, confirm it!',
+                                        cancelButtonText: 'No, cancel!',
+                                        reverseButtons: true
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            setLoading3(true)
+                                            console.log("parti 2")
+                                            /// Put on sale (by a seller who is also called as owner)
+                                            photoNFTMarketplace.methods
+                                                .openTradeWhenCreateNewPhotoNFT(
+                                                    PHOTO_NFT,
+                                                    photoId,
+                                                    photoPrice
+                                                )
+                                                .send({ from: accounts[0] })
+                                                .once("receipt", (receipt: any) => {
+                                                    setLoading3(false)
+                                                    setPhotoNft(PHOTO_NFT);
+                                                    console.log("xx");
+                                                    console.log("parti 3")
+                                                    Swal.fire({
+                                                        title:'Done!',
+                                                        text:'Transaction Confimed!',
+                                                        icon:'success'
+                                                     } )
+                                                })
+                                                .then((rest: any) => {
+
+                                                    sendEmail(PHOTO_NFT)
+
+                                                    setModalNetwork(false)
+
+
+                                                });
+                                        }
+                                        else if (
+                                            /* Read more about handling dismissals below */
+                                            result.dismiss === Swal.DismissReason.cancel
+                                        ) {
+                                            swalWithBootstrapButtons.fire({
+                                                title:'Cancelled',
+                                                icon:'error'
+                                            })
+                                        }
+                                    })
+
+                                }).on('error', function (error: any) {
+                                    swalWithBootstrapButtons.fire({
+                                       title: 'Cancelled',
+                                       text: error.message,
+                                        icon:'error'
+                                     } )
+                                    setLoading(false);
+                                    setButtonActive(false)
+                                })
+                
+                        } else if (
+                            /* Read more about handling dismissals below */
+                            result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                            swalWithBootstrapButtons.fire({
+                               title: 'Cancelled',
+                                icon:'error'
+                        })
+                        }
+                    });
+
 
                     // let PhotoNFT = {};
 
@@ -258,55 +380,22 @@ function Create() {
                     /// Get instance by using created photoNFT address
                     // let PhotoNFT = {};
                     // PhotoNFT = photoNft;
-                    let photoNFT = new web3.eth.Contract(
-                        //@ts-ignore
-                        photoNft1.abi,
-                        PHOTO_NFT
-                    );
-                    console.log("=== photoNFT ===", photoNFT);
-                    const photoId = 1; /// [Note]: PhotoID is always 1. Because each photoNFT is unique.
-                    console.log("photoId" + photoId);
-                    photoNFT.methods
-                        .ownerOf(photoId)
-                        .call()
-                        .then((owner: any) =>
-                            console.log("=== owner of photoId 1 ===", owner)
-                        );
-                    photoNFT.methods
-                        .approve(PHOTO_NFT_MARKETPLACE, photoId)
-                        .send({ from: accounts[0] })
-                        .once("receipt", (receipt: any) => {
-                            /// Put on sale (by a seller who is also called as owner)
-                            photoNFTMarketplace.methods
-                                .openTradeWhenCreateNewPhotoNFT(
-                                    PHOTO_NFT,
-                                    photoId,
-                                    photoPrice
-                                )
-                                .send({ from: accounts[0] })
-                                .once("receipt", (receipt: any) => {
-                                    setPhotoNft(PHOTO_NFT);
-                                    console.log("xx");
-                                })
-                                .then((rest: any) => {
-                                    
-                                    sendEmail(PHOTO_NFT )
-                                   
-                                    setLoading(false);
-                                    setModalNetwork(false)
-                                   
-                                    
-                                });
-                        })
-                        
-                })
-                .on('error', function(error:any){ 
-                     setLoading(false);
-                     setButtonActive(false)
-                 })
 
-                
-                
+
+
+                })
+                .on('error', function (error: any) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        error.message,
+                        'error'
+                    )
+                    setLoading(false);
+                    setButtonActive(false)
+                })
+
+
+
         });
     };
     useEffect(() => {
@@ -327,7 +416,7 @@ function Create() {
         } else {
             window.location.assign("#/Signin");
         }
-       
+
         if (endingPrice && duration) {
             setDisableAuction(false);
         } else {
@@ -341,7 +430,7 @@ function Create() {
         } else {
             setButtonActive(true);
         }
-    }, [description, price,namePhoto,selectedOption]);
+    }, [description, price, namePhoto, selectedOption]);
     useEffect(() => {
         connect();
         connectAuction();
@@ -518,33 +607,71 @@ function Create() {
     function changeRedevance(e: any) {
         setRedevance(e.target.value);
     }
-    function handleSelectUser(user:any){
+    function handleSelectUser(user: any) {
         setUser(user)
 
-        console.log("user"+user)
+        console.log("user" + user)
     }
     return (
         <div>
-            <Header onClickActive={handleClick} account={accountMetamask} />
+     
             <>
 
-            <ModalQRCode isOpen={showModalQRCode} toggleQRCode={toggleQRCode} nftPhoto={photoNft}/>
+                <ModalQRCode isOpen={showModalQRCode} toggleQRCode={toggleQRCode} nftPhoto={photoNft} />
                 <Modal
                     isOpen={loading}
-                    toggle={toggle}
-                    className="modalLoading"
-                    wrapClassName="modalLoadingWrap"
+                    className="class1"
+                   
                     modalClassName="modalLoadingModal"
-                    backdropClassName="modalLoadingBackdrop"
-                    contentClassName="modalLoadingContent"
                 >
-                    <div>
-                        <p className="modalPara">
-                            {" "}
-                            Waiting for validation of the transaction
-                        </p>
-                        <img src="loading.gif" alt="" />
-                    </div>
+                     <Spinner
+                    as="span"
+                    variant="light"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                    animation="border"
+                    className="spinnerClass"
+                />
+                <p className="loadingStyle">Wait...</p>
+                <p>Transaction 1 in progress</p>
+                </Modal>
+              
+                <Modal
+                    isOpen={loading2}
+                    className="class1"
+                   
+                    modalClassName="modalLoadingModal"
+                >
+                     <Spinner
+                    as="span"
+                    variant="light"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                    animation="border"
+                    className="spinnerClass"
+                />
+                <p className="loadingStyle">Wait...</p>
+                <p>Transaction 2 in progress</p>
+                </Modal>
+                <Modal
+                    isOpen={loading3}
+                    className="class1"
+                   
+                    modalClassName="modalLoadingModal"
+                >
+                     <Spinner
+                    as="span"
+                    variant="light"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                    animation="border"
+                    className="spinnerClass"
+                />
+                <p className="loadingStyle">Wait...</p>
+                <p>Transaction 2 in progress</p>
                 </Modal>
             </>
             <Modal
@@ -633,7 +760,7 @@ function Create() {
                 <div className="container">
                     <div className="row row--grid">
                         <div className="col-12 col-xl-3">
-                            <Author account={accountMetamask} onSelectUser={handleSelectUser}/>
+                            <Author account={accountMetamask} onSelectUser={handleSelectUser} />
                         </div>
                         <div className="col-12 col-xl-9">
                             <div className="main__title main__title--create">
@@ -799,7 +926,7 @@ function Create() {
                                     <div className="col-12">
                                         <div className="sign__group sign__group--row">
                                             <ul className="sign__radio sign__radio--single">
-                                               {/*} <li>
+                                                {/*} <li>
                                                     <input
                                                         id="type1"
                                                         type="radio"
