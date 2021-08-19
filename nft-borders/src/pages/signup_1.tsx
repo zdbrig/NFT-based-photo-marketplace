@@ -57,13 +57,7 @@ function Signup1(props:any) {
             });
     }
     function verifyNFT(res:any){
-        if(res==null){
-            history.push({
-                pathname:"/signup",
-                state: { email: email }
-
-            });  
-        }else if(res.role=="admin"){
+         if(res !=null && res.role=="admin"){
                             
                 history.push("/superAdmin");
             } else {
@@ -94,7 +88,14 @@ function Signup1(props:any) {
                         });
                         
     
-                    }else{history.push("/desktop");}
+                    }else if(res==null){
+                        history.push({
+                            pathname:"/signup",
+                            state: { email: email }
+            
+                        });  
+                    }
+                    else{history.push("/desktop");}
                        
                         
                     
