@@ -71,6 +71,7 @@ export async function withdrawNft(
     const detailsRe = await nftFactoryContract.at(
       "0x2f015cE10Cd76E4833c2A5e70894A9ff6f8fF6be"
     );
+    console.log( accounts[0])
     let detailsRetx = await detailsRe
       .withdraw( photoNFT,{ from: accounts[0] })
       .then((prestx2: any) => {

@@ -225,7 +225,7 @@ function Signin() {
                                         {/* <a href="#/Home" className="sign__logo">
                                             <img src="img/logo.svg" alt="" />
                                         </a> */}
-                                        <p className="titleNft" >  Nft Marketplace Sqoin </p>
+                                        <p className="titleNft" >  NFT Marketplace  </p>
                                       
                                         {/* <div className="sign__group">
                                             <input
@@ -260,12 +260,12 @@ function Signin() {
                                         >
                                             Sign in with Metamask
                                         </button>
-                                        <button
+                                       {/*  <button
                                             className="sign__btn"
                                             type="button"
                                         >
                                             Sign in with Algorand
-                                        </button>
+                                        </button> */}
                                         {/* <span className="sign__delimiter">
                                             or
                                         </span> */}

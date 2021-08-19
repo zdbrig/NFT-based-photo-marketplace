@@ -5,6 +5,7 @@ import Swal from 'sweetalert2'
 import { Button, Spinner } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Author from "../component/Authors/Authorcomponent";
+import bg11 from "../images/bg11.jpg"
 import { unlockAccountImpl } from "../Ethereum/Unlockaccount";
 import photoNft1 from "../contract/contracts/PhotoNFT.json";
 // import photoNft from "../../../../build/contracts/PhotoNFT.json";
@@ -215,7 +216,7 @@ function Create() {
                 .then((response) => response.text())
 
                 .then((data) => {
-                    setShowModalQRCode(true);
+                  //  setShowModalQRCode(true);
 
                 });
         } catch (err) {
@@ -259,7 +260,7 @@ function Create() {
                     setLoading(false);
                     swalWithBootstrapButtons.fire({
                         title: 'Confirmation!',
-                        text: "Are you sure you want to pass transaction 2!",
+                        text: "Are you sure you want to approve NFT?",
                         icon: 'warning',
                         showCancelButton: true,
                         confirmButtonText: 'Yes, confirm it!',
@@ -301,7 +302,7 @@ function Create() {
                                     setLoading2(false)
                                     swalWithBootstrapButtons.fire({
                                         title: 'Confirmation!',
-                                        text: "Are you sure you want to pass transaction 3?",
+                                        text: "Are you sure you want to open  the trade when creating a new NFT?",
                                         icon: 'warning',
                                         showCancelButton: true,
                                         confirmButtonText: 'Yes, confirm it!',
@@ -326,7 +327,7 @@ function Create() {
                                                     console.log("parti 3")
                                                     Swal.fire({
                                                         title:'Done!',
-                                                        text:'Transaction Confimed!',
+                                                        html:'<strong>Create New NFT  Confimed!</strong>'+'</br><p>I sent a qr code and the site link please see your email</p>',
                                                         icon:'success'
                                                      } )
                                                 })
@@ -617,7 +618,7 @@ function Create() {
      
             <>
 
-                <ModalQRCode isOpen={showModalQRCode} toggleQRCode={toggleQRCode} nftPhoto={photoNft} />
+               {/*  <ModalQRCode isOpen={showModalQRCode} toggleQRCode={toggleQRCode} nftPhoto={photoNft} /> */}
                 <Modal
                     isOpen={loading}
                     className="class1"
@@ -634,7 +635,7 @@ function Create() {
                     className="spinnerClass"
                 />
                 <p className="loadingStyle">Wait...</p>
-                <p>Transaction 1 in progress</p>
+                <p>Creating NFT in progress</p>
                 </Modal>
               
                 <Modal
@@ -653,7 +654,7 @@ function Create() {
                     className="spinnerClass"
                 />
                 <p className="loadingStyle">Wait...</p>
-                <p>Transaction 2 in progress</p>
+                <p>Approving NFT in progress</p>
                 </Modal>
                 <Modal
                     isOpen={loading3}
@@ -671,7 +672,7 @@ function Create() {
                     className="spinnerClass"
                 />
                 <p className="loadingStyle">Wait...</p>
-                <p>Transaction 2 in progress</p>
+                <p>Opening of the trade when creating a new PhotoNFT  in progress</p>
                 </Modal>
             </>
             <Modal
@@ -756,7 +757,7 @@ function Create() {
                 </div>
             </Modal>
             <main className="main">
-                <div className="main__author" data-bg="img/bg/bg11.jpg"></div>
+                <div className="main__author"><img  src={bg11}></img></div>
                 <div className="container">
                     <div className="row row--grid">
                         <div className="col-12 col-xl-3">
