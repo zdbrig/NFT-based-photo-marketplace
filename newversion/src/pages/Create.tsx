@@ -327,7 +327,7 @@ function Create() {
                                                     console.log("parti 3")
                                                     Swal.fire({
                                                         title:'Done!',
-                                                        html:'<strong>Create New NFT  Confimed!</strong>'+'</br><p>I sent a qr code and the site link please see your email</p>',
+                                                        html:'<strong>Create New NFT  Confimed!</strong>'+'</br><p> a QR code and the site link have been sent to your E-mail.</p>',
                                                         icon:'success'
                                                      } )
                                                 })
