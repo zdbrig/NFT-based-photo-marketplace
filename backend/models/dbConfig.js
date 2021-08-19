@@ -12,7 +12,7 @@ db.once("open", function() {
 });
 module.exports = {
     authEmail: 'sagecitydevs@sagecity.io',
-    authPassword: 'sqoinsqoin',
+    authPassword: 'ncnhbcudzidmbkzj',
     host: 'smtp.gmail.com',
     port: 587
 

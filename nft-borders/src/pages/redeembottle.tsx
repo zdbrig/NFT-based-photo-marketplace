@@ -17,6 +17,7 @@ function Redeembottle(props:any){
     const [loading, setLoading] = useState(false);
     const [activeButton, setActiveButton] = useState(false);
     
+    
     const detailsNFT = store.getState().detailsNFT;
     const toggle = () => setLoading(false);
      function handleChangeName(e:any){
@@ -38,26 +39,17 @@ function Redeembottle(props:any){
     function handleChangeCountry(e:any){
         setCountry(e.target.value)
     }
+    useEffect(() => {
+        if (nameUser && city && firstLine && codePost && secondLine && country) {
+            setActiveButton(false);
+        } else {
+            setActiveButton(true);
+        }
+    }, [nameUser , city, firstLine, codePost]);
     function submitDetailsBottle(){
         setLoading(true) 
-         if (
-            !nameUser ||
-            !city||
-            !firstLine ||
-            !codePost||
-            !secondLine||
-            !country
-          ) {
-            setLoading(false) 
-            Swal.fire({
-              icon: "error",
-              title: "Error...",
-              text: "Please Enter the delivery details for your bottle!",
-            });
-          }
-
-          else{
-            setActiveButton(true)
+         
+           
             
         console.log(nameUser+city+firstLine+codePost+secondLine+country)
         const photoNFT=detailsNFT.detailsNft.photoNft
@@ -68,7 +60,7 @@ function Redeembottle(props:any){
             console.log("error"+JSON.stringify(error)) 
             if (error) {
                 setLoading(false)
-                setActiveButton(false)
+               
               console.log("error" + error);
               
               Swal.fire({
@@ -77,14 +69,14 @@ function Redeembottle(props:any){
                 text: error.message,
               });
             } else if (isSuccess) {
-                setActiveButton(false)
+                
                 setLoading(false)
                 
             window.location.assign("#/RedeemBottle2")
          } });
         
           
-        }
+        
        
     }
      

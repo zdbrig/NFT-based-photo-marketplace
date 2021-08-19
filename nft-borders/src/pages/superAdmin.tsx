@@ -16,9 +16,11 @@ function handleAccount(account:any)
 { 
     
 }
+function addressAccount(account:any){
+}
 return(
     <>
-    <Header showButtonConnect={false} selectAccount={handleAccount}></Header>
+    <Header showButtonConnect={false} selectAccount={handleAccount} accountMetmaske={addressAccount}></Header>
        
       
     <div className="row justify-content-around custom-line">

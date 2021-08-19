@@ -57,15 +57,22 @@ function Signup1(props:any) {
             });
     }
     function verifyNFT(res:any){
+        if(res==null){
+            history.push({
+                pathname:"/signup",
+                state: { email: email }
+
+            });  
+        }else if(res.role=="admin"){
+                            
+                history.push("/superAdmin");
+            } else {
         var querytosend = `{
             allPhotoNFTs(where:{addreseEmail:"${email}"}){
                 id owner photoNft photoPrice ipfsHashOfPhoto timesTmp blockNumber nftName nftSymbol addreseEmail statusPhoto} 
               
           }`;
-    
-    
-            fetch(
-                "https://api.thegraph.com/subgraphs/name/zouaouik/nftborder",
+            fetch("https://api.thegraph.com/subgraphs/name/zouaouik/nftborder",
                 {
                     method: "POST",
                     headers: {
@@ -87,24 +94,12 @@ function Signup1(props:any) {
                         });
                         
     
-                    }
-                    else if(res==null){
-                        history.push({
-                            pathname:"/signup",
-                            state: { email: email }
-    
-                        });  
-    
-                        }else if(res.role=="admin"){
-                            
-                            history.push("/superAdmin");
-                            }else{
-                                history.push("/desktop");
-                            }
+                    }else{history.push("/desktop");}
                        
                         
                     
                 });
+            }
     }
     function invitationTo() {
         var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -129,7 +124,7 @@ function Signup1(props:any) {
     }
     function addressAccount(account:any){
         console.log("address metmaske"+account)
-            }
+    }
     return (
         <>
         <Header showButtonConnect={false} selectAccount={handleAccount} accountMetmaske={addressAccount}></Header>

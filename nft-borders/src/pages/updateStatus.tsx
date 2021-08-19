@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import './updateStatus.css'
 
 function UpdateStatus(props: any) {
+    let history = useHistory();
     const [valueData, setValueData] = useState("");
     const [details, setDetails] = useState("");
     const [disableButton, setDisableButton] = useState(false)
@@ -33,15 +34,19 @@ function UpdateStatus(props: any) {
             title: 'Update Successful',
             
             showConfirmButton: true,
+        }).then((res)=>{
+            history.push("/superAdmin");
         });
     }
     function handleAccount(account:any)
 { 
     
 }
+function addressAccount(account:any){
+}
     return (
         <div>
-    <Header showButtonConnect={false} selectAccount={handleAccount}></Header>
+    <Header showButtonConnect={false} selectAccount={handleAccount} accountMetmaske={addressAccount}></Header>
             
             <div className="col-12 updateStatus">
                 <p className=" row title">Update Status</p>
